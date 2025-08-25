@@ -52,14 +52,14 @@ export default function SignUp() {
 
   return (
     <AuthContainer>
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Create your account</h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+      <div className="text-start">
+        <h1 className="text-xl font-semibold font-montserrat text-black">Create your account</h1>
+        <p className="mt-1 text-xs font-montserrat text-[#A2A2A2]">
           Join Olyvio as a {tab === "student" ? "student" : "SwiftAssigner"}
         </p>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 rounded-lg border border-slate-200 dark:border-slate-700 p-1 text-sm">
+      {/* <div className="mt-6 grid grid-cols-2 rounded-lg border border-slate-200 dark:border-slate-700 p-1 text-sm">
         <button 
           onClick={() => setTab("student")} 
           className={`flex items-center justify-center gap-2 py-2.5 rounded-md transition-colors ${
@@ -82,16 +82,16 @@ export default function SignUp() {
           <User className="h-4 w-4" />
           Expert
         </button>
-      </div>
+      </div> */}
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+      <form onSubmit={handleSubmit} className="mt-4 space-y-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+          <label htmlFor="name" className="block text-xs font-medium text-black mb-1">
             Full name
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <User className="h-5 w-5 text-slate-400" />
+              <User className="size-5 text-[#6C6C6C]" />
             </div>
             <input
               id="name"
@@ -101,18 +101,18 @@ export default function SignUp() {
               value={formData.name}
               onChange={handleChange}
               placeholder={tab === "student" ? "Jane Doe" : "John Smith"}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out"
+              className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-xs"
             />
           </div>
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+          <label htmlFor="email" className="block text-xs font-medium text-black mb-1">
             Email address
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Mail className="h-5 w-5 text-slate-400" />
+              <Mail className="size-5 text-[#6C6C6C]" />
             </div>
             <input
               id="email"
@@ -123,19 +123,19 @@ export default function SignUp() {
               value={formData.email}
               onChange={handleChange}
               placeholder={tab === "student" ? "you@school.edu" : "you@example.com"}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out"
+              className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-xs"
             />
           </div>
         </div>
 
         {tab === "student" ? (
           <div>
-            <label htmlFor="institution" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label htmlFor="institution" className="block text-xs font-medium text-black mb-1">
               Matric number / Institution
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <BookOpen className="h-5 w-5 text-slate-400" />
+                <BookOpen className="size-5 text-[#6C6C6C]" />
               </div>
               <input
                 id="institution"
@@ -145,19 +145,19 @@ export default function SignUp() {
                 value={formData.institution}
                 onChange={handleChange}
                 placeholder="MAT12345 • Uni of Lagos"
-                className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out"
+                className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-xs"
               />
             </div>
           </div>
         ) : (
           <>
             <div>
-              <label htmlFor="expertise" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <label htmlFor="expertise" className="block text-xs font-medium text-black mb-1">
                 Areas of Expertise
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <GraduationCap className="h-5 w-5 text-slate-400" />
+                  <GraduationCap className="size-5 text-[#6C6C6C]" />
                 </div>
                 <input
                   id="expertise"
@@ -167,18 +167,18 @@ export default function SignUp() {
                   value={formData.expertise}
                   onChange={handleChange}
                   placeholder="e.g., Economics, Nursing, Computer Science"
-                  className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out"
+                  className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-xs"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="pricePerPage" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <label htmlFor="pricePerPage" className="block text-xs font-medium text-black mb-1">
                 Rate per page (USD)
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <DollarSign className="h-5 w-5 text-slate-400" />
+                  <DollarSign className="size-5 text-[#6C6C6C]" />
                 </div>
                 <input
                   id="pricePerPage"
@@ -190,7 +190,7 @@ export default function SignUp() {
                   value={formData.pricePerPage}
                   onChange={handleChange}
                   placeholder="25.00"
-                  className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out"
+                  className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-xs"
                 />
               </div>
             </div>
@@ -199,13 +199,13 @@ export default function SignUp() {
 
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+            <label htmlFor="password" className="block text-xs font-medium text-black mb-1">
               Password
             </label>
           </div>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Lock className="h-5 w-5 text-slate-400" />
+              <Lock className="size-5 text-[#6C6C6C]" />
             </div>
             <input
               id="password"
@@ -217,12 +217,12 @@ export default function SignUp() {
               value={formData.password}
               onChange={handleChange}
               placeholder="••••••••"
-              className="block w-full pl-10 pr-10 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out"
+              className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-xs"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-500 dark:hover:text-slate-300"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#6C6C6C]"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
@@ -232,7 +232,7 @@ export default function SignUp() {
               )}
             </button>
           </div>
-          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-xs text-[#6C6C6C]">
             Must be at least 8 characters
           </p>
         </div>
@@ -241,8 +241,7 @@ export default function SignUp() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 ${
-              isLoading ? 'opacity-75 cursor-not-allowed' : ''
+            className={`w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-xs font-medium text-white bg-black ${isLoading ? 'opacity-75 cursor-not-allowed' : ''
             }`}
           >
             {isLoading ? (
@@ -254,16 +253,16 @@ export default function SignUp() {
                 Creating account...
               </>
             ) : (
-              `Sign up as ${tab === 'student' ? 'Student' : 'Expert'}`
+              `Sign up`
             )}
           </button>
         </div>
       </form>
 
       <div className="mt-6">
-        <p className="text-center text-sm text-slate-600 dark:text-slate-400">
+        <p className="text-center text-xs text-black">
           Already have an account?{' '}
-          <Link href="/auth/signin" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+          <Link href="/auth/signin" className="font-semibold text-black">
             Sign in
           </Link>
         </p>

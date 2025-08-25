@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import AuthContainer from "@/app/components/auth/AuthContainer";
+import { FaGoogle } from "react-icons/fa6";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,8 +36,8 @@ export default function SignIn() {
   return (
     <AuthContainer>
       <div className="text-start">
-        <h1 className="text-2xl font-bold text-black">Welcome back</h1>
-        <p className="mt-1 text-sm font-montserrat text-[#A2A2A2]">
+        <h1 className="text-xl font-semibold font-montserrat text-black">Welcome back</h1>
+        <p className="mt-1 text-xs font-montserrat text-[#A2A2A2]">
           Enter your email below to log in to your account.
         </p>
       </div>
@@ -44,7 +45,7 @@ export default function SignIn() {
       <form onSubmit={handleSubmit} className="mt-4 space-y-6">
         <div className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-black mb-1">
+            <label htmlFor="email" className="block text-xs font-medium text-black mb-1">
               Email
             </label>
             <div className="relative">
@@ -60,14 +61,14 @@ export default function SignIn() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-sm"
+                className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-xs"
               />
             </div>
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label htmlFor="password" className="block text-sm font-medium text-black mb-1">
+              <label htmlFor="password" className="block text-xs font-medium text-black mb-1">
                 Password
               </label>
             </div>
@@ -84,7 +85,7 @@ export default function SignIn() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-sm"
+                className="block w-full pl-10 pr-3 py-2.5 border border-[#D9D9D9] rounded-md bg-white text-[#6C6C6C] placeholder-[#6C6C6C] text-xs"
               />
               <button
                 type="button"
@@ -106,7 +107,7 @@ export default function SignIn() {
           <div className="w-full flex justify-end">
             <Link
               href="/auth/forgot"
-              className="text-sm font-semibold text-black hover:text-black/80"
+              className="text-xs font-medium text-black hover:text-black/80 hover:underline"
             >
               Forgot password?
             </Link>
@@ -114,7 +115,7 @@ export default function SignIn() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-black ${isLoading ? 'opacity-75 cursor-not-allowed' : ''
+            className={`w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-xs font-medium text-white bg-black ${isLoading ? 'opacity-75 cursor-not-allowed' : ''
               }`}
           >
             {isLoading ? (
@@ -135,7 +136,7 @@ export default function SignIn() {
       <div className="mt-6 w-full">
         <div className="flex items-center justify-center">
           <div className="w-full border-t border-[#D9D9D9]" />
-          <h1 className="px-2 text-xs text-[#6C6C6C] uppercase text-nowrap">
+          <h1 className="px-2 text-[10px] text-[#6C6C6C] uppercase text-nowrap">
             Or continue with
           </h1>
           <div className="w-full border-t border-[#D9D9D9]" />
@@ -144,17 +145,15 @@ export default function SignIn() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex justify-center gap-2 py-2.5 px-4 border border-[#D9D9D9] rounded-lg text-base font-medium text-black bg-white mt-6"
+          className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-[#D9D9D9] rounded-lg text-xs font-medium text-black bg-white mt-6"
         >
-          <svg className="size-5" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
-          </svg>
+          <FaGoogle className="size-4" />
           Google
         </button>
       </div>
 
       <div className="mt-6">
-        <p className="text-center text-sm text-black">
+        <p className="text-center text-xs text-black">
           Don't have an account?{' '}
           <Link href="/auth/signup" className="font-semibold text-black">
             Sign up
