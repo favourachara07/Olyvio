@@ -5,8 +5,10 @@ import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import AuthContainer from "@/app/components/auth/AuthContainer";
 import { FaGoogle } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,6 +21,7 @@ export default function SignIn() {
     setIsLoading(true);
     // Handle sign in logic here
     console.log("Signing in with:", formData);
+    router.push('/dashboard');
     // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
@@ -115,6 +118,7 @@ export default function SignIn() {
           <button
             type="submit"
             disabled={isLoading}
+            onClick={handleSubmit}
             className={`w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-xs font-medium text-white bg-black ${isLoading ? 'opacity-75 cursor-not-allowed' : ''
               }`}
           >

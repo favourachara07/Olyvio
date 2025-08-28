@@ -1,9 +1,16 @@
-import Card from "@/app/components/ui/Card";
-
 const rows = [
   { title: "Research methods essay", assigner: "SwiftAssigner #214", status: "In Progress", due: "2025-09-02", link: "#" },
   { title: "Algorithms project", assigner: "SwiftAssigner #133", status: "Completed", due: "2025-08-15", link: "#" },
   { title: "Biology lab report", assigner: "SwiftAssigner #077", status: "Pending", due: "2025-08-28", link: "#" },
+  { title: "Marketing analysis", assigner: "SwiftAssigner #301", status: "Completed", due: "2025-07-22", link: "#" },
+  { title: "Physics assignment", assigner: "SwiftAssigner #198", status: "In Progress", due: "2025-09-10", link: "#" },
+  { title: "Literature review", assigner: "SwiftAssigner #245", status: "Pending", due: "2025-09-05", link: "#" },
+  { title: "Statistics homework", assigner: "SwiftAssigner #156", status: "Completed", due: "2025-08-20", link: "#" },
+  { title: "Chemistry quiz", assigner: "SwiftAssigner #089", status: "In Progress", due: "2025-09-12", link: "#" },
+  { title: "History presentation", assigner: "SwiftAssigner #167", status: "Pending", due: "2025-09-08", link: "#" },
+  { title: "Finance case study", assigner: "SwiftAssigner #220", status: "Completed", due: "2025-08-30", link: "#" },
+  { title: "Art portfolio", assigner: "SwiftAssigner #312", status: "In Progress", due: "2025-09-15", link: "#" },
+  { title: "Computer science exam", assigner: "SwiftAssigner #101", status: "Pending", due: "2025-09-18", link: "#" },
 ];
 
 function StatusBadge({ status }: { status: string }) {
@@ -17,35 +24,34 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function OrderHistoryTable() {
   return (
-    <Card className="p-0 overflow-hidden">
-      <div className="px-6 pt-5 pb-4">
-        <h3 className="text-lg font-semibold">Order history</h3>
-        <p className="text-sm text-slate-600">Recent assignments and their statuses.</p>
-      </div>
-      <div className="overflow-x-auto">
+    <div className="p-0 overflow-hidden">
+      <h1 className="text-black font-semibold mb-1 text-sm">History</h1>
+      <div className="overflow-x-auto rounded-xl border border-[#D9D9D9] bg-white">
         <table className="min-w-full text-sm">
-          <thead className="bg-slate-50 text-slate-600">
+          <thead className="bg-[#F9F9F9] text-[#A0A0A0]">
             <tr>
-              <th className="text-left font-medium px-6 py-3">Assignment</th>
-              <th className="text-left font-medium px-6 py-3">SwiftAssigner</th>
-              <th className="text-left font-medium px-6 py-3">Status</th>
-              <th className="text-left font-medium px-6 py-3">Due date</th>
-              <th className="text-left font-medium px-6 py-3">Download</th>
+              <th className="text-center font-medium px-1 py-3">S/N</th>
+              <th className="text-center border-l border-l-[#EAEAEA] font-medium px-6 py-3">Assignment</th>
+              <th className="text-center border-l border-l-[#EAEAEA] font-medium px-6 py-3">SwiftAssigner</th>
+              <th className="text-center border-l border-l-[#EAEAEA] font-medium px-6 py-3">Status</th>
+              <th className="text-center border-l border-l-[#EAEAEA] font-medium px-6 py-3">Due date</th>
+              <th className="text-center border-l border-l-[#EAEAEA] font-medium px-6 py-3">Download</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r, i) => (
-              <tr key={i} className="border-t border-slate-100">
-                <td className="px-6 py-3">{r.title}</td>
-                <td className="px-6 py-3">{r.assigner}</td>
-                <td className="px-6 py-3"><StatusBadge status={r.status} /></td>
-                <td className="px-6 py-3">{r.due}</td>
-                <td className="px-6 py-3"><a className="text-indigo-600 hover:text-indigo-500" href={r.link}>Download</a></td>
+              <tr key={i} className="border-t text-center border-[#EAEAEA] hover:bg-[#FAFAFA50]">
+                <td className="px-1 py-3 text-[#A0A0A0]">{i + 1}</td>
+                <td className="px-6 border-l text-black font-medium border-l-[#EAEAEA] py-3">{r.title}</td>
+                <td className="px-6 border-l text-[#444444] border-l-[#EAEAEA] py-3">{r.assigner}</td>
+                <td className="px-6 border-l border-l-[#EAEAEA] py-3"><StatusBadge status={r.status} /></td>
+                <td className="px-6 border-l text-[#444444] border-l-[#EAEAEA] py-3">{r.due}</td>
+                <td className="px-6 border-l border-l-[#EAEAEA] py-3"><a className="text-indigo-600 hover:text-indigo-500" href={r.link}>Download</a></td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </Card>
+    </div>
   );
 }

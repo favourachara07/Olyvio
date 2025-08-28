@@ -6,7 +6,6 @@ import OrderHistoryTable from "@/app/components/dashboard/OrderHistoryTable";
 export default function StudentDashboard() {
   return (
     <div className="space-y-6">
-      <WelcomeBanner name="Alex" />
       <QuickActions />
       <AssignmentForm />
       <OrderHistoryTable />

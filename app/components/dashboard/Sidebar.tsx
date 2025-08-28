@@ -1,26 +1,45 @@
+import { LucideCalendar, LucideHistory, LucideLayoutDashboard, LucideMessageSquare, LucideSettings, LucideUpload } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
-const items = [
-  { label: "Assignments", href: "/dashboard/student" },
-  { label: "Projects", href: "/dashboard/projects" },
-  { label: "Research", href: "/dashboard/research" },
-  { label: "Document Review", href: "/dashboard/review" },
-  { label: "Profile", href: "/profile" },
-];
-
 export default function Sidebar() {
+  const items = [
+    { label: "Dashboard", href: "/dashboard/student", icon: LucideLayoutDashboard },
+    { label: "Submit Assignment", href: "/dashboard/student", icon: LucideUpload },
+    { label: "Assignment Hub", href: "/dashboard/student", icon: LucideCalendar },
+    { label: "Expert Support", href: "/dashboard/projects", icon: LucideMessageSquare },
+    { label: "Assignment History", href: "/dashboard/research", icon: LucideHistory },
+    { label: "Settings", href: "/dashboard/review", icon: LucideSettings },
+  ];
+
   return (
-    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/60 shadow-sm p-4">
-      <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Navigation</h3>
-      <nav className="mt-3 grid gap-1">
-        {items.map((it) => (
-          <Link key={it.href} href={it.href} className="rounded-lg px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
-            {it.label}
-          </Link>
-        ))}
+    <div className="border-r border-r-[#D9D9D9] bg-[#33333305] px-8 py-6 w-80 h-screen fixed">
+      <div className="h-9 px-1 max-w-fit">
+        <Image src="/logo.png" alt="" width={100} height={50} className="h-full w-full" />
+      </div>
+      <nav className="mt-5 flex flex-col gap-1 h-4/6">
+        {items.map((it) => {
+          const Icon = it.icon;
+          return (
+            <Link
+              key={it.href}
+              href={it.href}
+              className="flex items-center gap-2 rounded-lg px-2 py-3 text-[16px] rounded-lg text-[#33333380] hover:bg-[#33333308]"
+            >
+              <Icon className="size-5" />
+              {it.label}
+            </Link>
+          );
+        })}
       </nav>
-      <div className="mt-6 rounded-lg bg-indigo-50 text-indigo-700 p-3 text-xs">
-        Tip: Use quick actions to start faster.
+      <div className="w-full flex flex-1 gap-5 flex-col items-center justify-end pt-20">
+        <div className="flex flex-col items-center">
+          <div className="size-14 rounded-full bg-red-100 mb-1">
+            <Image src="/george.jpeg" alt="" width={100} height={50} className="size-full object-cover rounded-full" />
+          </div>
+          <h1 className="text-black text-[14px]">Hey, George</h1>
+          <h2 className="text-[#7E7E7E] text-[10px]">Friday August 26, 2025</h2>
+        </div>
       </div>
     </div>
   );
