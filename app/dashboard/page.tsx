@@ -1,19 +1,14 @@
 import { redirect } from 'next/navigation';
+import AssignmentForm from '../components/dashboard/AssignmentForm';
+import OrderHistoryTable from '../components/dashboard/OrderHistoryTable';
+import QuickActions from '../components/dashboard/QuickActions';
 
 export default function DashboardPage() {
-  // For now, redirecting to student dashboard as an example
-  // In a real app, you would check the user's role and redirect accordingly
-  redirect('/dashboard/student');
-  
-  // If you have authentication, you would do something like:
-  // const { user } = await getCurrentUser();
-  // if (user.role === 'student') {
-  //   redirect('/dashboard/student');
-  // } else if (user.role === 'expert') {
-  //   redirect('/dashboard/expert');
-  // } else if (user.role === 'admin') {
-  //   redirect('/dashboard/admin');
-  // }
-  
-  return null;
+  return (
+    <div className="space-y-6">
+      <QuickActions />
+      <AssignmentForm />
+      <OrderHistoryTable />
+    </div>
+  )
 }

@@ -4,8 +4,8 @@ import Link from "next/link";
 
 export default function Sidebar() {
   const items = [
-    { label: "Dashboard", href: "/dashboard/student", icon: LucideLayoutDashboard },
-    { label: "Submit Assignment", href: "/dashboard/student", icon: LucideUpload },
+    { label: "Dashboard", href: "/dashboard", icon: LucideLayoutDashboard },
+    { label: "Submit Assignment", href: "/dashboard/submit", icon: LucideUpload },
     { label: "Assignment Hub", href: "/dashboard/student", icon: LucideCalendar },
     { label: "Expert Support", href: "/dashboard/projects", icon: LucideMessageSquare },
     { label: "Assignment History", href: "/dashboard/research", icon: LucideHistory },
