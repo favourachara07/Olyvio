@@ -6,10 +6,10 @@ export default function Sidebar() {
   const items = [
     { label: "Dashboard", href: "/dashboard", icon: LucideLayoutDashboard },
     { label: "Submit Assignment", href: "/dashboard/submit", icon: LucideUpload },
-    { label: "Assignment Hub", href: "/dashboard/student", icon: LucideCalendar },
-    { label: "Expert Support", href: "/dashboard/projects", icon: LucideMessageSquare },
-    { label: "Assignment History", href: "/dashboard/research", icon: LucideHistory },
-    { label: "Settings", href: "/dashboard/review", icon: LucideSettings },
+    { label: "Assignment Hub", href: "/dashboard/assignment-hub", icon: LucideCalendar },
+    { label: "Expert Support", href: "/dashboard/expert-support", icon: LucideMessageSquare },
+    { label: "Assignment History", href: "/dashboard/assignment-history", icon: LucideHistory },
+    { label: "Settings", href: "/dashboard/settings", icon: LucideSettings },
   ];
 
   return (
