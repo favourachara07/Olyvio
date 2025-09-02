@@ -159,14 +159,14 @@ export default function AssignmentSubmissionForm() {
     };
 
     return (
-        <div className="w-full mx-auto rounded-lg shadow-sm border border-gray-200 p-6 sm:p-8">
+        <div className="w-full mx-auto rounded-lg shadow-sm md:border md:border-gray-200 md:p-8 lg:p-4 xl:p-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
                 <div>
-                    <h1 className="text-lg font-medium text-gray-900 mb-1">
+                    <h1 className="text-md md:text-lg lg:text-sm xl:text-lg font-medium text-gray-900 mb-1">
                         Step {currentStep} of {steps.length}
                     </h1>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm lg:text-xs xl:text-sm text-gray-500">
                         {steps[currentStep - 1]?.title}
                     </p>
                 </div>
@@ -186,7 +186,7 @@ export default function AssignmentSubmissionForm() {
             </div>
 
             {/* Form */}
-            <div className="bg-white mb-20">
+            <div className="bg-white mb-24">
                 <div className="space-y-6">
                     {renderStepContent()}
                 </div>

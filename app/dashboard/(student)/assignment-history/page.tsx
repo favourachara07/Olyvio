@@ -179,92 +179,134 @@ export default function AssignmentHistory() {
         return '★'.repeat(rating) + '☆'.repeat(5 - rating);
     };
 
+    const GradeBadge = ({ grade }: { grade: string }) => {
+        return (
+            <span className={`inline-flex items-center px-1.5 2xl:px-2.5 py-0.5 2xl:py-1 rounded-xl 2xl:rounded-full text-[8px] 2xl:text-xs font-medium border ${gradeColors[grade as keyof typeof gradeColors] || 'bg-gray-100 text-gray-800'}`}>
+                {grade}
+            </span>
+        );
+    };
+
+    const PaymentMethodBadge = ({ method, amount }: { method: HistoryAssignment['paymentMethod'], amount: number }) => {
+        const methodStyles = {
+            card: 'bg-blue-50 text-blue-800 border-blue-200',
+            transfer: 'bg-purple-50 text-purple-800 border-purple-200',
+            paypal: 'bg-yellow-50 text-yellow-800 border-yellow-200'
+        };
+
+        return (
+            <div className="text-center">
+                <div className="text-sm xl:text-base 2xl:text-lg font-bold text-green-600 mb-1">${amount}</div>
+                <span className={`inline-flex items-center px-1.5 2xl:px-2.5 py-0.5 2xl:py-1 rounded-xl 2xl:rounded-full text-[8px] 2xl:text-xs font-medium border ${methodStyles[method]}`}>
+                    {method.charAt(0).toUpperCase() + method.slice(1)}
+                </span>
+            </div>
+        );
+    };
+
+    const RatingDisplay = ({ rating, feedback }: { rating: number, feedback: string }) => {
+        return (
+            <div className="text-center">
+                <div className="text-lg text-yellow-400 2xl:text-xl mb-1">{renderStars(rating)}</div>
+                <div className="text-[8px] 2xl:text-xs text-gray-600">({rating}/5)</div>
+                {feedback && (
+                    <div className="mt-2 text-[8px] 2xl:text-xs text-gray-500 italic max-w-32 2xl:max-w-40 mx-auto">
+                        "{feedback.length > 50 ? feedback.substring(0, 50) + '...' : feedback}"
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    const stats = [
+        {
+            title: "Total Completed",
+            value: assignments.length,
+            icon: <CheckCircle className="size-4 xl:size-6 2xl:size-8 text-green-600" />,
+            color: "text-gray-900",
+            change: "+12% this month",
+            changeIcon: <TrendingUp className="w-3 h-3" />,
+            changeColor: "text-green-600"
+        },
+        {
+            title: "Total Earnings",
+            value: `$${totalEarnings.toLocaleString()}`,
+            icon: <DollarSign className="size-4 xl:size-6 2xl:size-8 text-green-600" />,
+            color: "text-gray-900",
+            change: "+8% this month",
+            changeIcon: <ArrowUpRight className="w-3 h-3" />,
+            changeColor: "text-green-600"
+        },
+        {
+            title: "Average Rating",
+            value: averageRating.toFixed(1),
+            icon: <div className="text-xl xl:text-2xl 2xl:text-3xl">⭐</div>,
+            color: "text-gray-900",
+            change: renderStars(Math.round(averageRating)),
+            changeColor: "text-yellow-600"
+        },
+        {
+            title: "Avg. Completion",
+            value: `${averageCompletionTime.toFixed(1)} days`,
+            icon: <Clock className="size-4 xl:size-6 2xl:size-8 text-blue-600" />,
+            color: "text-gray-900",
+            change: "-2 days vs last month",
+            changeIcon: <Clock className="w-3 h-3" />,
+            changeColor: "text-blue-600"
+        },
+    ];
+
     return (
-        <div className="min-h-screen">
+        <div className='w-full gap-4 2xl:gap-6'>
             {/* Header */}
             <div className="bg-white">
                 <div className="w-full">
-                    <div className="flex items-center justify-between py-6">
+                    <div className="flex items-center justify-between pb-6">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Assignment History</h1>
-                            <p className="text-sm text-gray-600 mt-1">Track your completed assignments and performance metrics</p>
+                            <h1 className="text-sm xl:text-lg 2xl:text-2xl font-bold text-gray-900">Assignment History</h1>
+                            <p className="text-xs xl:text-sm text-gray-600 2xl:mt-1">Track your completed assignments and performance metrics</p>
                         </div>
-                        <button className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-                            {/* <Download className="w-4 h-4" /> */}
-                            Export Report
+                        <button className="bg-black text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-colors text-xs sm:text-sm">
+                            <span className="hidden lg:block sm:inline">Export Report</span>
+                            <span className="lg:hidden">Export</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div className="w-full py-6">
+            <div className="w-full">
                 {/* Stats Overview */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-white p-6 rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm lg:text-xs xl:text-sm 2xl:text-sm text-gray-600">Total Completed</p>
-                                <p className="text-xl lg:text-lg xl:text-xl 2xl:text-2xl font-bold text-gray-900">{assignments.length}</p>
-                                <p className="text-xs text-green-600 flex items-center gap-1 mt-1">
-                                    <TrendingUp className="w-3 h-3" />
-                                    +12% this month
-                                </p>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                    {stats.map((stat, index) => (
+                        <div key={index} className="bg-white p-3 sm:p-4 rounded-lg border border-gray-200">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-[10px] sm:text-xs 2xl:text-sm text-gray-600">{stat.title}</p>
+                                    <p className={`text-lg sm:text-xl 2xl:text-2xl font-bold ${stat.color}`}>{stat.value}</p>
+                                    {stat.change && (
+                                        <p className={`text-xs ${stat.changeColor} flex items-center gap-1 mt-1`}>
+                                            {stat.changeIcon}
+                                            {stat.change}
+                                        </p>
+                                    )}
+                                </div>
+                                {stat.icon}
                             </div>
-                            <CheckCircle className="size-6 lg:size-4 xl:size-6 2xl:size-8 text-green-600" />
                         </div>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm lg:text-xs xl:text-sm 2xl:text-sm text-gray-600">Total Earnings</p>
-                                <p className="text-xl lg:text-lg xl:text-xl 2xl:text-2xl font-bold text-gray-900">${totalEarnings.toLocaleString()}</p>
-                                <p className="text-xs text-green-600 flex items-center gap-1 mt-1">
-                                    <ArrowUpRight className="w-3 h-3" />
-                                    +8% this month
-                                </p>
-                            </div>
-                            <DollarSign className="size-6 lg:size-4 xl:size-6 2xl:size-8 text-green-600" />
-                        </div>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-gray-600">Average Rating</p>
-                                <p className="text-2xl font-bold text-gray-900">{averageRating.toFixed(1)}</p>
-                                <p className="text-xs text-yellow-600">{renderStars(Math.round(averageRating))}</p>
-                            </div>
-                            <div className="text-2xl">⭐</div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-gray-600">Avg. Completion</p>
-                                <p className="text-2xl font-bold text-gray-900">{averageCompletionTime.toFixed(1)} days</p>
-                                <p className="text-xs text-blue-600 flex items-center gap-1 mt-1">
-                                    <Clock className="w-3 h-3" />
-                                    -2 days vs last month
-                                </p>
-                            </div>
-                            <Clock className="w-8 h-8 text-blue-600" />
-                        </div>
-                    </div>
+                    ))}
                 </div>
 
-                {/* Filters */}
-                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                {/* Filters and Search */}
+                <div className="flex flex-row gap-2 2xl:gap-4 mb-6">
                     {/* Search */}
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#6C6C6C] size-4 xl:size-5" />
                         <input
                             type="text"
-                            placeholder="Search assignments or subjects..."
+                            placeholder="Search by ID or title"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-full pl-10 pr-4 py-3 lg:py-1.5 xl:py-2 2xl:py-3 border border-[#D9D9D9] placeholder-[#6C6C6C] rounded-md text-xs xl:text-sm"
                         />
                     </div>
 
@@ -272,11 +314,11 @@ export default function AssignmentHistory() {
                     <div className="relative">
                         <button
                             onClick={() => setIsFilterOpen(!isFilterOpen)}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium"
+                            className="flex items-center gap-2 px-4 py-3 lg:py-1.5 xl:py-2 2xl:py-3 border border-[#D9D9D9] rounded-md hover:bg-gray-50 text-xs xl:text-sm font-medium"
                         >
-                            <Calendar className="w-4 h-4" />
+                            <Calendar className="size-4 lg:size-3 2xl:size-4" />
                             {filterPeriod}
-                            <ChevronDown className="w-4 h-4" />
+                            <ChevronDown className="size-4 lg:size-3 2xl:size-4" />
                         </button>
 
                         {isFilterOpen && (
@@ -301,11 +343,11 @@ export default function AssignmentHistory() {
                     <div className="relative">
                         <button
                             onClick={() => setIsSubjectFilterOpen(!isSubjectFilterOpen)}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium"
+                            className="flex items-center gap-2 px-4 py-3 lg:py-1.5 xl:py-2 2xl:py-3 border border-[#D9D9D9] rounded-md hover:bg-gray-50 text-xs xl:text-sm font-medium"
                         >
-                            <Filter className="w-4 h-4" />
+                            <Filter className="size-4 lg:size-3 2xl:size-4" />
                             {filterSubject}
-                            <ChevronDown className="w-4 h-4" />
+                            <ChevronDown className="size-4 lg:size-3 2xl:size-4" />
                         </button>
 
                         {isSubjectFilterOpen && (
@@ -327,91 +369,150 @@ export default function AssignmentHistory() {
                     </div>
                 </div>
 
-                {/* History Cards */}
-                <div className="space-y-4">
-                    {filteredAssignments.map((assignment) => (
-                        <div key={assignment.id} className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                            <div className="flex flex-col lg:flex-row lg:items-start gap-6">
-                                {/* Left Column - Assignment Details */}
-                                <div className="flex-1">
-                                    <div className="flex items-start justify-between mb-3">
-                                        <div>
-                                            <h3 className="text-lg font-semibold text-gray-900 mb-1">{assignment.title}</h3>
-                                            <div className="flex items-center gap-3 text-sm text-gray-600">
-                                                <span className="bg-gray-100 px-2 py-1 rounded">{assignment.subject}</span>
-                                                <span>ID: #{assignment.id}</span>
+                {/* Desktop Table View */}
+                <div className="hidden md:flex flex-col flex-1 min-h-0 rounded-md xl:rounded-md 2xl:rounded-lg border border-[#D9D9D9] bg-white">
+                    <div className="overflow-auto flex-1">
+                        <table className="min-w-full">
+                            <thead className="bg-[#F9F9F9] text-[#A0A0A0] font-normal text-xs lg:text-[9px] xl:text-[10px] 2xl:text-xs font-montserrat-alternates sticky top-0 z-10">
+                                <tr className='whitespace-nowrap'>
+                                    <th className="text-center px-3 py-3 font-normal">S/N</th>
+                                    <th className="text-center border-l border-l-[#EAEAEA] px-8 py-3 font-normal">Assignment Details</th>
+                                    <th className="text-center border-l border-l-[#EAEAEA] px-6 py-3 font-normal">Description & Meta</th>
+                                    <th className="text-center border-l border-l-[#EAEAEA] lg:px-6 xl:px-8 2xl:px-16 py-3 font-normal">Grade & Rating</th>
+                                    <th className="text-center border-l border-l-[#EAEAEA] lg:px-6 xl:px-6 2xl:px-16 py-3 font-normal">Payment Info</th>
+                                    <th className="text-center border-l border-l-[#EAEAEA] px-6 py-3 font-normal">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredAssignments.map((assignment, index) => (
+                                    <tr key={assignment.id} className="border-t text-center border-[#EAEAEA] hover:bg-[#FAFAFA50] text-xs lg:text-[10px] xl:text-sm font-montserrat-alternates">
+                                        <td className="px-3 py-3 text-[#A0A0A0] text-xs xl:text-sm">{index + 1}</td>
+
+                                        <td className="px-8 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-[10px] 2xl:text-sm">
+                                            <div className="flex items-start gap-3 text-left">
+                                                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
+                                                <div>
+                                                    <h3 className="font-medium text-gray-900">{assignment.title}</h3>
+                                                    <div className="flex items-center gap-2 mt-1">
+                                                        <span className="text-[8px] 2xl:text-xs text-gray-500">{assignment.subject}</span>
+                                                        <span className="text-[8px] 2xl:text-xs px-2 py-1 rounded-full bg-blue-50 text-blue-800">
+                                                            ID: #{assignment.id}
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex items-center gap-1 mt-1 text-[8px] 2xl:text-xs text-gray-500">
+                                                        <Calendar className="w-3 h-3" />
+                                                        <span>Completed: {formatDate(assignment.completedDate)}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <span className={`px-3 py-1 rounded-full text-sm font-medium border ${gradeColors[assignment.grade as keyof typeof gradeColors] || 'bg-gray-100 text-gray-800'}`}>
-                                                Grade: {assignment.grade}
-                                            </span>
-                                        </div>
-                                    </div>
+                                        </td>
 
-                                    <p className="text-gray-600 mb-4 leading-relaxed">{assignment.description}</p>
+                                        <td className="px-6 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-[10px] 2xl:text-sm text-left">
+                                            <p className="text-gray-600 leading-relaxed mb-2">
+                                                {assignment.description.length > 80 ? assignment.description.substring(0, 80) + '...' : assignment.description}
+                                            </p>
+                                            <div className="grid grid-cols-2 gap-2 text-[8px] 2xl:text-xs text-gray-500">
+                                                <div>Duration: {assignment.duration} days</div>
+                                                <div>Words: {assignment.wordCount?.toLocaleString() || 'N/A'}</div>
+                                                <div>Files: {assignment.attachments.length}</div>
+                                                <div>Submitted: {formatDate(assignment.submittedDate)}</div>
+                                            </div>
+                                        </td>
 
-                                    {/* Metadata */}
-                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
-                                        <div>
-                                            <p className="text-gray-500">Completed</p>
-                                            <p className="font-medium">{formatDate(assignment.completedDate)}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-gray-500">Duration</p>
-                                            <p className="font-medium">{assignment.duration} days</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-gray-500">Word Count</p>
-                                            <p className="font-medium">{assignment.wordCount?.toLocaleString() || 'N/A'}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-gray-500">Attachments</p>
-                                            <p className="font-medium">{assignment.attachments.length} files</p>
-                                        </div>
+                                        <td className="lg:px-6 xl:px-8 2xl:px-14 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-sm">
+                                            <div className="space-y-2">
+                                                <GradeBadge grade={assignment.grade} />
+                                                <RatingDisplay rating={assignment.clientRating} feedback={assignment.feedback} />
+                                            </div>
+                                        </td>
+
+                                        <td className="lg:px-6 xl:px-6 2xl:px-16 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-sm">
+                                            <PaymentMethodBadge method={assignment.paymentMethod} amount={assignment.paymentAmount} />
+                                            <div className="text-[8px] 2xl:text-xs text-gray-500 mt-1">
+                                                Paid: {formatDate(assignment.paymentDate)}
+                                            </div>
+                                        </td>
+
+                                        <td className="px-6 border-l border-l-[#EAEAEA] py-3">
+                                            <div className="flex flex-col gap-1">
+                                                <button className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-[8px] 2xl:text-xs flex items-center justify-center gap-1 transition-colors">
+                                                    <Eye className="w-3 h-3" />
+                                                    View
+                                                </button>
+                                                <button className="bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 rounded text-[8px] 2xl:text-xs flex items-center justify-center gap-1 transition-colors">
+                                                    <Download className="w-3 h-3" />
+                                                    Download
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {/* Mobile Card View */}
+                <div className="md:hidden space-y-4 mb-24">
+                    {filteredAssignments.map((assignment, index) => (
+                        <div key={assignment.id} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                            {/* Header with status icon and title */}
+                            <div className="flex items-start gap-3 mb-3">
+                                <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-medium text-gray-900 text-sm leading-tight">{assignment.title}</h3>
+                                    <div className="flex items-center gap-2 mt-1">
+                                        <span className="text-xs text-gray-500">{assignment.subject}</span>
+                                        <span className="text-xs px-2 py-1 rounded bg-blue-50 text-blue-800">ID: #{assignment.id}</span>
                                     </div>
                                 </div>
-
-                                {/* Right Column - Payment & Rating */}
-                                <div className="lg:w-80 bg-gray-50 rounded-lg p-4">
-                                    <div className="space-y-4">
-                                        {/* Payment Info */}
-                                        <div>
-                                            <h4 className="font-medium text-gray-900 mb-2">Payment Details</h4>
-                                            <div className="flex items-center justify-between mb-2">
-                                                <span className="text-2xl font-bold text-green-600">${assignment.paymentAmount}</span>
-                                                <span className="text-lg">{paymentMethodIcons[assignment.paymentMethod]}</span>
-                                            </div>
-                                            <p className="text-xs text-gray-500">Paid on {formatDate(assignment.paymentDate)}</p>
-                                        </div>
-
-                                        {/* Rating */}
-                                        <div>
-                                            <h4 className="font-medium text-gray-900 mb-2">Client Rating</h4>
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <span className="text-lg">{renderStars(assignment.clientRating)}</span>
-                                                <span className="text-sm text-gray-600">({assignment.clientRating}/5)</span>
-                                            </div>
-                                            {assignment.feedback && (
-                                                <p className="text-xs text-gray-600 italic bg-white p-2 rounded border-l-2 border-blue-200">
-                                                    "{assignment.feedback}"
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        {/* Actions */}
-                                        <div className="flex gap-2 pt-2 border-t border-gray-200">
-                                            <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm flex items-center justify-center gap-2 transition-colors">
-                                                <Eye className="w-4 h-4" />
-                                                View
-                                            </button>
-                                            <button className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm flex items-center justify-center gap-2 transition-colors">
-                                                <Download className="w-4 h-4" />
-                                                Download
-                                            </button>
-                                        </div>
-                                    </div>
+                                <div className="text-right">
+                                    <div className="text-sm font-medium text-green-600">${assignment.paymentAmount}</div>
+                                    <GradeBadge grade={assignment.grade} />
                                 </div>
+                            </div>
+
+                            {/* Description */}
+                            <p className="text-xs text-gray-600 leading-relaxed mb-3 line-clamp-3">
+                                {assignment.description}
+                            </p>
+
+                            {/* Metadata grid */}
+                            <div className="grid grid-cols-2 gap-2 text-xs text-gray-500 mb-3">
+                                <div>Completed: {formatDate(assignment.completedDate)}</div>
+                                <div>Duration: {assignment.duration} days</div>
+                                <div>Words: {assignment.wordCount?.toLocaleString() || 'N/A'}</div>
+                                <div>Files: {assignment.attachments.length}</div>
+                            </div>
+
+                            {/* Rating and payment info */}
+                            <div className="flex items-center justify-between mb-3">
+                                <div>
+                                    <div className="text-sm">{renderStars(assignment.clientRating)} ({assignment.clientRating}/5)</div>
+                                    <div className="text-xs text-gray-500 capitalize">{assignment.paymentMethod} payment</div>
+                                </div>
+                                <div className="text-xs text-gray-500">
+                                    Paid: {formatDate(assignment.paymentDate)}
+                                </div>
+                            </div>
+
+                            {/* Feedback */}
+                            {assignment.feedback && (
+                                <div className="bg-gray-50 p-2 rounded text-xs text-gray-600 italic mb-3">
+                                    "{assignment.feedback}"
+                                </div>
+                            )}
+
+                            {/* Actions */}
+                            <div className="flex gap-2">
+                                <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm flex items-center justify-center gap-2 transition-colors">
+                                    <Eye className="w-4 h-4" />
+                                    View
+                                </button>
+                                <button className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm flex items-center justify-center gap-2 transition-colors">
+                                    <Download className="w-4 h-4" />
+                                    Download
+                                </button>
                             </div>
                         </div>
                     ))}

@@ -33,7 +33,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="border-r border-r-[#D9D9D9] bg-[#33333305] px-2 xl:px-4 2xl:px-6 py-6 w-48 xl:w-56 2xl:w-80 h-screen fixed flex flex-col">
+    <div className="border-r border-r-[#D9D9D9] bg-[#33333305] px-3 xl:px-4 2xl:px-6 py-6 w-48 xl:w-56 2xl:w-80 h-screen fixed flex flex-col">
       <div className="h-6 2xl:h-9 px-1 max-w-fit">
         <Image src="/logo.png" alt="" width={100} height={50} className="h-full w-full" />
       </div>
@@ -52,10 +52,10 @@ export default function Sidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 rounded-lg px-4 py-1 xl:py-2 2xl:py-3 text-[12px] xl:text-xs 2xl:text-sm font-montserrat-alternates transition-colors duration-150 
+                  className={`flex items-center gap-2 rounded-md xl:rounded-lg px-4 py-1.5 xl:py-2 2xl:py-3 text-[9px] xl:text-xs 2xl:text-sm font-montserrat-alternates transition-colors duration-150 
                     ${isSelected ? "bg-[#333333] text-white" : "text-[#33333380] hover:bg-[#33333308]"}`}
                 >
-                  <Icon className="size-4 2xl:size-5" />
+                  <Icon className="size-4 lg:size-3 xl:size-4 2xl:size-5" />
                   {item.label}
                 </Link>
               );

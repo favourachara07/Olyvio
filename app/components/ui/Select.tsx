@@ -21,7 +21,7 @@ export default function Select({
 }: SelectProps) {
   return (
     <div className={`w-full ${className}`}>
-      <label htmlFor={id} className="block text-xs font-semibold text-black mb-2">
+      <label htmlFor={id} className="block text-xs lg:text-[10px] xl:text-xs font-semibold text-black mb-2">
         {label}
       </label>
       <div className="relative">
@@ -29,7 +29,7 @@ export default function Select({
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full px-3 py-3 border border-[#D9D9D9] rounded-md text-sm text-[#6C6C6C] bg-white appearance-none pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-3 py-3 border border-[#D9D9D9] rounded-md text-sm lg:text-xs xl:text-sm text-[#6C6C6C] bg-white appearance-none pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           <option value="">{placeholder}</option>
           {options.map((opt) => (

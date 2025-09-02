@@ -16,7 +16,7 @@ const Input = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProp
     
     return (
       <div className="mb-4">
-        <label htmlFor={id} className="block text-xs font-semibold text-black mb-2">
+        <label htmlFor={id} className="block text-xs lg:text-[10px] xl:text-xs font-semibold text-black mb-2">
           {label}
         </label>
         {textarea ? (

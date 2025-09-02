@@ -59,7 +59,7 @@ const SettingsPage = () => {
                     <input
                         type="text"
                         defaultValue="Oluwatosin George Fabunmi"
-                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-sm xl:text-lg border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
+                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-xs xl:text-sm border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
                     />
                 </div>
 
@@ -71,7 +71,7 @@ const SettingsPage = () => {
                     <input
                         type="email"
                         defaultValue="ftgeorgean@gmail.com"
-                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-sm xl:text-lg border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
+                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-xs xl:text-sm border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
                     />
                 </div>
 
@@ -83,7 +83,7 @@ const SettingsPage = () => {
                     <input
                         type="tel"
                         defaultValue="+234 704 953 2023"
-                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-sm xl:text-lg border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
+                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-xs xl:text-sm border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
                     />
                 </div>
 
@@ -93,7 +93,7 @@ const SettingsPage = () => {
                         University
                     </label>
                     <div className="relative">
-                        <select className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-sm xl:text-lg border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                        <select className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-xs xl:text-sm border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
                             <option>Veritas University</option>
                             <option>Other University</option>
                         </select>
@@ -109,7 +109,7 @@ const SettingsPage = () => {
                     <input
                         type="text"
                         defaultValue="Computer Science"
-                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-sm xl:text-lg border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
+                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-xs xl:text-sm border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
                     />
                 </div>
 
@@ -121,7 +121,7 @@ const SettingsPage = () => {
                     <input
                         type="text"
                         defaultValue="0000-0000-0000"
-                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-lg lg:text-sm xl:text-lg border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
+                        className="w-full px-3 lg:px-2 xl:px-3 py-2.5 lg:py-1.5 xl:py-2.5 text-sm lg:text-xs xl:text-sm border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500"
                     />
                 </div>
             </div>
@@ -136,7 +136,7 @@ const SettingsPage = () => {
                 <input
                     type="text"
                     placeholder="Search notification"
-                    className="w-full pl-10 pr-4 py-1.5 text-lg lg:text-sm xl:text-lg xl:py-2.5 border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-1.5 text-lg lg:text-xs xl:text-lg xl:py-2.5 border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
             </div>
 
