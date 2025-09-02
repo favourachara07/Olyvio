@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const rows = [
   { title: "Research methods essay", assigner: "SwiftAssigner #214", status: "In Progress", due: "2025-09-02", link: "#" },
@@ -14,18 +14,28 @@ const rows = [
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = {
-    "Completed": "bg-emerald-50 text-emerald-700",
+    Completed: "bg-emerald-50 text-emerald-700",
     "In Progress": "bg-amber-50 text-amber-700",
-    "Pending": "bg-slate-100 text-slate-700",
+    Pending: "bg-slate-100 text-slate-700",
   };
-  return <span className={`px-2 py-1 rounded-md text-xs font-medium ${map[status] ?? "bg-slate-100 text-slate-700"}`}>{status}</span>;
+  return (
+    <span
+      className={`px-2 py-1 rounded-md text-xs font-medium ${
+        map[status] ?? "bg-slate-100 text-slate-700"
+      }`}
+    >
+      {status}
+    </span>
+  );
 }
 
 export default function OrderHistoryTable() {
-  return ( 
-    <div className="flex flex-col w-full h-full">
-      <h1 className="text-black font-semibold mb-1 font-montserrat-alternates text-xs xl:text-sm flex-shrink-0">History</h1>
-      
+  return (
+    <div className="flex flex-col w-full h-full mb-24">
+      <h1 className="text-black font-semibold mb-1 font-montserrat-alternates text-xs xl:text-sm flex-shrink-0">
+        History
+      </h1>
+
       {/* Desktop Table */}
       <div className="hidden md:flex flex-col flex-1 min-h-0 rounded-md xl:rounded-xl border border-[#D9D9D9] bg-white">
         <div className="overflow-auto flex-1">
@@ -42,18 +52,50 @@ export default function OrderHistoryTable() {
             </thead>
             <tbody>
               {rows.map((r, i) => (
-                <tr key={i} className="border-t text-center border-[#EAEAEA] hover:bg-[#FAFAFA50] text-xs lg:text-[10px] xl:text-sm font-montserrat-alternates">
+                <tr
+                  key={i}
+                  className="border-t text-center border-[#EAEAEA] hover:bg-[#FAFAFA50] text-xs lg:text-[10px] xl:text-sm font-montserrat-alternates"
+                >
                   <td className="px-1 py-3 text-[#A0A0A0] text-xs xl:text-sm">{i + 1}</td>
-                  <td className="px-6 border-l text-black font-medium border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-sm">{r.title}</td>
-                  <td className="px-6 border-l text-[#444444] border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-sm">{r.assigner}</td>
-                  <td className="px-6 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-sm"><StatusBadge status={r.status} /></td>
-                  <td className="px-6 border-l text-[#444444] border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-sm">{r.due}</td>
-                  <td className="px-6 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-sm"><a className="text-indigo-600 hover:text-indigo-500" href={r.link}>Download</a></td>
+                  <td className="px-6 border-l text-black font-medium border-l-[#EAEAEA] py-3">
+                    {r.title}
+                  </td>
+                  <td className="px-6 border-l text-[#444444] border-l-[#EAEAEA] py-3">{r.assigner}</td>
+                  <td className="px-6 border-l border-l-[#EAEAEA] py-3"><StatusBadge status={r.status} /></td>
+                  <td className="px-6 border-l text-[#444444] border-l-[#EAEAEA] py-3">{r.due}</td>
+                  <td className="px-6 border-l border-l-[#EAEAEA] py-3">
+                    <a className="text-indigo-600 hover:text-indigo-500" href={r.link}>
+                      Download
+                    </a>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Mobile View */}
+      <div className="flex flex-col gap-4 md:hidden">
+        {rows.map((r, i) => (
+          <div
+            key={i}
+            className="bg-white rounded-md border border-[#EAEAEA] p-4 flex flex-col gap-2 shadow-sm"
+          >
+            <div className="flex justify-between items-center">
+              <h2 className="text-sm font-semibold text-black">{r.title}</h2>
+              <StatusBadge status={r.status} />
+            </div>
+            <p className="text-xs text-[#444]">Assigner: {r.assigner}</p>
+            <p className="text-xs text-[#444]">Due: {r.due}</p>
+            <a
+              href={r.link}
+              className="text-indigo-600 text-xs hover:text-indigo-500 mt-2"
+            >
+              Download
+            </a>
+          </div>
+        ))}
       </div>
     </div>
   );
