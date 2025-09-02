@@ -9,7 +9,6 @@ const rows = [
   { title: "Literature review", assigner: "SwiftAssigner #245", status: "Pending", due: "2025-09-05", link: "#" },
   { title: "Statistics homework", assigner: "SwiftAssigner #156", status: "Completed", due: "2025-08-20", link: "#" },
   { title: "Chemistry quiz", assigner: "SwiftAssigner #089", status: "In Progress", due: "2025-09-12", link: "#" },
-  { title: "History presentation", assigner: "SwiftAssigner #167", status: "Pending", due: "2025-09-08", link: "#" },
   { title: "Finance case study", assigner: "SwiftAssigner #220", status: "Completed", due: "2025-08-30", link: "#" },
 ];
 

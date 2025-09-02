@@ -4,7 +4,7 @@ import RecentTab from '../components/dashboard/AssignmentForm';
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col gap-6 bg-red-200">
+    <div className="flex flex-col gap-6">
       <QuickActions />
       <RecentTab />
       <OrderHistoryTable />
