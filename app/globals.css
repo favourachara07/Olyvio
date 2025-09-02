@@ -1,6 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
-  font-family: 'Montserrat', sans-serif;
+/* Remove the @import line completely */
+
+@layer base {
+  /* Optional: You can still define CSS custom properties if needed */
+  :root {
+    --font-primary: var(--font-montserrat);
+  }
 }

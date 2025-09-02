@@ -1,13 +1,12 @@
-import { redirect } from 'next/navigation';
-import AssignmentForm from '../components/dashboard/AssignmentForm';
 import OrderHistoryTable from '../components/dashboard/OrderHistoryTable';
 import QuickActions from '../components/dashboard/QuickActions';
+import RecentTab from '../components/dashboard/AssignmentForm';
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6 bg-red-200">
       <QuickActions />
-      <AssignmentForm />
+      <RecentTab />
       <OrderHistoryTable />
     </div>
   )

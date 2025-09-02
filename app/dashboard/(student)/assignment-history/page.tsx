@@ -183,48 +183,48 @@ export default function AssignmentHistory() {
         <div className="min-h-screen">
             {/* Header */}
             <div className="bg-white">
-                <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="w-full">
                     <div className="flex items-center justify-between py-6">
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900">Assignment History</h1>
                             <p className="text-sm text-gray-600 mt-1">Track your completed assignments and performance metrics</p>
                         </div>
-                        <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-                            <Download className="w-4 h-4" />
+                        <button className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+                            {/* <Download className="w-4 h-4" /> */}
                             Export Report
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="w-full py-6">
                 {/* Stats Overview */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-lg border border-gray-200">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Total Completed</p>
-                                <p className="text-2xl font-bold text-gray-900">{assignments.length}</p>
+                                <p className="text-sm lg:text-xs xl:text-sm 2xl:text-sm text-gray-600">Total Completed</p>
+                                <p className="text-xl lg:text-lg xl:text-xl 2xl:text-2xl font-bold text-gray-900">{assignments.length}</p>
                                 <p className="text-xs text-green-600 flex items-center gap-1 mt-1">
                                     <TrendingUp className="w-3 h-3" />
                                     +12% this month
                                 </p>
                             </div>
-                            <CheckCircle className="w-8 h-8 text-green-600" />
+                            <CheckCircle className="size-6 lg:size-4 xl:size-6 2xl:size-8 text-green-600" />
                         </div>
                     </div>
 
                     <div className="bg-white p-6 rounded-lg border border-gray-200">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Total Earnings</p>
-                                <p className="text-2xl font-bold text-gray-900">${totalEarnings.toLocaleString()}</p>
+                                <p className="text-sm lg:text-xs xl:text-sm 2xl:text-sm text-gray-600">Total Earnings</p>
+                                <p className="text-xl lg:text-lg xl:text-xl 2xl:text-2xl font-bold text-gray-900">${totalEarnings.toLocaleString()}</p>
                                 <p className="text-xs text-green-600 flex items-center gap-1 mt-1">
                                     <ArrowUpRight className="w-3 h-3" />
                                     +8% this month
                                 </p>
                             </div>
-                            <DollarSign className="w-8 h-8 text-green-600" />
+                            <DollarSign className="size-6 lg:size-4 xl:size-6 2xl:size-8 text-green-600" />
                         </div>
                     </div>
 
