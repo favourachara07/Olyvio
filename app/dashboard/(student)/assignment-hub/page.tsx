@@ -1,163 +1,190 @@
 "use client";
 
-import { useState } from 'react';
-import { Search, Filter, ChevronDown, Plus, Calendar, Clock, FileText, CheckCircle, AlertCircle, Circle, SlidersVertical } from 'lucide-react';
+import React, { useState } from 'react';
+import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, Circle, ChevronDown, Search, SlidersVertical, FileText } from 'lucide-react';
 
 interface Assignment {
     id: number;
     title: string;
     description: string;
     status: 'pending' | 'in-progress' | 'completed' | 'overdue';
-    paymentStatus: 'pending' | 'completed' | 'failed';
+    paymentStatus: 'pending' | 'paid' | 'unpaid';
     dueDate: string;
     subject: string;
     priority: 'low' | 'medium' | 'high';
     price: number;
 }
 
-export default function AssignmentHub() {
+const AssignmentTable = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [filterStatus, setFilterStatus] = useState('All');
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-    // Sample data - in production this would come from an API
-    const [assignments] = useState<Assignment[]>([
+    const [filterStatus, setFilterStatus] = useState('All');
+    // Sample data - replace with your actual filteredAssignments
+    const filteredAssignments: Assignment[] = [
         {
             id: 1,
-            title: "Research Paper on AI",
-            description: "Create a note that should be able to comprehensively analyze the impact of artificial intelligence on modern society",
-            status: "pending",
-            paymentStatus: "completed",
-            dueDate: "2025-09-05",
-            subject: "Computer Science",
+            title: "Research Paper on Climate Change",
+            subject: "Environmental Science",
+            description: "Write a comprehensive 15-page research paper analyzing the impact of climate change on coastal ecosystems, including current mitigation strategies and future recommendations.",
+            price: 150,
             priority: "high",
-            price: 150
+            status: "in-progress",
+            paymentStatus: "pending",
+            dueDate: "2025-09-10"
         },
         {
             id: 2,
-            title: "Marketing Strategy Analysis",
-            description: "Develop a comprehensive marketing strategy for a startup company in the tech industry",
-            status: "in-progress",
-            paymentStatus: "completed",
-            dueDate: "2025-09-08",
-            subject: "Business",
+            title: "Data Analysis Project",
+            subject: "Statistics",
+            description: "Analyze customer behavior data using Python and create visualizations to identify trends and patterns for business decision making.",
+            price: 200,
             priority: "medium",
-            price: 200
+            status: "completed",
+            paymentStatus: "paid",
+            dueDate: "2025-08-25"
         },
         {
             id: 3,
-            title: "Literature Review on Climate Change",
-            description: "Conduct an extensive literature review on climate change impacts on coastal communities",
-            status: "completed",
-            paymentStatus: "completed",
-            dueDate: "2025-08-28",
-            subject: "Environmental Science",
-            priority: "medium",
-            price: 120
-        },
-        {
-            id: 4,
-            title: "Statistical Data Analysis",
-            description: "Perform statistical analysis on provided dataset using SPSS and Python",
-            status: "overdue",
-            paymentStatus: "pending",
-            dueDate: "2025-08-25",
-            subject: "Statistics",
-            priority: "high",
-            price: 180
+            title: "Marketing Strategy Presentation",
+            subject: "Business",
+            description: "Develop a comprehensive marketing strategy for a startup tech company, including market analysis, target audience identification, and campaign proposals.",
+            price: 120,
+            priority: "low",
+            status: "pending",
+            paymentStatus: "unpaid",
+            dueDate: "2025-09-15"
         }
-    ]);
+    ];
 
-    const statusColors = {
-        pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
-        "in-progress": "bg-blue-100 text-blue-800 border-blue-200",
-        completed: "bg-green-100 text-green-800 border-green-200",
-        overdue: "bg-red-100 text-red-800 border-red-200"
+    const StatusBadge = ({ status }: { status: Assignment['status'] }) => {
+        const statusStyles: Record<Assignment['status'], string> = {
+            'pending': 'bg-yellow-50 text-yellow-800 border-yellow-200',
+            'in-progress': 'bg-blue-50 text-blue-800 border-blue-200',
+            'completed': 'bg-green-50 text-green-800 border-green-200',
+            'overdue': 'bg-red-50 text-red-800 border-red-200'
+        };
+
+        return (
+            <span className={`inline-flex items-center px-1.5 2xl:px-2.5 py-0.5 2xl:py-1 rounded-xl 2xl:rounded-full text-[8px] 2xl:text-xs font-medium border ${statusStyles[status]}`}>
+                {status === 'in-progress' ? 'In Progress' : status.charAt(0).toUpperCase() + status.slice(1)}
+            </span>
+        );
     };
 
-    const paymentStatusColors = {
-        pending: "bg-orange-100 text-orange-800 border-orange-200",
-        completed: "bg-green-100 text-green-800 border-green-200",
-        failed: "bg-red-100 text-red-800 border-red-200"
+    const PaymentStatusBadge = ({ paymentStatus }: { paymentStatus: Assignment['paymentStatus'] }) => {
+        const paymentStyles: Record<Assignment['paymentStatus'], string> = {
+            'paid': 'bg-green-50 text-green-800 border-green-200',
+            'pending': 'bg-yellow-50 text-yellow-800 border-yellow-200',
+            'unpaid': 'bg-red-50 text-red-800 border-red-200'
+        };
+
+        return (
+            <span className={`inline-flex items-center px-1.5 2xl:px-2.5 py-0.5 2xl:py-1 rounded-xl 2xl:rounded-full text-[8px] 2xl:text-xs font-medium border ${paymentStyles[paymentStatus]}`}>
+                {paymentStatus.charAt(0).toUpperCase() + paymentStatus.slice(1)}
+            </span>
+        );
     };
 
-    const priorityColors = {
-        low: "bg-gray-100 text-gray-800",
-        medium: "bg-yellow-100 text-yellow-800",
-        high: "bg-red-100 text-red-800"
+    const PriorityBadge = ({ priority }: { priority: Assignment['priority'] }) => {
+        const priorityStyles: Record<Assignment['priority'], string> = {
+            'high': 'bg-red-50 text-red-800',
+            'medium': 'bg-yellow-50 text-yellow-800',
+            'low': 'bg-green-50 text-green-800'
+        };
+
+        return (
+            <span className={`text-[8px] 2xl:text-xs px-2 py-1 rounded-full ${priorityStyles[priority]}`}>
+                {priority}
+            </span>
+        );
     };
 
-    const getStatusIcon = (status: string) => {
+    const getStatusIcon = (status: Assignment['status']) => {
+        const iconProps = { className: "w-4 h-4" };
         switch (status) {
             case 'completed':
-                return <CheckCircle className="w-4 h-4 text-green-600" />;
+                return <CheckCircle {...iconProps} className="w-4 h-4 text-green-600" />;
             case 'in-progress':
-                return <Clock className="w-4 h-4 text-blue-600" />;
+                return <Clock {...iconProps} className="w-4 h-4 text-blue-600" />;
             case 'overdue':
-                return <AlertCircle className="w-4 h-4 text-red-600" />;
+                return <XCircle {...iconProps} className="w-4 h-4 text-red-600" />;
             default:
-                return <Circle className="w-4 h-4 text-yellow-600" />;
+                return <Circle {...iconProps} className="w-4 h-4 text-yellow-600" />;
         }
     };
-
-    const filteredAssignments = assignments.filter(assignment => {
-        const matchesSearch = assignment.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            assignment.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            assignment.subject.toLowerCase().includes(searchTerm.toLowerCase());
-
-        const matchesFilter = filterStatus === 'All' ||
-            assignment.status === filterStatus.toLowerCase().replace(' ', '-');
-
-        return matchesSearch && matchesFilter;
-    });
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
+            year: 'numeric',
             month: 'short',
-            day: 'numeric',
-            year: 'numeric'
+            day: 'numeric'
         });
     };
 
     const getDaysUntilDue = (dateString: string) => {
-        const today = new Date();
         const dueDate = new Date(dateString);
+        const today = new Date();
         const diffTime = dueDate.getTime() - today.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays;
+        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     };
 
+    const stats = [
+        {
+            title: "Total Assignments",
+            value: filteredAssignments.length,
+            icon: <FileText className="size-4 xl:size-6 2xl:size-8 text-blue-600" />,
+            color: "text-gray-900",
+        },
+        {
+            title: "Completed",
+            value: filteredAssignments.filter(a => a.status === "completed").length,
+            icon: <CheckCircle className="size-4 xl:size-6 2xl:size-8 text-green-600" />,
+            color: "text-green-600",
+        },
+        {
+            title: "In Progress",
+            value: filteredAssignments.filter(a => a.status === "in-progress").length,
+            icon: <Clock className="size-4 xl:size-6 2xl:size-8 text-blue-600" />,
+            color: "text-blue-600",
+        },
+        {
+            title: "Overdue",
+            value: filteredAssignments.filter(a => a.status === "overdue").length,
+            icon: <AlertCircle className="size-4 xl:size-6 2xl:size-8 text-red-600" />,
+            color: "text-red-600",
+        },
+    ];
+
     return (
-        <div className="min-h-screen">
-            {/* Header */}
+        <div className='w-full gap-4 2xl:gap-6'>
             <div className="bg-white">
-                <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between py-6">
+                <div className="w-full">
+                    <div className="flex items-center justify-between pb-6">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Assignment Hub</h1>
-                            <p className="text-sm text-gray-600 mt-1">Manage your academic assignments and track progress</p>
+                            <h1 className="text-sm xl:text-lg 2xl:text-2xl font-bold text-gray-900">Assignment Hub</h1>
+                            <p className="text-xs xl:text-sm text-gray-600 2xl:mt-1">Manage your academic assignments and track progress</p>
                         </div>
-                        <button className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-                            <Plus className="w-4 h-4" />
-                            New Assignment
+                        <button className="bg-black text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-colors text-xs sm:text-sm">
+                            <span className="hidden lg:block sm:inline">New Assignment</span>
+                            <span className="lg:hidden">New</span>
                         </button>
                     </div>
                 </div>
             </div>
 
             {/* Filters and Search */}
-            <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="w-full">
+                <div className="flex flex-row gap-2 2xl:gap-4 mb-6">
                     {/* Search */}
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#6C6C6C] size-4 xl:size-5" />
                         <input
                             type="text"
                             placeholder="Search by ID or title"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-full pl-10 pr-4 py-3 lg:py-1.5 xl:py-2 2xl:py-3 border border-[#D9D9D9] placeholder-[#6C6C6C] rounded-md text-xs xl:text-sm"
                         />
                     </div>
 
@@ -165,11 +192,11 @@ export default function AssignmentHub() {
                     <div className="relative">
                         <button
                             onClick={() => setIsFilterOpen(!isFilterOpen)}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium"
+                            className="flex items-center gap-2 px-4 py-3 lg:py-1.5 xl:py-2 2xl:py-3 border border-[#D9D9D9] rounded-md hover:bg-gray-50 text-xs xl:text-sm font-medium"
                         >
-                            <SlidersVertical className="w-4 h-4" />
+                            <SlidersVertical className="size-4 lg:size-3 2xl:size-4" />
                             {filterStatus}
-                            <ChevronDown className="w-4 h-4" />
+                            <ChevronDown className="size-4 lg:size-3 2xl:size-4" />
                         </button>
 
                         {isFilterOpen && (
@@ -192,143 +219,142 @@ export default function AssignmentHub() {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-white p-4 rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-gray-600">Total Assignments</p>
-                                <p className="text-2xl font-bold text-gray-900">{assignments.length}</p>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                    {stats.map((stat, index) => (
+                        <div key={index} className="bg-white p-3 sm:p-4 rounded-lg border border-gray-200">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-[10px] sm:text-xs 2xl:text-sm text-gray-600">{stat.title}</p>
+                                    <p className={`text-lg sm:text-xl 2xl:text-2xl font-bold ${stat.color}`}>{stat.value}</p>
+                                </div>
+                                {stat.icon}
                             </div>
-                            <FileText className="w-8 h-8 text-blue-600" />
                         </div>
-                    </div>
-                    <div className="bg-white p-4 rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-gray-600">Completed</p>
-                                <p className="text-2xl font-bold text-green-600">
-                                    {assignments.filter(a => a.status === 'completed').length}
-                                </p>
-                            </div>
-                            <CheckCircle className="w-8 h-8 text-green-600" />
-                        </div>
-                    </div>
-                    <div className="bg-white p-4 rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-gray-600">In Progress</p>
-                                <p className="text-2xl font-bold text-blue-600">
-                                    {assignments.filter(a => a.status === 'in-progress').length}
-                                </p>
-                            </div>
-                            <Clock className="w-8 h-8 text-blue-600" />
-                        </div>
-                    </div>
-                    <div className="bg-white p-4 rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-gray-600">Overdue</p>
-                                <p className="text-2xl font-bold text-red-600">
-                                    {assignments.filter(a => a.status === 'overdue').length}
-                                </p>
-                            </div>
-                            <AlertCircle className="w-8 h-8 text-red-600" />
-                        </div>
-                    </div>
+                    ))}
                 </div>
 
-                {/* Assignments Table */}
-                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    {/* Table Header */}
-                    <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 text-sm font-medium text-gray-500">
-                            <div className="lg:col-span-1">S/N</div>
-                            <div className="lg:col-span-3">Assignment Title</div>
-                            <div className="lg:col-span-4">Assignment Description</div>
-                            <div className="lg:col-span-2">Assignment Status</div>
-                            <div className="lg:col-span-2">Payment Status</div>
-                        </div>
-                    </div>
+                {/* Desktop Table View */}
+                <div className="hidden md:flex flex-col flex-1 min-h-0 rounded-md xl:rounded-md 2xl:rounded-lg border border-[#D9D9D9] bg-white">
+                    <div className="overflow-auto flex-1">
+                        <table className="min-w-full">
+                            <thead className="bg-[#F9F9F9] text-[#A0A0A0] font-normal text-xs lg:text-[9px] xl:text-[10px] 2xl:text-xs font-montserrat-alternates sticky top-0 z-10">
+                                <tr className='whitespace-nowrap'>
+                                    <th className="text-center px-3 py-3 font-normal">S/N</th>
+                                    <th className="text-center border-l border-l-[#EAEAEA] px-8 py-3 font-normal">Assignment Title</th>
+                                    <th className="text-center border-l border-l-[#EAEAEA] px-6 py-3 font-normal">Assignment Description</th>
+                                    <th className="text-center border-l border-l-[#EAEAEA] lg:px-6 xl:px-8 2xl:px-16 py-3 font-normal">Assignment Status</th>
+                                    <th className="text-center border-l border-l-[#EAEAEA] lg:px-6 xl:px-6 2xl:px-16 py-3 font-normal">Payment Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredAssignments.map((assignment, index) => (
+                                    <tr key={assignment.id} className="border-t text-center border-[#EAEAEA] hover:bg-[#FAFAFA50] text-xs lg:text-[10px] xl:text-sm font-montserrat-alternates">
+                                        <td className="px-3 py-3 text-[#A0A0A0] text-xs xl:text-sm">{index + 1}</td>
 
-                    {/* Table Body */}
-                    <div className="divide-y divide-gray-200">
-                        {filteredAssignments.map((assignment, index) => (
-                            <div key={assignment.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
-                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-                                    {/* S/N */}
-                                    <div className="lg:col-span-1">
-                                        <span className="text-sm font-medium text-gray-900">{index + 1}</span>
-                                    </div>
-
-                                    {/* Assignment Title */}
-                                    <div className="lg:col-span-3">
-                                        <div className="flex items-start gap-3">
-                                            {getStatusIcon(assignment.status)}
-                                            <div>
-                                                <h3 className="text-sm font-medium text-gray-900">{assignment.title}</h3>
-                                                <div className="flex items-center gap-2 mt-1">
-                                                    <span className="text-xs text-gray-500">{assignment.subject}</span>
-                                                    <span className={`text-xs px-2 py-1 rounded-full ${priorityColors[assignment.priority]}`}>
-                                                        {assignment.priority}
-                                                    </span>
-                                                </div>
-                                                <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
-                                                    <Calendar className="w-3 h-3" />
-                                                    <span>Due: {formatDate(assignment.dueDate)}</span>
-                                                    {getDaysUntilDue(assignment.dueDate) < 0 && (
-                                                        <span className="text-red-600 font-medium">
-                                                            ({Math.abs(getDaysUntilDue(assignment.dueDate))} days overdue)
-                                                        </span>
-                                                    )}
-                                                    {getDaysUntilDue(assignment.dueDate) >= 0 && getDaysUntilDue(assignment.dueDate) <= 3 && (
-                                                        <span className="text-orange-600 font-medium">
-                                                            ({getDaysUntilDue(assignment.dueDate)} days left)
-                                                        </span>
-                                                    )}
+                                        <td className="px-8 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-[10px] 2xl:text-sm">
+                                            <div className="flex items-start gap-3 text-left">
+                                                {getStatusIcon(assignment.status)}
+                                                <div>
+                                                    <h3 className="font-medium text-gray-900">{assignment.title}</h3>
+                                                    <div className="flex items-center gap-2 mt-1">
+                                                        <span className="text-[8px] 2xl:text-xs text-gray-500">{assignment.subject}</span>
+                                                        <PriorityBadge priority={assignment.priority} />
+                                                    </div>
+                                                    <div className="flex items-center gap-1 mt-1 text-[8px] 2xl:text-xs text-gray-500">
+                                                        <Calendar className="w-3 h-3" />
+                                                        <span>Due: {formatDate(assignment.dueDate)}</span>
+                                                        {getDaysUntilDue(assignment.dueDate) < 0 && (
+                                                            <span className="text-red-600 font-medium">
+                                                                ({Math.abs(getDaysUntilDue(assignment.dueDate))} days overdue)
+                                                            </span>
+                                                        )}
+                                                        {getDaysUntilDue(assignment.dueDate) >= 0 && getDaysUntilDue(assignment.dueDate) <= 3 && (
+                                                            <span className="text-orange-600 font-medium">
+                                                                ({getDaysUntilDue(assignment.dueDate)} days left)
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                        </td>
 
-                                    {/* Assignment Description */}
-                                    <div className="lg:col-span-4">
-                                        <p className="text-sm text-gray-600 leading-relaxed">
-                                            {assignment.description}
-                                        </p>
-                                        <div className="mt-2 text-xs text-green-600 font-medium">
-                                            ${assignment.price}
-                                        </div>
-                                    </div>
+                                        <td className="px-6 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-[10px] 2xl:text-sm text-left">
+                                            <p className="text-gray-600 leading-relaxed">
+                                                {assignment.description}
+                                            </p>
+                                            <div className="mt-2 text-green-600 font-medium">
+                                                ${assignment.price}
+                                            </div>
+                                        </td>
 
-                                    {/* Assignment Status */}
-                                    <div className="lg:col-span-2">
-                                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${statusColors[assignment.status]}`}>
-                                            {assignment.status === 'in-progress' ? 'In Progress' :
-                                                assignment.status.charAt(0).toUpperCase() + assignment.status.slice(1)}
-                                        </span>
-                                    </div>
+                                        <td className="lg:px-6 xl:px-8 2xl:px-14 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-sm">
+                                            <StatusBadge status={assignment.status} />
+                                        </td>
 
-                                    {/* Payment Status */}
-                                    <div className="lg:col-span-2">
-                                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${paymentStatusColors[assignment.paymentStatus]}`}>
-                                            {assignment.paymentStatus.charAt(0).toUpperCase() + assignment.paymentStatus.slice(1)}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                                        <td className="lg:px-6 xl:px-6 2xl:px-16 border-l border-l-[#EAEAEA] py-3 text-xs lg:text-[10px] xl:text-sm">
+                                            <PaymentStatusBadge paymentStatus={assignment.paymentStatus} />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                {/* Empty State */}
-                {filteredAssignments.length === 0 && (
-                    <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-                        <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No assignments found</h3>
-                        <p className="text-gray-500">Try adjusting your search or filter criteria.</p>
-                    </div>
-                )}
+                {/* Mobile Card View */}
+                <div className="md:hidden space-y-4 mb-24">
+                    {filteredAssignments.map((assignment, index) => (
+                        <div key={assignment.id} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                            {/* Header with status icon and title */}
+                            <div className="flex items-start gap-3 mb-3">
+                                {getStatusIcon(assignment.status)}
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-medium text-gray-900 text-sm leading-tight">{assignment.title}</h3>
+                                    <div className="flex items-center gap-2 mt-1">
+                                        <span className="text-xs text-gray-500">{assignment.subject}</span>
+                                        <PriorityBadge priority={assignment.priority} />
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-sm font-medium text-green-600">${assignment.price}</div>
+                                </div>
+                            </div>
+
+                            {/* Description */}
+                            <p className="text-xs text-gray-600 leading-relaxed mb-3 line-clamp-3">
+                                {assignment.description}
+                            </p>
+
+                            {/* Status badges and due date */}
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <StatusBadge status={assignment.status} />
+                                    <PaymentStatusBadge paymentStatus={assignment.paymentStatus} />
+                                </div>
+                                
+                                <div className="flex items-center gap-1 text-xs text-gray-500">
+                                    <Calendar className="w-3 h-3" />
+                                    <span>{formatDate(assignment.dueDate)}</span>
+                                </div>
+                            </div>
+
+                            {/* Due date warning */}
+                            {getDaysUntilDue(assignment.dueDate) < 0 && (
+                                <div className="mt-2 text-xs text-red-600 font-medium">
+                                    {Math.abs(getDaysUntilDue(assignment.dueDate))} days overdue
+                                </div>
+                            )}
+                            {getDaysUntilDue(assignment.dueDate) >= 0 && getDaysUntilDue(assignment.dueDate) <= 3 && (
+                                <div className="mt-2 text-xs text-orange-600 font-medium">
+                                    {getDaysUntilDue(assignment.dueDate)} days left
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
-}
+};
+
+export default AssignmentTable;
