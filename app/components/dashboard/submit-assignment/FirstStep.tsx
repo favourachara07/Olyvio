@@ -1,5 +1,7 @@
 import { Upload, ChevronDown } from "lucide-react";
-import { useState, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent } from "react";
+import Input from "@/app/components/ui/Input";
+import Select from "../../ui/Select";
 
 type FormData = {
     title: string;
@@ -66,34 +68,25 @@ export default function FirstStep() {
             <div className="bg-white">
                 <div className="space-y-6">
                     {/* Assignment Title */}
-                    <div>
-                        <label htmlFor="title" className="block text-xs font-semibold text-black mb-2">
-                            Assignment Title
-                        </label>
-                        <input
-                            type="text"
-                            id="title"
-                            placeholder="Enter your assignment title"
-                            value={formData.title}
-                            onChange={(e) => handleInputChange('title', e.target.value)}
-                            className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                        />
-                    </div>
+                    <Input
+                        label="Assignment Title"
+                        id="title"
+                        type="text"
+                        placeholder="Enter your assignment title"
+                        value={formData.title}
+                        onChange={(e) => handleInputChange('title', e.target.value)}
+                    />
 
                     {/* Assignment Description */}
-                    <div>
-                        <label htmlFor="description" className="block text-xs font-semibold text-black mb-2">
-                            Assignment Description
-                        </label>
-                        <textarea
-                            id="description"
-                            rows={6}
-                            placeholder="Enter your assignment description"
-                            value={formData.description}
-                            onChange={(e) => handleInputChange('description', e.target.value)}
-                            className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                        />
-                    </div>
+                    <Input
+                        label="Assignment Description"
+                        id="description"
+                        textarea
+                        rows={6}
+                        placeholder="Enter your assignment description"
+                        value={formData.description}
+                        onChange={(e) => handleInputChange('description', e.target.value)}
+                    />
 
                     {/* File Upload */}
                     <div>
@@ -103,7 +96,7 @@ export default function FirstStep() {
                         <div
                             className={`relative border-2 border-dashed rounded-md p-8 text-center transition-colors ${dragActive
                                 ? 'border-black bg-gray-50'
-                                : 'border-gray-300 hover:border-gray-400'
+                                : 'border-[#D9D9D9] hover:border-gray-400'
                                 }`}
                             onDragEnter={handleDrag}
                             onDragLeave={handleDrag}
@@ -116,124 +109,111 @@ export default function FirstStep() {
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                 accept=".pdf,.doc,.docx,.txt"
                             />
-                            <Upload className="mx-auto h-8 w-8 text-gray-400 mb-3" />
-                            <p className="text-sm text-gray-400">
+                            <Upload className="mx-auto size-6 md:size-8 text-[#6C6C6C] mb-3" />
+                            <p className="text-sm text-[#6C6C6C]">
                                 {formData.file ? formData.file.name : 'Upload your assignment document'}
                             </p>
                         </div>
                     </div>
 
                     {/* Department */}
-                    <div>
-                        <label htmlFor="department" className="block text-xs font-semibold text-black mb-2">
-                            Department
-                        </label>
-                        <div className="relative">
-                            <select
-                                id="department"
-                                value={formData.department}
-                                onChange={(e) => handleInputChange('department', e.target.value)}
-                                className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm text-gray-400 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent pr-10"
-                            >
-                                <option value="">Select your department</option>
-                                <option value="computer-science">Computer Science</option>
-                                <option value="engineering">Engineering</option>
-                                <option value="business">Business</option>
-                                <option value="arts">Arts</option>
-                            </select>
-                            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
-                        </div>
-                    </div>
+                    <Select
+                        id="department"
+                        label="Department"
+                        value=""
+                        onChange={(value) => handleInputChange('department', value)}
+                        options={[
+                            { label: "Computer Science", value: "computer_science" },
+                            { label: "Mathematics", value: "mathematics" },
+                            { label: "Physics", value: "physics" },
+                            { label: "Chemistry", value: "chemistry" },
+                            { label: "Biology", value: "biology" },
+                            { label: "Economics", value: "economics" },
+                            { label: "Business", value: "business" },
+                            { label: "Engineering", value: "engineering" },
+                            { label: "Medicine", value: "medicine" },
+                            { label: "Law", value: "law" },
+                            { label: "Arts", value: "arts" },
+                            { label: "History", value: "history" },
+                            { label: "Psychology", value: "psychology" },
+                            { label: "Sociology", value: "sociology" },
+                            { label: "Political Science", value: "political_science" },
+                        ]}
+                        placeholder="Select Department"
+                    />
 
                     {/* Course/Subject */}
-                    <div>
-                        <label htmlFor="courseSubject" className="block text-xs font-semibold text-black mb-2">
-                            Course / Subject
-                        </label>
-                        <div className="relative">
-                            <select
-                                id="courseSubject"
-                                value={formData.courseSubject}
-                                onChange={(e) => handleInputChange('courseSubject', e.target.value)}
-                                className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm text-gray-400 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent pr-10"
-                            >
-                                <option value="">Select your course or subject</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="physics">Physics</option>
-                                <option value="chemistry">Chemistry</option>
-                                <option value="biology">Biology</option>
-                            </select>
-                            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
-                        </div>
-                    </div>
+                    <Select
+                        id="courseSubject"
+                        label="Course / Subject"
+                        value=""
+                        onChange={(value) => handleInputChange('courseSubject', value)}
+                        options={[
+                            { label: "Computer Science", value: "computer_science" },
+                            { label: "Mathematics", value: "mathematics" },
+                            { label: "Physics", value: "physics" },
+                            { label: "Chemistry", value: "chemistry" },
+                            { label: "Biology", value: "biology" },
+                            { label: "Economics", value: "economics" },
+                            { label: "Business", value: "business" },
+                            { label: "Engineering", value: "engineering" },
+                            { label: "Medicine", value: "medicine" },
+                            { label: "Law", value: "law" },
+                            { label: "Arts", value: "arts" },
+                            { label: "History", value: "history" },
+                            { label: "Psychology", value: "psychology" },
+                            { label: "Sociology", value: "sociology" },
+                            { label: "Political Science", value: "political_science" },
+                        ]}
+                        placeholder="Select your course or subject"
+                    />
 
                     {/* Bottom Row - Three Select Fields */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {/* Writing Style */}
-                        <div>
-                            <label htmlFor="writingStyle" className="block text-xs font-semibold text-black mb-2">
-                                Writing Style
-                            </label>
-                            <div className="relative">
-                                <select
-                                    id="writingStyle"
-                                    value={formData.writingStyle}
-                                    onChange={(e) => handleInputChange('writingStyle', e.target.value)}
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm text-gray-400 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent pr-10"
-                                >
-                                    <option value="">Select your writing style</option>
-                                    <option value="apa">APA</option>
-                                    <option value="mla">MLA</option>
-                                    <option value="chicago">Chicago</option>
-                                    <option value="harvard">Harvard</option>
-                                </select>
-                                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
-                            </div>
-                        </div>
+                        <Select
+                            id="writingStyle"
+                            label="Writing Style"
+                            value=""
+                            onChange={(value) => handleInputChange('writingStyle', value)}
+                            options={[
+                                { label: "APA", value: "apa" },
+                                { label: "MLA", value: "mla" },
+                                { label: "Chicago", value: "chicago" },
+                                { label: "Harvard", value: "harvard" },
+                            ]}
+                            placeholder="Select your course or subject"
+                        />
 
                         {/* Page Count */}
-                        <div>
-                            <label htmlFor="pageCount" className="block text-xs font-semibold text-black mb-2">
-                                Page Count
-                            </label>
-                            <div className="relative">
-                                <select
-                                    id="pageCount"
-                                    value={formData.pageCount}
-                                    onChange={(e) => handleInputChange('pageCount', e.target.value)}
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm text-gray-400 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent pr-10"
-                                >
-                                    <option value="">Select your page count</option>
-                                    <option value="1-5">1-5 pages</option>
-                                    <option value="6-10">6-10 pages</option>
-                                    <option value="11-20">11-20 pages</option>
-                                    <option value="20+">20+ pages</option>
-                                </select>
-                                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
-                            </div>
-                        </div>
+                        <Select
+                            id="pageCount"
+                            label="Page Count"
+                            value=""
+                            onChange={(value) => handleInputChange('pageCount', value)}
+                            options={[
+                                { label: "1-5 pages", value: "1-5" },
+                                { label: "6-10 pages", value: "6-10" },
+                                { label: "11-20 pages", value: "11-20" },
+                                { label: "20+ pages", value: "20+" },
+                            ]}
+                            placeholder="Select your course or subject"
+                        />
 
                         {/* Delivery Urgency */}
-                        <div className="sm:col-span-2 lg:col-span-1">
-                            <label htmlFor="deliveryUrgency" className="block text-xs font-semibold text-black mb-2">
-                                Delivery Urgency
-                            </label>
-                            <div className="relative">
-                                <select
-                                    id="deliveryUrgency"
-                                    value={formData.deliveryUrgency}
-                                    onChange={(e) => handleInputChange('deliveryUrgency', e.target.value)}
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm text-gray-400 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent pr-10"
-                                >
-                                    <option value="">Select your delivery urgency</option>
-                                    <option value="24-hours">24 hours</option>
-                                    <option value="48-hours">48 hours</option>
-                                    <option value="1-week">1 week</option>
-                                    <option value="2-weeks">2 weeks</option>
-                                </select>
-                                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
-                            </div>
-                        </div>
+                        <Select
+                            id="deliveryUrgency"
+                            label="Delivery Urgency"
+                            value=""
+                            onChange={(value) => handleInputChange('deliveryUrgency', value)}
+                            options={[
+                                { label: "24 hours", value: "24-hours" },
+                                { label: "48 hours", value: "48-hours" },
+                                { label: "1 week", value: "1-week" },
+                                { label: "2 weeks", value: "2-weeks" },
+                            ]}
+                            placeholder="Select your course or subject"
+                        />
                     </div>
                 </div>
             </div>

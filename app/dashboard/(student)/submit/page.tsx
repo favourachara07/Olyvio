@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, ChangeEvent, DragEvent, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Upload, ChevronDown, Check, FileText, List, CreditCard, CheckCircle } from 'lucide-react';
 import FirstStep from '@/app/components/dashboard/submit-assignment/FirstStep';
 import SecondStep from '@/app/components/dashboard/submit-assignment/SecondStep';
@@ -35,6 +36,7 @@ type Step = {
 };
 
 export default function AssignmentSubmissionForm() {
+    const router = useRouter();
     // Form state with validation
     const [formData, setFormData] = useState<FormData>({
         title: '',
@@ -56,6 +58,7 @@ export default function AssignmentSubmissionForm() {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [dragActive, setDragActive] = useState(false);
+    const [price, setPrice] = useState<string>('0');
 
     const steps: Step[] = [
         { number: 1, title: 'Assignment Details', icon: <FileText className="h-5 w-5" /> },
@@ -120,6 +123,8 @@ export default function AssignmentSubmissionForm() {
             } else {
                 console.log('Form submitted:', formData);
                 // Submit form logic here
+                // After successful submission, navigate to the assignment hub
+                router.push('/dashboard/assignment-hub');
             }
         }
     };
@@ -166,7 +171,7 @@ export default function AssignmentSubmissionForm() {
                     </p>
                 </div>
                 <div className="text-right">
-                    <span className="text-sm font-medium text-gray-900">₦ 500</span>
+                    <span className="text-sm font-medium text-gray-900">₦{price}</span>
                 </div>
             </div>
 
@@ -181,7 +186,7 @@ export default function AssignmentSubmissionForm() {
             </div>
 
             {/* Form */}
-            <div className="bg-white">
+            <div className="bg-white mb-20">
                 <div className="space-y-6">
                     {renderStepContent()}
                 </div>
@@ -192,22 +197,19 @@ export default function AssignmentSubmissionForm() {
                         type="button"
                         onClick={handlePrevious}
                         disabled={currentStep === 1}
-                        className={`px-6 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                        className={`px-10 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : ''
                             }`}
                     >
-                        Previous
+                        Back
                     </button>
                     <button
                         type="button"
                         onClick={handleNext}
-                        className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                        className="px-10 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800"
                     >
-                        {currentStep === steps.length ? 'Submit Assignment' : 'Next'}
+                        {currentStep === steps.length ? 'Submit' : 'Next'}
                     </button>
                 </div>
-
-
-
             </div>
         </div>
     );
