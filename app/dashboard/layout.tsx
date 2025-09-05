@@ -13,7 +13,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
 
         {/* Main Content Area */}
-        <div className="w-full lg:ml-[18.6%] xl:ml-[17.6%] 2xl:w-[16.6%] py-4 2xl:pt-6 flex flex-col pb-20 md:pb-0 mb-40 lg:mb-0">
+        <div className="w-full lg:ml-[18.6%] xl:ml-[17.6%] 2xl:wml-[16.6%] py-4 2xl:pt-6 flex flex-col pb-20 md:pb-0 mb-40 lg:mb-0">
           <div className="w-full flex flex-row items-center justify-between px-4 pb-4 xl:pb-8">
             <h1 className="hidden lg:block text-[#33333390] text-sm 2xl:text-md">
               Olyvio /
@@ -29,8 +29,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {children}
         </div>
       </div>
-
-      {/* Mobile Bottom Navigation - only shows on mobile */}
       <MobileBottomNav />
     </div>
   );

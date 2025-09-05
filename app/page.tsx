@@ -57,9 +57,9 @@ const OlyvioLanding = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-white">
+    <div className="min-h-screen bg-black text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-transparent backdrop-blur-lg">
+      <nav className="fixed top-0 w-full z-50 bg-black">
         <div className="max-w-7xl mx-auto py-3">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center flex-shrink-0">
@@ -718,7 +718,7 @@ const OlyvioLanding = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-[#111111]">
+      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-[#11111170]">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8">
             <div className="col-span-2">
