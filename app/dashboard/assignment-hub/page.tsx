@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, Circle, ChevronDown, Search, SlidersVertical, FileText } from 'lucide-react';
+import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, Circle, ChevronDown, Search, FileText, SlidersHorizontal } from 'lucide-react';
 
 interface Assignment {
     id: number;
@@ -85,20 +85,6 @@ const AssignmentTable = () => {
         );
     };
 
-    const PriorityBadge = ({ priority }: { priority: Assignment['priority'] }) => {
-        const priorityStyles: Record<Assignment['priority'], string> = {
-            'high': 'bg-red-50 text-red-800',
-            'medium': 'bg-yellow-50 text-yellow-800',
-            'low': 'bg-green-50 text-green-800'
-        };
-
-        return (
-            <span className={`text-[8px] 2xl:text-xs px-2 py-1 rounded-full ${priorityStyles[priority]}`}>
-                {priority}
-            </span>
-        );
-    };
-
     const getStatusIcon = (status: Assignment['status']) => {
         const iconProps = { className: "w-4 h-4" };
         switch (status) {
@@ -133,7 +119,7 @@ const AssignmentTable = () => {
         {
             title: "Total Assignments",
             value: filteredAssignments.length,
-            icon: <FileText className="size-4 xl:size-6 2xl:size-8 text-blue-600" />,
+            icon: <FileText className="size-4 xl:size-6 2xl:size-8 text-black" />,
             color: "text-gray-900",
         },
         {
@@ -194,13 +180,13 @@ const AssignmentTable = () => {
                             onClick={() => setIsFilterOpen(!isFilterOpen)}
                             className="flex items-center gap-2 px-4 py-3 lg:py-1.5 xl:py-2 2xl:py-3 border border-[#D9D9D9] rounded-md hover:bg-gray-50 text-xs xl:text-sm font-medium"
                         >
-                            <SlidersVertical className="size-4 lg:size-3 2xl:size-4" />
+                            <SlidersHorizontal className="size-4 lg:size-3 2xl:size-4" />
                             {filterStatus}
                             <ChevronDown className="size-4 lg:size-3 2xl:size-4" />
                         </button>
 
                         {isFilterOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                                 {['All', 'Pending', 'In Progress', 'Completed', 'Overdue'].map((status) => (
                                     <button
                                         key={status}
@@ -258,7 +244,7 @@ const AssignmentTable = () => {
                                                     <h3 className="font-medium text-gray-900">{assignment.title}</h3>
                                                     <div className="flex items-center gap-2 mt-1">
                                                         <span className="text-[8px] 2xl:text-xs text-gray-500">{assignment.subject}</span>
-                                                        <PriorityBadge priority={assignment.priority} />
+                                                        {/* <PriorityBadge priority={assignment.priority} /> */}
                                                     </div>
                                                     <div className="flex items-center gap-1 mt-1 text-[8px] 2xl:text-xs text-gray-500">
                                                         <Calendar className="w-3 h-3" />
@@ -312,7 +298,6 @@ const AssignmentTable = () => {
                                     <h3 className="font-medium text-gray-900 text-sm leading-tight">{assignment.title}</h3>
                                     <div className="flex items-center gap-2 mt-1">
                                         <span className="text-xs text-gray-500">{assignment.subject}</span>
-                                        <PriorityBadge priority={assignment.priority} />
                                     </div>
                                 </div>
                                 <div className="text-right">

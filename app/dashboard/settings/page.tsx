@@ -6,6 +6,16 @@ import { Search, ChevronDown } from 'lucide-react';
 const SettingsPage = () => {
     const [activeTab, setActiveTab] = useState('Profile');
 
+    // Read active tab from localStorage on component mount
+    React.useEffect(() => {
+        const savedTab = typeof window !== 'undefined' ? localStorage.getItem('settingsActiveTab') : null;
+        if (savedTab) {
+            setActiveTab(savedTab);
+            // Clear the saved tab after using it
+            localStorage.removeItem('settingsActiveTab');
+        }
+    }, []);
+
     const notifications = [
         {
             id: 1,

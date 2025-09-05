@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Quicksand } from "next/font/google";
 import "./globals.css";
 
-// Configure the Montserrat Alternates font
-const montserrat = Montserrat({
+// Configure the Quicksand font
+const quicksand = Quicksand({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-montserrat",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-quicksand",
 });
 
 export const metadata: Metadata = {
@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={montserrat.variable}>
-      <body className={`${montserrat.className} antialiased`}>
+    <html lang="en" className={quicksand.variable}>
+      <body className={`${quicksand.className} antialiased`}>
         {children}
       </body>
     </html>

@@ -8,6 +8,7 @@ type SelectProps = {
   options: { label: string; value: string }[];
   placeholder?: string;
   className?: string;
+  error?: string;
 };
 
 export default function Select({
@@ -17,7 +18,8 @@ export default function Select({
   onChange,
   options,
   placeholder = "Select an option",
-  className = ""
+  className = "",
+  error
 }: SelectProps) {
   return (
     <div className={`w-full ${className}`}>
@@ -40,6 +42,7 @@ export default function Select({
         </select>
         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#6C6C6C] pointer-events-none" />
       </div>
+      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   );
 }

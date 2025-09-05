@@ -1,7 +1,7 @@
 import Sidebar from "@/app/components/dashboard/Sidebar";
-import { LucideBell } from "lucide-react";
 import MobileBottomNav from "../components/dashboard/MobileNavBar";
 import Image from "next/image";
+import NotificationLink from "../components/NotificationLink";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,9 +13,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
 
         {/* Main Content Area */}
-        <div className="w-full lg:ml-[18%] xl:md:ml-[17%] px-4 py-4 2xl:pt-6 flex flex-col pb-20 md:pb-0 mb-40 lg:mb-0">
-          <div className="w-full flex flex-row items-center justify-between pb-4 xl:pb-8">
-            <h1 className="hidden lg:block text-[#33333390] text-sm 2xl:text-md font-montserrat-alternates">
+        <div className="w-full lg:ml-[18.6%] xl:ml-[17.6%] 2xl:w-[16.6%] py-4 2xl:pt-6 flex flex-col pb-20 md:pb-0 mb-40 lg:mb-0">
+          <div className="w-full flex flex-row items-center justify-between px-4 pb-4 xl:pb-8">
+            <h1 className="hidden lg:block text-[#33333390] text-sm 2xl:text-md">
               Olyvio /
               <span className="text-black"> Dashboard</span>
             </h1>
@@ -24,9 +24,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <Image src="/logo.png" alt="" width={100} height={50} className="h-full w-full" />
               </div>
             </div>
-            <div className="border border-[#E6E6E6] rounded-md p-2">
-              <LucideBell className="size-4 2xl:size-5 text-[#7E7E7E]" />
-            </div>
+            <NotificationLink />
           </div>
           {children}
         </div>

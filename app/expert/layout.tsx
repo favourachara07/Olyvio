@@ -15,7 +15,7 @@ export default function ExpertLayout({ children }: { children: React.ReactNode }
         {/* Main Content Area */}
         <div className="w-full lg:ml-[18%] xl:md:ml-[17%] px-4 py-4 2xl:py-6 flex flex-col pb-20 md:pb-4 mb-40">
           <div className="w-full flex flex-row items-center justify-between pb-4 xl:pb-8">
-            <h1 className="hidden lg:block text-[#33333390] text-sm 2xl:text-md font-montserrat-alternates">
+            <h1 className="hidden lg:block text-[#33333390] text-sm 2xl:text-md">
               Olyvio
               <span className="text-black">/ Expert Dashboard</span>
             </h1>

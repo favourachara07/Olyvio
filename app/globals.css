@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Remove the @import line completely */
-
 @layer base {
-  /* Optional: You can still define CSS custom properties if needed */
   :root {
-    --font-primary: var(--font-montserrat);
+    --font-primary: var(--font-quicksand);
+  }
+  
+  body {
+    font-family: 'Quicksand', sans-serif;
   }
 }

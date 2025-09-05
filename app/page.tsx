@@ -1,603 +1,762 @@
 "use client";
 
-import React, { useState } from 'react';
-import { ArrowRight, Star, Check, Play, Users, FileText, Clock, Award, Menu, X, BookOpen, Target, Zap, Shield, Globe, TrendingUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronRight, Upload, Users, CreditCard, Shield, Star, CheckCircle, Menu, X, ArrowRight, BookOpen, Clock, Award, Zap, LucideImage, LucideFile, LucideClipboardList, LucideChevronRight, LucideMessageCircleQuestionMark, LucideFileSearch, LucideFileSearch2, LucideCircleQuestionMark } from 'lucide-react';
+import Truck from './components/ui/Truck';
+import Image from 'next/image';
 
-const RedesignedLandingPage = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const OlyvioLanding = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  const Navigation = () => (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm border-b border-gray-800">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center">
-              <span className="text-black font-bold text-lg">A</span>
+  const submissionProcess = [
+    {
+      icon: LucideClipboardList,
+      header: "Follow these simple steps to get started with SwiftAssign today.",
+      content: "SwiftAssign streamlines your assignment submissions with user-friendly features and expert assistance.",
+      link: "",
+      linkName: "Learn More"
+    },
+    {
+      icon: LucideClipboardList,
+      header: "Easily submit your assignments with just a few clicks.",
+      content: "Upload your files, choose add-ons, and select a task expert seamlessly.",
+      link: "",
+      linkName: "Sign Up"
+    },
+    {
+      icon: LucideClipboardList,
+      header: "Track your orders in real-time and stay updated on progress.",
+      content: "Receive instant notifications about your order status and expert replies.",
+      link: "",
+      linkName: "Get Started"
+    }
+  ];
+
+  const featuresSection = [
+    {
+      icon: Truck,
+      header: "Fast and Reliable Express Delivery",
+      content: "Get your assignments delivered at lightning speed.",
+    },
+    {
+      icon: LucideFileSearch2,
+      header: "Professional Paraphrasing for Original Content",
+      content: "Ensure your work is unique and plagiarism-free.",
+    },
+    {
+      icon: LucideCircleQuestionMark,
+      header: "Accurate Citation Assistance for Your Papers",
+      content: "Cite your sources correctly with our help.",
+    }
+  ];
+
+  const scrollToSection = (sectionId: any) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-white">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-transparent backdrop-blur-lg">
+        <div className="max-w-7xl mx-auto py-3">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center flex-shrink-0">
+              <div className="h-6 2xl:h-8 max-w-fit mb-1">
+                <Image src="/logo-white.png" alt="" width={100} height={50} className="h-full w-full" />
+              </div>
             </div>
-            <span className="text-xl font-bold text-white">AssignExpert</span>
-          </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-gray-300 hover:text-emerald-400 transition-colors font-medium">Features</a>
-            <a href="#services" className="text-gray-300 hover:text-emerald-400 transition-colors font-medium">Services</a>
-            <a href="#pricing" className="text-gray-300 hover:text-emerald-400 transition-colors font-medium">Pricing</a>
-            <a href="#testimonials" className="text-gray-300 hover:text-emerald-400 transition-colors font-medium">Reviews</a>
-          </div>
+            {/* Desktop Navigation */}
+            <div className="hidden md:block flex-shrink-1">
+              <div className="ml-10 flex items-baseline space-x-8 font-medium text-sm">
+                <button onClick={() => scrollToSection('hero')} className="text-white hover:text-blue-400 transition-colors">Home</button>
+                <button onClick={() => scrollToSection('how-it-works')} className="text-white hover:text-blue-400 transition-colors">How It Works</button>
+                <button onClick={() => scrollToSection('features')} className="text-white hover:text-blue-400 transition-colors">Features</button>
+                <button onClick={() => scrollToSection('pricing')} className="text-white hover:text-blue-400 transition-colors">Pricing</button>
+              </div>
+            </div>
 
-          <div className="hidden md:flex items-center space-x-4">
-            <button className="text-gray-300 hover:text-white transition-colors font-medium">Sign In</button>
-            <button className="w-full bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200 flex items-center justify-center space-x-2">
-              <span>Get Started</span>
-              <ArrowRight size={16} className="mt-0.5" />
-            </button>
-          </div>
+            <div className='flex flex-row gap-2 flex-shrink-0'>
+              <button className='text-white border border-white rounded-md px-8 py-2 text-sm'>Join</button>
+              <button className='text-black bg-white rounded-md px-8 py-2 text-sm'>Start</button>
+            </div>
 
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-white hover:text-white"
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-800 py-4">
-            <div className="flex flex-col space-y-4">
-              <a href="#features" className="text-gray-300 hover:text-emerald-400 transition-colors">Features</a>
-              <a href="#services" className="text-gray-300 hover:text-emerald-400 transition-colors">Services</a>
-              <a href="#pricing" className="text-gray-300 hover:text-emerald-400 transition-colors">Pricing</a>
-              <a href="#testimonials" className="text-gray-300 hover:text-emerald-400 transition-colors">Reviews</a>
-              <div className="pt-4 border-t border-gray-800 flex flex-col space-y-2">
-                <button className="text-left text-gray-300">Sign In</button>
-                <button className="bg-gray-900 text-white px-6 py-2.5 rounded-lg font-medium text-left flex items-center justify-between w-full">
-                  <span>Get Started</span>
-                  <ArrowRight size={16} />
-                </button>
-              </div>
+        {isMenuOpen && (
+          <div className="md:hidden bg-gray-900/95 backdrop-blur-lg border-t border-gray-700/50">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              <button onClick={() => scrollToSection('hero')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors">Home</button>
+              <button onClick={() => scrollToSection('how-it-works')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors">How It Works</button>
+              <button onClick={() => scrollToSection('features')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors">Features</button>
+              <button onClick={() => scrollToSection('pricing')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors">Pricing</button>
             </div>
           </div>
         )}
-      </div>
-    </nav>
-  );
+      </nav>
 
-  return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      <Navigation />
-
-      {/* Hero Section - Enhanced */}
-      <section className="relative px-6 pt-24 pb-20 md:pt-32 md:pb-32">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/5"></div>
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-emerald-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-
-        <div className="relative max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-6 py-3 mb-8">
-            <Zap size={18} className="text-emerald-400" />
-            <span className="text-emerald-400 font-medium">New: AI-Powered Expert Matching</span>
-          </div>
-
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
-            Connect with Academic
-            <br />
-            <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
-              Experts Instantly
-            </span>
-          </h1>
-
-          <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-            Get professional academic help in under 60 seconds. From complex essays to research papers -
-            connect with verified experts who understand your needs.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
-            <button className="group bg-emerald-500 text-black px-10 py-4 rounded-xl font-semibold text-lg hover:bg-emerald-400 transition-all duration-200 hover:shadow-xl hover:shadow-emerald-500/25 hover:-translate-y-1">
-              Start Free Trial
-              <ArrowRight size={20} className="inline ml-2 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="group border border-gray-600 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:border-emerald-500 hover:bg-emerald-500/10 transition-all duration-200 flex items-center justify-center gap-3">
-              <Play size={20} className="group-hover:scale-110 transition-transform" />
-              Watch Demo
-            </button>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
-            <div className="flex items-center gap-2">
-              <Check size={16} className="text-emerald-400" />
-              <span>No credit card required</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Check size={16} className="text-emerald-400" />
-              <span>Free 7-day trial</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Check size={16} className="text-emerald-400" />
-              <span>Cancel anytime</span>
-            </div>
+      {/* Hero Section */}
+      <section id="hero" className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-black relative overflow-hidden">
+        {/* Animated Dot Pattern */}
+        <div className="absolute inset-0">
+          <div className="stars-container">
+            {[...Array(80)].map((_, i) => {
+              const animationType = i % 4;
+              return (
+                <div
+                  key={i}
+                  className={`particle animation-${animationType}`}
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: animationType === 1 ? `-5%` : `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 8}s`,
+                    animationDuration: `${6 + Math.random() * 4}s`
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
 
-        {/* Dashboard Preview - Enhanced */}
-        <div className="relative max-w-6xl mx-auto mt-20">
-          <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-gray-700 aspect-video overflow-hidden shadow-2xl">
-            {/* Mock Dashboard Interface */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 to-gray-800/90">
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-emerald-500 rounded-lg"></div>
-                    <span className="text-white font-semibold">Dashboard</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-                    <div className="w-full h-4 bg-gray-700 rounded mb-3"></div>
-                    <div className="w-3/4 h-3 bg-gray-600 rounded"></div>
-                  </div>
-                  <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-                    <div className="w-full h-4 bg-emerald-500/20 rounded mb-3"></div>
-                    <div className="w-2/3 h-3 bg-gray-600 rounded"></div>
-                  </div>
-                  <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-                    <div className="w-full h-4 bg-gray-700 rounded mb-3"></div>
-                    <div className="w-1/2 h-3 bg-gray-600 rounded"></div>
-                  </div>
-                </div>
-                <div className="text-center opacity-60">
-                  <FileText size={32} className="text-emerald-400 mx-auto mb-2" />
-                  <p className="text-gray-400">Expert Matching Interface</p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <style jsx>{`
+          .stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+          }
+          
+          .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+          }
+          
+          /* Twinkling Stars */
+          .animation-0 {
+            width: 2px;
+            height: 2px;
+            animation: twinkle linear infinite;
+          }
+          
+          /* Rain Drops */
+          .animation-1 {
+            width: 1px;
+            height: 4px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: rainDrop linear infinite;
+          }
+          
+          /* Floating Orbs */
+          .animation-2 {
+            width: 3px;
+            height: 3px;
+            animation: floatingOrb ease-in-out infinite;
+          }
+          
+          /* Shooting Stars */
+          .animation-3 {
+            width: 2px;
+            height: 2px;
+            animation: shootingStar linear infinite;
+            box-shadow: 0 0 4px white;
+          }
+          
+          @keyframes twinkle {
+            0%, 100% { 
+              opacity: 0; 
+              transform: scale(0.5); 
+            }
+            25% { 
+              opacity: 0.3; 
+              transform: scale(1); 
+            }
+            50% { 
+              opacity: 1; 
+              transform: scale(1.5); 
+            }
+            75% { 
+              opacity: 0.6; 
+              transform: scale(1.2); 
+            }
+          }
+          
+          @keyframes rainDrop {
+            0% {
+              opacity: 0.8;
+              transform: translateY(-100vh) translateX(0);
+            }
+            100% {
+              opacity: 0;
+              transform: translateY(100vh) translateX(20px);
+            }
+          }
+          
+          @keyframes floatingOrb {
+            0% {
+              opacity: 0;
+              transform: translateY(20px) scale(0.8);
+            }
+            25% {
+              opacity: 0.6;
+              transform: translateY(-10px) scale(1.2);
+            }
+            50% {
+              opacity: 1;
+              transform: translateY(10px) scale(1);
+            }
+            75% {
+              opacity: 0.4;
+              transform: translateY(-5px) scale(1.1);
+            }
+            100% {
+              opacity: 0;
+              transform: translateY(-30px) scale(0.5);
+            }
+          }
+          
+          @keyframes shootingStar {
+            0% {
+              opacity: 0;
+              transform: translateX(-100px) translateY(-50px) scale(0);
+            }
+            10% {
+              opacity: 1;
+              transform: translateX(-50px) translateY(-25px) scale(1);
+            }
+            90% {
+              opacity: 1;
+              transform: translateX(200px) translateY(100px) scale(1);
+            }
+            100% {
+              opacity: 0;
+              transform: translateX(250px) translateY(125px) scale(0);
+            }
+          }
+          
+          .animation-1:nth-child(odd) {
+            animation-duration: 8s;
+          }
+          
+          .animation-2:nth-child(3n) {
+            animation-direction: reverse;
+          }
+          
+          .animation-3:nth-child(5n) {
+            animation-duration: 12s;
+          }
+        `}</style>
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+            backgroundSize: '50px 50px'
+          }}></div>
         </div>
-      </section>
 
-      {/* Stats Section */}
-      <section className="px-6 py-16 border-t border-gray-800">
-        <div className="max-w-6xl mx-auto">
-          <p className="text-center text-gray-400 text-sm mb-8">Trusted by 50,000+ students worldwide</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { icon: Users, label: "Active Students", value: "50K+" },
-              { icon: Award, label: "Expert Tutors", value: "2,500+" },
-              { icon: FileText, label: "Completed Projects", value: "100K+" },
-              { icon: Star, label: "Average Rating", value: "4.9/5" }
-            ].map((stat, i) => (
-              <div key={i} className="text-center group">
-                <stat.icon className="w-8 h-8 text-emerald-400 mx-auto mb-3 group-hover:scale-110 transition-transform" />
-                <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
-                <div className="text-gray-400 text-sm">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section - Enhanced */}
-      <section id="features" className="px-6 py-24">
-        <div className="max-w-6xl mx-auto">
+        <div className="relative z-10 max-w-7xl mx-auto">
+          {/* Hero Content */}
           <div className="text-center mb-16">
-            <div className="inline-block bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2 mb-6">
-              <span className="text-emerald-400 font-medium text-sm">Why Choose AssignExpert</span>
-            </div>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Academic Success,
-              <br />
-              <span className="text-emerald-400">Simplified</span>
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Our platform combines cutting-edge technology with human expertise to deliver
-              exceptional academic support tailored to your specific needs.
+
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight my-8 bg-gradient-to-b from-white to-white bg-clip-text text-transparent">
+              Academic Excellence<br />
+              <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+                Delivered Instantly
+              </span>
+            </h1>
+
+            <p className="text-lg text-white leading-relaxed max-w-3xl mx-auto mb-12">
+              Transform your academic journey with AI-powered assignment assistance.
+              Upload, customize, and receive expert-quality work in minutes, not hours.
+              <span className="text-white font-medium"> Experience the future of learning.</span>
             </p>
-          </div>
+            <div className='flex flex-col sm:flex-row items-center gap-6 mx-auto w-full justify-center'>
+              <button className='group relative text-black bg-white rounded-md px-8 py-2.5 text-sm font-medium '>
+                <span className="relative z-10">Get Started Free</span>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Feature Cards */}
-            <div className="space-y-8">
-              <div className="group bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
-                <div className="flex items-start gap-6">
-                  <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Target size={28} className="text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold mb-3">Smart Expert Matching</h3>
-                    <p className="text-gray-400 mb-4">
-                      Our AI-powered algorithm matches you with the most qualified experts
-                      based on your subject, academic level, and specific requirements.
-                    </p>
-                    <div className="text-emerald-400 font-semibold">99.2% Match Success Rate</div>
-                  </div>
+              <button className='group text-white px-8 py-3 text-sm font-medium flex gap-3 items-center justify-center hover:gap-4 transition-all duration-300 hover:text-gray-200'>
+                <span>Watch Demo</span>
+                <div className="relative">
+                  <ChevronRight className='text-white size-5 transition-transform duration-300 group-hover:translate-x-1' />
+                  <div className="absolute inset-0 bg-white/20 rounded-full scale-0 group-hover:scale-150 transition-transform duration-300"></div>
                 </div>
-              </div>
-
-              <div className="group bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
-                <div className="flex items-start gap-6">
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Shield size={28} className="text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold mb-3">Quality Guaranteed</h3>
-                    <p className="text-gray-400 mb-4">
-                      All our experts are verified professionals with advanced degrees.
-                      Every project includes unlimited revisions and plagiarism checking.
-                    </p>
-                    <div className="text-blue-400 font-semibold">100% Original Work</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
-                <div className="flex items-start gap-6">
-                  <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Clock size={28} className="text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold mb-3">Lightning Fast Delivery</h3>
-                    <p className="text-gray-400 mb-4">
-                      Get connected with experts in under 60 seconds. Rush orders available
-                      with delivery as fast as 3 hours for urgent assignments.
-                    </p>
-                    <div className="text-purple-400 font-semibold">24/7 Available</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Side - Enhanced Stats */}
-            <div className="space-y-8">
-              <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-2xl p-8 border border-emerald-500/30">
-                <h3 className="text-2xl font-semibold mb-6 text-emerald-400">Live Performance</h3>
-                <div className="space-y-6">
-                  {[
-                    { label: "Active Experts Online", value: "1,247", trend: "+12%" },
-                    { label: "Projects Completed Today", value: "89", trend: "+8%" },
-                    { label: "Average Response Time", value: "< 2 min", trend: "-15%" },
-                    { label: "Client Satisfaction", value: "98.7%", trend: "+2%" }
-                  ].map((item, i) => (
-                    <div key={i} className="flex justify-between items-center">
-                      <span className="text-gray-300">{item.label}</span>
-                      <div className="flex items-center gap-3">
-                        <span className="text-white font-semibold text-lg">{item.value}</span>
-                        <span className="text-emerald-400 text-sm font-medium">{item.trend}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-6 bg-gray-800/50 rounded-full h-2">
-                  <div className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-2 rounded-full animate-pulse" style={{ width: '87%' }}></div>
-                </div>
-                <p className="text-sm text-gray-400 mt-2">87% of projects delivered ahead of schedule</p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-6 border border-gray-700 text-center group hover:border-emerald-500/50 transition-all duration-300">
-                  <Globe className="w-8 h-8 text-emerald-400 mx-auto mb-3 group-hover:scale-110 transition-transform" />
-                  <div className="text-2xl font-bold text-emerald-400 mb-2">150+</div>
-                  <p className="text-gray-400 text-sm">Countries Served</p>
-                </div>
-                <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-6 border border-gray-700 text-center group hover:border-emerald-500/50 transition-all duration-300">
-                  <TrendingUp className="w-8 h-8 text-blue-400 mx-auto mb-3 group-hover:scale-110 transition-transform" />
-                  <div className="text-2xl font-bold text-blue-400 mb-2">94%</div>
-                  <p className="text-gray-400 text-sm">Return Rate</p>
-                </div>
-              </div>
+              </button>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Services Section - Enhanced */}
-      <section id="services" className="px-6 py-24 bg-gradient-to-b from-gray-950 to-black">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-6">
-              <span className="text-blue-400 font-medium text-sm">Our Expertise</span>
-            </div>
-            <h3 className="text-4xl md:text-5xl font-bold mb-6">
-              Comprehensive Academic
-              <br />
-              <span className="text-blue-400">Support Services</span>
-            </h3>
-            <p className="text-gray-300 max-w-3xl mx-auto text-lg">
-              From essay writing to complex research projects, our verified experts
-              provide personalized support across all academic disciplines and levels.
-            </p>
-          </div>
-
-          {/* Enhanced Service Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {[
-              {
-                icon: BookOpen,
-                title: "Essay Writing",
-                description: "Custom essays, research papers, and academic writing with proper citations",
-                color: "emerald"
-              },
-              {
-                icon: Users,
-                title: "Research Support",
-                description: "Literature reviews, data analysis, and comprehensive research assistance",
-                color: "blue"
-              },
-              {
-                icon: Target,
-                title: "1-on-1 Tutoring",
-                description: "Personalized tutoring sessions with subject matter experts",
-                color: "purple"
-              },
-              {
-                icon: Award,
-                title: "Project Guidance",
-                description: "End-to-end support for complex assignments and capstone projects",
-                color: "orange"
-              }
-            ].map((service, i) => (
-              <div key={i} className={`group bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 border border-gray-700 hover:border-${service.color}-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-${service.color}-500/10 hover:-translate-y-2`}>
-                <div className={`w-12 h-12 bg-gradient-to-br from-${service.color}-500 to-${service.color}-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                  <service.icon size={24} className="text-white" />
-                </div>
-                <h4 className="font-semibold text-lg mb-3">{service.title}</h4>
-                <p className="text-gray-400 text-sm leading-relaxed">{service.description}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <h4 className="text-2xl font-semibold mb-6">
-              Get matched with the perfect expert
-              <br />
-              <span className="text-emerald-400">in under 60 seconds</span>
-            </h4>
-            <p className="text-gray-300 mb-8 max-w-2xl mx-auto text-lg">
-              Our advanced algorithm analyzes your requirements and connects you with
-              the most qualified expert for your specific academic needs.
-            </p>
-            <button className="group bg-gradient-to-r from-emerald-500 to-blue-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-emerald-400 hover:to-blue-400 transition-all duration-200 hover:shadow-xl hover:-translate-y-1">
-              Start Free Consultation
-              <ArrowRight size={20} className="inline ml-2 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section - Enhanced */}
-      <section id="pricing" className="px-6 py-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-block bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2 mb-6">
-                <span className="text-emerald-400 font-medium text-sm">Simple Pricing</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Start your academic
-                <br />
-                <span className="text-emerald-400">success journey</span>
-              </h2>
-              <p className="text-gray-300 mb-8 text-lg">
-                Get comprehensive academic support with transparent pricing.
-                No hidden fees, no long-term contracts.
-              </p>
-
-              <div className="space-y-4 mb-8">
-                {[
-                  "5 free expert consultations",
-                  "Unlimited project submissions",
-                  "24/7 customer support",
-                  "Plagiarism checking included",
-                  "Unlimited revisions"
-                ].map((feature, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <Check size={20} className="text-emerald-400" />
-                    <span className="text-gray-300">{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/20">
-                <div className="bg-gradient-to-r from-emerald-500 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold inline-block mb-6">
-                  Most Popular
-                </div>
-                <div className="mb-6">
-                  <span className="text-4xl font-bold">$9.99</span>
-                  <span className="text-gray-400">/month</span>
-                </div>
-                <button className="w-full bg-gradient-to-r from-emerald-500 to-blue-500 text-white py-4 rounded-xl font-semibold hover:from-emerald-400 hover:to-blue-400 transition-all duration-200 hover:shadow-xl hover:-translate-y-1 mb-6">
-                  Start Free Trial
-                </button>
-                <div className="text-center text-sm text-gray-400">
-                  Cancel anytime • No commitments
-                </div>
-              </div>
-
-              {/* Background decoration */}
-              <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-gradient-to-br from-emerald-500/20 to-blue-500/20 rounded-2xl blur-2xl"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced Testimonials */}
-      <section id="testimonials" className="px-6 py-24 bg-gradient-to-b from-gray-950 to-black">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-purple-500/10 border border-purple-500/20 rounded-full px-4 py-2 mb-6">
-              <span className="text-purple-400 font-medium text-sm">Student Success Stories</span>
-            </div>
-            <h3 className="text-4xl md:text-5xl font-bold mb-6">
-              What students say about
-              <br />
-              <span className="text-purple-400">AssignExpert</span>
-            </h3>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Enhanced Testimonial Cards */}
-            {[
-              {
-                rating: 5,
-                text: "AssignExpert completely transformed my academic performance. The expert I worked with understood exactly what I needed and delivered exceptional quality work.",
-                name: "Sarah Chen",
-                role: "Graduate Student, MIT",
-                avatar: "bg-gradient-to-br from-emerald-500 to-emerald-600",
-                highlight: true
-              },
-              {
-                rating: 5,
-                text: "The turnaround time is incredible! I got matched with a perfect expert in under 2 minutes and received my completed assignment ahead of schedule.",
-                name: "Alex Rodriguez",
-                role: "Computer Science, Stanford",
-                avatar: "bg-gradient-to-br from-blue-500 to-blue-600"
-              },
-              {
-                rating: 5,
-                text: "Quality work, reasonable prices, and amazing support. I've used AssignExpert for multiple projects and they never disappoint.",
-                name: "Michael Thompson",
-                role: "MBA Student, Harvard",
-                avatar: "bg-gradient-to-br from-purple-500 to-purple-600"
-              }
-            ].map((testimonial, i) => (
-              <div key={i} className={`rounded-2xl p-8 border transition-all duration-300 hover:shadow-xl hover:-translate-y-2 ${testimonial.highlight
-                  ? 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 border-emerald-500/30'
-                  : 'bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700 hover:border-purple-500/50'
-                }`}>
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} size={20} fill="currentColor" className="text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-200 mb-6 leading-relaxed">"{testimonial.text}"</p>
-                <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 ${testimonial.avatar} rounded-full flex items-center justify-center`}>
-                    <span className="text-white font-bold text-lg">
-                      {testimonial.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white">{testimonial.name}</p>
-                    <p className="text-gray-400 text-sm">{testimonial.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Navigation dots */}
-          <div className="flex justify-center gap-2 mt-12">
-            <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
-            <div className="w-8 h-2 bg-purple-400 rounded-full"></div>
-            <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
-            <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section - Enhanced */}
-      <section className="px-6 py-24">
-        <div className="max-w-4xl mx-auto text-center">
+          {/* Dashboard Preview */}
           <div className="relative">
-            {/* Background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 rounded-3xl blur-3xl"></div>
-
-            <div className="relative bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-sm rounded-3xl p-12 border border-gray-700">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Ready to excel in your
-                <br />
-                <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
-                  academic journey?
-                </span>
-              </h2>
-              <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-                Join thousands of students who trust AssignExpert for their academic success.
-                Get started with your free trial today.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-6 justify-center mb-8">
-                <button className="group bg-gradient-to-r from-emerald-500 to-blue-500 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:from-emerald-400 hover:to-blue-400 transition-all duration-200 hover:shadow-xl hover:-translate-y-1">
-                  Start Free Trial
-                  <ArrowRight size={20} className="inline ml-2 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button className="border border-gray-600 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:border-emerald-500 hover:bg-emerald-500/10 transition-all duration-200">
-                  View Pricing
-                </button>
+            {/* Main container */}
+            <div className="relative bg-gray-900 rounded-2xl border border-[#111111] shadow-2xl overflow-hidden">
+              {/* Browser bar mockup */}
+              <div className="bg-[#111111] px-4 py-3 flex items-center space-x-2 border-b border-[#111111]">
+                <div className="flex space-x-2">
+                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                </div>
+                <div className="flex-1 mx-4">
+                  <div className="bg-[#222222] rounded px-3 py-1 text-xs text-white">
+                    https://app.olyvio.com/dashboard
+                  </div>
+                </div>
               </div>
 
-              <div className="text-gray-400 text-sm">
-                No credit card required • Cancel anytime • 7-day free trial
+              {/* Dashboard image */}
+              <div className="relative">
+                <Image
+                  src="/hero.png"
+                  alt="Olyvio Dashboard - Streamlined assignment management interface"
+                  width={1200}
+                  height={700}
+                  className="w-full h-auto"
+                  priority
+                />
+                {/* Overlay gradient for depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section id="process" className="bg-black w-full h-screen overflow-hidden relative">
+        {/* Parallax Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-20"
+            style={{
+              backgroundImage: 'url("/parra.jpg")',
+              backgroundAttachment: 'fixed',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              transform: 'translateZ(0)',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+              perspective: '1000px'
+            }}
+          ></div>
+          <div className="absolute inset-0 bg-black/60"></div>
+        </div>
+        <style jsx>{`
+        @keyframes scrollUp {
+          0% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(-100%);
+          }
+        }
+        
+        @keyframes scrollDown {
+          0% {
+            transform: translateY(-100%);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) translateX(0);
+          }
+          33% {
+            transform: translateY(-20px) translateX(10px);
+          }
+          66% {
+            transform: translateY(10px) translateX(-5px);
+          }
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.3;
+            transform: scale(1.1);
+          }
+        }
+        
+        @keyframes drift {
+          0% {
+            transform: translateX(-100px) translateY(100vh);
+          }
+          100% {
+            transform: translateX(100px) translateY(-100px);
+          }
+        }
+        
+        @keyframes sparkle {
+          0%, 100% {
+            opacity: 0;
+            transform: scale(0);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        
+        .scroll-up {
+          animation: scrollUp 20s linear infinite;
+        }
+        
+        .scroll-down {
+          animation: scrollDown 20s linear infinite;
+        }
+        
+        .float-animation {
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .pulse-animation {
+          animation: pulse 4s ease-in-out infinite;
+        }
+        
+        .drift-animation {
+          animation: drift 15s linear infinite;
+        }
+        
+        .sparkle-animation {
+          animation: sparkle 3s ease-in-out infinite;
+        }
+        
+        /* Staggered delays for natural movement */
+        .delay-1 { animation-delay: 1s; }
+        .delay-2 { animation-delay: 2s; }
+        .delay-3 { animation-delay: 3s; }
+        .delay-4 { animation-delay: 4s; }
+        .delay-5 { animation-delay: 5s; }
+        
+        .star-shape {
+          clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+      `}</style>
+
+        <div 
+          className="flex flex-row w-full items-center justify-center gap-8 h-full max-w-7xl mx-auto px-4 relative z-10 parallax-bg"
+          data-parallax
+        >
+          {/* Parallax Overlay Elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Floating elements for depth */}
+            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full filter blur-3xl opacity-30 float-animation"></div>
+            <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full filter blur-3xl opacity-20 float-animation delay-1"></div>
+            <div className="absolute top-2/3 right-1/3 w-80 h-80 bg-teal-500/10 rounded-full filter blur-3xl opacity-20 float-slow delay-2"></div>
+            <div className="absolute top-1/5 right-1/5 w-40 h-40 bg-pink-500/10 rounded-full filter blur-3xl opacity-15 float-animation delay-3"></div>
+          </div>
+          {/* Content Section */}
+          <div className="w-1/2">
+            <div className="max-w-lg flex flex-col gap-6">
+              <h1 className="text-5xl font-bold text-white">Streamline Your Assignment Submission Process Today</h1>
+              <h1 className="text-sm text-white">SwiftAssign simplifies the way students submit assignments, offering customizable options and expert assistance. Experience a seamless workflow from submission to completion.</h1>
+              <div className="flex flex-row items-center gap-4">
+                <button className="text-black bg-white rounded-md px-8 py-2.5 text-sm hover:bg-gray-100 transition-colors">Login</button>
+                <button className="text-white border border-white rounded-md px-8 py-2.5 text-sm hover:bg-white hover:text-black transition-colors">Sign Up</button>
+              </div>
+            </div>
+          </div>
+
+          {/* Scrolling Images Section */}
+          <div className="w-1/2 h-full grid grid-cols-2 gap-4 overflow-hidden">
+            {/* Left Column - Scrolling Up */}
+            <div className="h-full overflow-hidden relative">
+              <div className="scroll-up flex flex-col gap-4">
+                {/* First set */}
+                <div className="w-full h-80 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <Upload className="text-white size-16" />
+                </div>
+                <div className="w-full h-80 bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <BookOpen className="text-white size-16" />
+                </div>
+                <div className="w-full h-80 bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <CheckCircle className="text-white size-16" />
+                </div>
+                {/* Duplicate set for seamless loop */}
+                <div className="w-full h-80 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <Upload className="text-white size-16" />
+                </div>
+                <div className="w-full h-80 bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <BookOpen className="text-white size-16" />
+                </div>
+                <div className="w-full h-80 bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <CheckCircle className="text-white size-16" />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Scrolling Down */}
+            <div className="h-full overflow-hidden relative">
+              <div className="scroll-down flex flex-col gap-4">
+                {/* First set */}
+                <div className="w-full h-80 bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <Users className="text-white size-16" />
+                </div>
+                <div className="w-full h-80 bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <Clock className="text-white size-16" />
+                </div>
+                <div className="w-full h-80 bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <Award className="text-white size-16" />
+                </div>
+                {/* Duplicate set for seamless loop */}
+                <div className="w-full h-80 bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <Users className="text-white size-16" />
+                </div>
+                <div className="w-full h-80 bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <Clock className="text-white size-16" />
+                </div>
+                <div className="w-full h-80 bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center rounded-2xl shadow-lg">
+                  <Award className="text-white size-16" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer - Enhanced */}
-      <footer className="px-6 py-16 border-t border-gray-800 bg-gray-950">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-5 gap-8 mb-12">
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">A</span>
-                </div>
-                <span className="text-xl font-semibold">AssignExpert</span>
-              </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                Connecting students with verified academic experts for quality assignment help.
-                Your success is our mission.
-              </p>
-              <div className="flex space-x-4">
-                {/* Social media icons placeholder */}
-                <div className="w-8 h-8 bg-gray-800 rounded-lg hover:bg-emerald-500 transition-colors cursor-pointer"></div>
-                <div className="w-8 h-8 bg-gray-800 rounded-lg hover:bg-blue-500 transition-colors cursor-pointer"></div>
-                <div className="w-8 h-8 bg-gray-800 rounded-lg hover:bg-purple-500 transition-colors cursor-pointer"></div>
-              </div>
-            </div>
+      <section className='relative w-full py-20 bg-black'>
+        <style jsx>{`
+        @keyframes scrollUp {
+          0% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(-100%);
+          }
+        }
+        
+        @keyframes scrollDown {
+          0% {
+            transform: translateY(-100%);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) translateX(0);
+          }
+          33% {
+            transform: translateY(-20px) translateX(10px);
+          }
+          66% {
+            transform: translateY(10px) translateX(-5px);
+          }
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.3;
+            transform: scale(1.1);
+          }
+        }
+        
+        @keyframes drift {
+          0% {
+            transform: translateX(-100px) translateY(100vh);
+          }
+          100% {
+            transform: translateX(100px) translateY(-100px);
+          }
+        }
+        
+        @keyframes sparkle {
+          0%, 100% {
+            opacity: 0;
+            transform: scale(0);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        
+        .scroll-up {
+          animation: scrollUp 20s linear infinite;
+        }
+        
+        .scroll-down {
+          animation: scrollDown 20s linear infinite;
+        }
+        
+        .float-animation {
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .pulse-animation {
+          animation: pulse 4s ease-in-out infinite;
+        }
+        
+        .drift-animation {
+          animation: drift 15s linear infinite;
+        }
+        
+        .sparkle-animation {
+          animation: sparkle 3s ease-in-out infinite;
+        }
+        
+        /* Staggered delays for natural movement */
+        .delay-1 { animation-delay: 1s; }
+        .delay-2 { animation-delay: 2s; }
+        .delay-3 { animation-delay: 3s; }
+        .delay-4 { animation-delay: 4s; }
+        .delay-5 { animation-delay: 5s; }
+        
+        .star-shape {
+          clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+      `}</style>
 
-            {[
-              {
-                title: "Services",
-                links: ["Essay Writing", "Research Papers", "Tutoring", "Project Help"]
-              },
-              {
-                title: "Support",
-                links: ["Help Center", "Contact Us", "Live Chat", "FAQ"]
-              },
-              {
-                title: "Company",
-                links: ["About Us", "Careers", "Blog", "Press"]
-              }
-            ].map((section, i) => (
-              <div key={i}>
-                <h4 className="font-semibold mb-4">{section.title}</h4>
-                <div className="space-y-3 text-sm text-gray-400">
-                  {section.links.map((link, j) => (
-                    <a key={j} href="#" className="block hover:text-emerald-400 transition-colors">
-                      {link}
-                    </a>
-                  ))}
+        {/* Background Animation Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+
+          {/* Drifting particles */}
+          <div className="absolute w-2 h-2 bg-white rounded-full drift-animation opacity-30"></div>
+          <div className="absolute w-1 h-1 bg-white rounded-full drift-animation delay-2 opacity-20"></div>
+          <div className="absolute w-3 h-3 bg-white rounded-full drift-animation delay-4 opacity-25"></div>
+          <div className="absolute w-1.5 h-1.5 bg-white rounded-full drift-animation delay-1 opacity-15"></div>
+          <div className="absolute w-2 h-2 bg-white rounded-full drift-animation delay-3 opacity-35"></div>
+
+          {/* Sparkling stars */}
+          <div className="absolute top-16 left-1/3 w-2 h-2 bg-white star-shape sparkle-animation"></div>
+          <div className="absolute bottom-20 right-1/3 w-1.5 h-1.5 bg-white star-shape sparkle-animation delay-2"></div>
+          <div className="absolute top-1/3 right-16 w-2.5 h-2.5 bg-white star-shape sparkle-animation delay-4"></div>
+          <div className="absolute bottom-1/3 left-16 w-1 h-1 bg-white star-shape sparkle-animation delay-1"></div>
+          <div className="absolute top-2/3 left-2/3 w-1.5 h-1.5 bg-white star-shape sparkle-animation delay-5"></div>
+
+          {/* Additional floating elements */}
+          <div className="absolute top-10 left-2/3 w-8 h-0.5 bg-white opacity-10 float-animation delay-3"></div>
+          <div className="absolute bottom-10 right-2/3 w-6 h-0.5 bg-white opacity-15 float-animation delay-1"></div>
+          <div className="absolute top-2/3 right-10 w-10 h-0.5 bg-white opacity-20 float-animation delay-4"></div>
+        </div>
+
+        <div className='w-full h-full flex flex-col items-center justify-center max-w-7xl mx-auto'>
+          <h1 className='text-3xl text-white font-bold text-center mb-16'>Discover how SwiftAssign simplifies your <br></br> assignment submission process <br></br> effortlessly.</h1>
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+            {submissionProcess.map((process, index) => {
+              const Icon = process.icon;
+              return (
+                <div key={index} className='w-full flex flex-col gap-6 text-center items-center'>
+                  <Icon className='text-white size-9' />
+                  <h1 className='text-white font-semibold text-xl'>{process.header}</h1>
+                  <h1 className='text-white text-sm mb-1'>{process.content}</h1>
+                  <button className='text-white text-sm flex flex-row items-center justify-center gap-2'>{process.linkName} <LucideChevronRight className='size-4' /></button>
                 </div>
-              </div>
-            ))}
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className='w-full py-20 bg-black'>
+        <div className='w-full h-full flex flex-col items-start justify-center max-w-7xl mx-auto'>
+          <h1 className='text-sm text-white font-semibold text-start'>Olyvio</h1>
+          <h1 className='text-3xl text-white font-bold text-start my-4 max-w-xl'>Explore Our Key Features and <br /> Benefits</h1>
+          <h1 className='text-sm text-white font-normal text-start mb-16 max-w-xl'>SwiftAssign offers a suite of features designed to enhance your assignment submission experience. From quick delivery options to expert assistance, we have you covered.</h1>
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+            {featuresSection.map((features, index) => {
+              const Icon = features.icon;
+              return (
+                <div key={index} className='w-full flex flex-col gap-6 text-start items-start'>
+                  <Icon className='text-white size-9' />
+                  <h1 className='text-white font-bold text-2xl max-w-sm'>{features.header}</h1>
+                  <h1 className='text-white text-sm mb-1'>{features.content}</h1>
+                </div>
+              )
+            })}
+            <div className='flex flex-row items-center gap-0'>
+              <button className='text-black border border-black rounded-md px-8 py-2.5 text-sm'>Learn More</button>
+              <button className='text-black px-8 py-2.5 text-sm flex gap-2 items-center justify-center'>Sign Up <LucideChevronRight className='text-black size-4' /></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className='w-full py-20 bg-black'>
+        <div className='w-full h-full flex flex-row items-start justify-between max-w-7xl mx-auto'>
+          <div className='flex flex-col gap-4'>
+            <h1 className='text-3xl text-white font-bold text-start'>Quick and Easy Sign Up</h1>
+            <h1 className='text-sm text-white font-normal text-start'>Join SwiftAssign for seamless assignment submissions.</h1>
+          </div>
+          <div className='flex flex-col gap-1'>
+            <div className='flex flex-row items-center'>
+              <input className='border border-[#22222290] placeholder-[#777] text-white text-sm bg-[#111111] rounded-md px-4 py-2.5 w-96' placeholder='Enter your email' />
+              <button className='text-white rounded-md px-8 py-2.5 text-sm'>Sign Up</button>
+            </div>
+            <h1 className='text-xs text-black font-normal text-start'>By clicking Sign Up, you agree to our Terms and Conditions.</h1>
           </div>
 
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-            <p>&copy; 2025 AssignExpert. All rights reserved.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
+
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-[#111111]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="col-span-2">
+              <div className="h-6 2xl:h-8 max-w-fit mb-1">
+                <Image src="/logo-white.png" alt="" width={100} height={50} className="h-full w-full" />
+              </div>
+              <p className="text-white mb-4">
+                Empowering students with professional academic support and quality assignments delivered on time.
+              </p>
+              <div className="flex gap-4">
+                <a href="#" className="text-[#fafafa] transition-colors">LinkedIn</a>
+                <a href="#" className="text-[#fafafa] transition-colors">Twitter</a>
+                <a href="#" className="text-[#fafafa] transition-colors">Instagram</a>
+              </div>
             </div>
+
+            <div>
+              <h4 className="font-semibold text-white mb-4">Quick Links</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-[#fafafa] transition-colors">Home</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors">About</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors">Contact</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors">FAQs</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-white mb-4">Legal</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-[#fafafa] transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-[#333333] mt-8 pt-8 text-center">
+            <p className="text-white">© 2025 Olyvio. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -605,4 +764,4 @@ const RedesignedLandingPage = () => {
   );
 };
 
-export default RedesignedLandingPage;
+export default OlyvioLanding;

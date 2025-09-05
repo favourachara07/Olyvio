@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { Search, Filter, ChevronDown, Download, Eye, Calendar, Clock, FileText, CheckCircle, XCircle, DollarSign, TrendingUp, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { Search, Filter, ChevronDown, Download, Eye, Calendar, Clock, FileText, CheckCircle, XCircle, DollarSign, TrendingUp, ArrowUpRight, ArrowDownRight, Star, SlidersHorizontal } from 'lucide-react';
+import { FaStar } from 'react-icons/fa6';
 
 interface HistoryAssignment {
     id: number;
@@ -240,10 +241,10 @@ export default function AssignmentHistory() {
         {
             title: "Average Rating",
             value: averageRating.toFixed(1),
-            icon: <div className="text-xl xl:text-2xl 2xl:text-3xl">⭐</div>,
+            icon: <FaStar className="size-4 xl:size-6 2xl:size-8 text-yellow-400"/>,
             color: "text-gray-900",
             change: renderStars(Math.round(averageRating)),
-            changeColor: "text-yellow-600"
+            changeColor: "text-yellow-400"
         },
         {
             title: "Avg. Completion",
@@ -345,7 +346,7 @@ export default function AssignmentHistory() {
                             onClick={() => setIsSubjectFilterOpen(!isSubjectFilterOpen)}
                             className="flex items-center gap-2 px-4 py-3 lg:py-1.5 xl:py-2 2xl:py-3 border border-[#D9D9D9] rounded-md hover:bg-gray-50 text-xs xl:text-sm font-medium"
                         >
-                            <Filter className="size-4 lg:size-3 2xl:size-4" />
+                            <SlidersHorizontal className="size-4 lg:size-3 2xl:size-4" />
                             {filterSubject}
                             <ChevronDown className="size-4 lg:size-3 2xl:size-4" />
                         </button>
