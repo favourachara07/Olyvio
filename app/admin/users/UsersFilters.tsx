@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/app/components/ui/Card";
 import { LucideSearch } from "lucide-react";
-import Select from "@/app/components/ui/Select";
+import { Select } from "@/app/components/ui/Select";
 
 interface UsersFiltersProps {
   searchQuery: string;

@@ -1,7 +1,7 @@
 import { Upload, ChevronDown } from "lucide-react";
 import { ChangeEvent, DragEvent } from "react";
-import Input from "@/app/components/ui/Input";
-import Select from "../../ui/Select";
+import { Input } from "@/app/components/ui/Input";
+import { Select } from "../../ui/Select";
 
 interface FieldConfig {
     label?: string;

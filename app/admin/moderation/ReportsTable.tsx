@@ -13,7 +13,8 @@ import {
   LucideUser,
   LucideClock,
   LucideCheckCircle2,
-  LucideXCircle
+  LucideXCircle,
+  LucideMoreVertical
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -32,7 +33,7 @@ export function ReportsTable({ reports }: ReportsTableProps) {
       case 'pending':
         return 'warning';
       case 'reviewed':
-        return 'info';
+        return 'secondary'; // Changed from 'info' to 'secondary' as it's a valid Badge variant
       case 'resolved':
         return 'success';
       case 'dismissed':

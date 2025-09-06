@@ -11,7 +11,7 @@ type SelectProps = {
   error?: string;
 };
 
-export default function Select({
+export function Select({
   id,
   label,
   value,

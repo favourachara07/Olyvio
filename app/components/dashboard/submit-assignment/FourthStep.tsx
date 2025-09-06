@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 import AccountNumber from '../../ui/AccountNumber';
-import Input from '../../ui/Input';
+import { Input } from '../../ui/Input';
 
 type PaymentMethod = 'card' | 'transfer';
 

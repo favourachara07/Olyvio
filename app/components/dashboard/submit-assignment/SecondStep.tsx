@@ -1,6 +1,6 @@
 import { Upload, ChevronDown } from "lucide-react";
 import { useState, ChangeEvent } from "react";
-import Select from "../../ui/Select";
+import { Select } from "../../ui/Select";
 
 type FormData = {
     title: string;

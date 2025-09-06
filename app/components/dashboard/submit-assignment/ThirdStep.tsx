@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { FaStar, FaStarHalf } from "react-icons/fa6";
-import Select from "../../ui/Select";
+import { Select } from "../../ui/Select";
 
 type TaskAssigner = {
     id: string;

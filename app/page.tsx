@@ -1,13 +1,59 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, Upload, Users, CreditCard, Shield, Star, CheckCircle, Menu, X, ArrowRight, BookOpen, Clock, Award, Zap, LucideImage, LucideFile, LucideClipboardList, LucideChevronRight, LucideMessageCircleQuestionMark, LucideFileSearch, LucideFileSearch2, LucideCircleQuestionMark } from 'lucide-react';
-import Truck from './components/ui/Truck';
+import { ChevronRight, Upload, Users, CreditCard, Shield, Star, CheckCircle, Menu, X, ArrowRight, BookOpen, Clock, Award, Zap, LucideImage, LucideFile, LucideClipboardList, LucideChevronRight, LucideMessageCircleQuestionMark, LucideFileSearch, LucideFileSearch2, LucideCircleQuestionMark, Truck } from 'lucide-react';
 import Image from 'next/image';
+
+type ComingSoonModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+const ComingSoonModal = ({ isOpen, onClose }: ComingSoonModalProps) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Modal */}
+      <div className="relative bg-gray-900 border border-gray-700 rounded-xl p-8 max-w-md mx-4 text-center">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+        >
+          <X size={20} />
+        </button>
+
+        <div className="mb-6">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Clock className="text-white" size={24} />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">Coming Soon!</h2>
+          <p className="text-gray-300 text-sm">
+            We're working hard to bring you this feature. Stay tuned for updates!
+          </p>
+        </div>
+
+        <button
+          onClick={onClose}
+          className="w-full bg-white text-black font-medium py-3 rounded-lg hover:bg-gray-100 transition-colors"
+        >
+          Got it
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const OlyvioLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   const submissionProcess = [
     {
@@ -56,21 +102,27 @@ const OlyvioLanding = () => {
     setIsMenuOpen(false);
   };
 
+  const handleButtonClick = () => {
+    setShowModal(true);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
+      <ComingSoonModal isOpen={showModal} onClose={() => setShowModal(false)} />
+
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-black">
-        <div className="max-w-7xl mx-auto py-3">
-          <div className="flex justify-between items-center h-16">
+      <nav className="fixed top-0 w-full z-40 bg-black">
+        <div className="max-w-7xl mx-auto 2xl:py-3 xl:py-3 lg:py-2 md:py-2 py-2">
+          <div className="flex justify-between items-center 2xl:h-16 xl:h-16 lg:h-12 md:h-12 h-12">
             <div className="flex items-center flex-shrink-0">
-              <div className="h-6 2xl:h-8 max-w-fit mb-1">
-                <Image src="/logo-white.png" alt="" width={100} height={50} className="h-full w-full" />
+              <div className="2xl:h-6 xl:h-6 lg:h-5 md:h-5 h-5 max-w-fit mb-1">
+                <img src="/logo-white.png" alt="" className="h-full w-auto" />
               </div>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:block flex-shrink-1">
-              <div className="ml-10 flex items-baseline space-x-8 font-medium text-sm">
+              <div className="ml-10 flex items-baseline 2xl:space-x-8 xl:space-x-8 lg:space-x-6 md:space-x-6 space-x-6 font-medium 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">
                 <button onClick={() => scrollToSection('hero')} className="text-white hover:text-blue-400 transition-colors">Home</button>
                 <button onClick={() => scrollToSection('how-it-works')} className="text-white hover:text-blue-400 transition-colors">How It Works</button>
                 <button onClick={() => scrollToSection('features')} className="text-white hover:text-blue-400 transition-colors">Features</button>
@@ -78,9 +130,9 @@ const OlyvioLanding = () => {
               </div>
             </div>
 
-            <div className='flex flex-row gap-2 flex-shrink-0'>
-              <button className='text-white border border-white rounded-md px-8 py-2 text-sm'>Join</button>
-              <button className='text-black bg-white rounded-md px-8 py-2 text-sm'>Start</button>
+            <div className='flex flex-row 2xl:gap-2 xl:gap-2 lg:gap-1.5 md:gap-1.5 gap-1.5 flex-shrink-0'>
+              <button onClick={handleButtonClick} className='text-white border border-white rounded-md 2xl:px-8 xl:px-8 lg:px-6 md:px-6 px-6 2xl:py-2 xl:py-2 lg:py-1.5 md:py-1.5 py-1.5 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs'>Join</button>
+              <button onClick={handleButtonClick} className='text-black bg-white rounded-md 2xl:px-8 xl:px-8 lg:px-6 md:px-6 px-6 2xl:py-2 xl:py-2 lg:py-1.5 md:py-1.5 py-1.5 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs'>Start</button>
             </div>
 
             {/* Mobile menu button */}
@@ -89,7 +141,7 @@ const OlyvioLanding = () => {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-white hover:text-white"
               >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
           </div>
@@ -99,17 +151,17 @@ const OlyvioLanding = () => {
         {isMenuOpen && (
           <div className="md:hidden bg-gray-900/95 backdrop-blur-lg border-t border-gray-700/50">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <button onClick={() => scrollToSection('hero')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors">Home</button>
-              <button onClick={() => scrollToSection('how-it-works')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors">How It Works</button>
-              <button onClick={() => scrollToSection('features')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors">Features</button>
-              <button onClick={() => scrollToSection('pricing')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors">Pricing</button>
+              <button onClick={() => scrollToSection('hero')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors text-sm">Home</button>
+              <button onClick={() => scrollToSection('how-it-works')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors text-sm">How It Works</button>
+              <button onClick={() => scrollToSection('features')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors text-sm">Features</button>
+              <button onClick={() => scrollToSection('pricing')} className="block px-3 py-2 text-white hover:text-blue-400 transition-colors text-sm">Pricing</button>
             </div>
           </div>
         )}
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-black relative overflow-hidden">
+      <section id="hero" className="2xl:pt-24 xl:pt-24 lg:pt-20 md:pt-20 pt-20 2xl:pb-20 xl:pb-20 lg:pb-16 md:pb-16 pb-16 2xl:px-8 xl:px-6 lg:px-4 md:px-4 px-4 bg-black relative overflow-hidden">
         {/* Animated Dot Pattern */}
         <div className="absolute inset-0">
           <div className="stars-container">
@@ -260,6 +312,7 @@ const OlyvioLanding = () => {
             animation-duration: 12s;
           }
         `}</style>
+
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
@@ -270,30 +323,30 @@ const OlyvioLanding = () => {
 
         <div className="relative z-10 max-w-7xl mx-auto">
           {/* Hero Content */}
-          <div className="text-center mb-16">
+          <div className="text-center 2xl:mb-16 xl:mb-16 lg:mb-12 md:mb-12 mb-12">
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight my-8 bg-gradient-to-b from-white to-white bg-clip-text text-transparent">
+            <h1 className="2xl:text-7xl xl:text-6xl lg:text-5xl md:text-4xl text-3xl font-bold leading-tight 2xl:my-8 xl:my-8 lg:my-6 md:my-6 my-6 bg-gradient-to-b from-white to-white bg-clip-text text-transparent">
               Academic Excellence<br />
               <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
                 Delivered Instantly
               </span>
             </h1>
 
-            <p className="text-lg text-white leading-relaxed max-w-3xl mx-auto mb-12">
+            <p className="2xl:text-lg xl:text-lg lg:text-base md:text-base text-sm text-white leading-relaxed max-w-3xl mx-auto 2xl:mb-12 xl:mb-12 lg:mb-10 md:mb-10 mb-10">
               Transform your academic journey with AI-powered assignment assistance.
               Upload, customize, and receive expert-quality work in minutes, not hours.
               <span className="text-white font-medium"> Experience the future of learning.</span>
             </p>
-            <div className='flex flex-col sm:flex-row items-center gap-6 mx-auto w-full justify-center'>
-              <button className='group relative text-black bg-white rounded-md px-8 py-2.5 text-sm font-medium '>
+            <div className='flex flex-col sm:flex-row items-center 2xl:gap-6 xl:gap-6 lg:gap-4 md:gap-4 gap-4 mx-auto w-full justify-center'>
+              <button onClick={handleButtonClick} className='group relative text-black bg-white rounded-md 2xl:px-8 xl:px-8 lg:px-6 md:px-6 px-6 2xl:py-2.5 xl:py-2.5 lg:py-2 md:py-2 py-2 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs font-medium'>
                 <span className="relative z-10">Get Started Free</span>
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
 
-              <button className='group text-white px-8 py-3 text-sm font-medium flex gap-3 items-center justify-center hover:gap-4 transition-all duration-300 hover:text-gray-200'>
+              <button className='group text-white 2xl:px-8 xl:px-8 lg:px-6 md:px-6 px-6 2xl:py-3 xl:py-3 lg:py-2 md:py-2 py-2 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs font-medium flex 2xl:gap-3 xl:gap-3 lg:gap-2 md:gap-2 gap-2 items-center justify-center hover:gap-4 transition-all duration-300 hover:text-gray-200'>
                 <span>Watch Demo</span>
                 <div className="relative">
-                  <ChevronRight className='text-white size-5 transition-transform duration-300 group-hover:translate-x-1' />
+                  <ChevronRight className='text-white 2xl:size-5 xl:size-5 lg:size-4 md:size-4 size-4 transition-transform duration-300 group-hover:translate-x-1' />
                   <div className="absolute inset-0 bg-white/20 rounded-full scale-0 group-hover:scale-150 transition-transform duration-300"></div>
                 </div>
               </button>
@@ -303,16 +356,16 @@ const OlyvioLanding = () => {
           {/* Dashboard Preview */}
           <div className="relative">
             {/* Main container */}
-            <div className="relative bg-gray-900 rounded-2xl border border-[#111111] shadow-2xl overflow-hidden">
+            <div className="relative bg-gray-900 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl border border-[#111111] shadow-2xl overflow-hidden">
               {/* Browser bar mockup */}
-              <div className="bg-[#111111] px-4 py-3 flex items-center space-x-2 border-b border-[#111111]">
+              <div className="bg-[#111111] 2xl:px-4 xl:px-4 lg:px-3 md:px-3 px-3 2xl:py-3 xl:py-3 lg:py-2 md:py-2 py-2 flex items-center space-x-2 border-b border-[#111111]">
                 <div className="flex space-x-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <div className="2xl:w-3 xl:w-3 lg:w-2 md:w-2 w-2 2xl:h-3 xl:h-3 lg:h-2 md:h-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="2xl:w-3 xl:w-3 lg:w-2 md:w-2 w-2 2xl:h-3 xl:h-3 lg:h-2 md:h-2 h-2 bg-yellow-500 rounded-full"></div>
+                  <div className="2xl:w-3 xl:w-3 lg:w-2 md:w-2 w-2 2xl:h-3 xl:h-3 lg:h-2 md:h-2 h-2 bg-green-500 rounded-full"></div>
                 </div>
-                <div className="flex-1 mx-4">
-                  <div className="bg-[#222222] rounded px-3 py-1 text-xs text-white">
+                <div className="flex-1 2xl:mx-4 xl:mx-4 lg:mx-3 md:mx-3 mx-3">
+                  <div className="bg-[#222222] rounded 2xl:px-3 xl:px-3 lg:px-2 md:px-2 px-2 2xl:py-1 xl:py-1 lg:py-0.5 md:py-0.5 py-0.5 2xl:text-xs xl:text-xs lg:text-xs md:text-xs text-xs text-white">
                     https://app.olyvio.com/dashboard
                   </div>
                 </div>
@@ -320,13 +373,10 @@ const OlyvioLanding = () => {
 
               {/* Dashboard image */}
               <div className="relative">
-                <Image
+                <img
                   src="/hero.png"
                   alt="Olyvio Dashboard - Streamlined assignment management interface"
-                  width={1200}
-                  height={700}
                   className="w-full h-auto"
-                  priority
                 />
                 {/* Overlay gradient for depth */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
@@ -337,10 +387,10 @@ const OlyvioLanding = () => {
         </div>
       </section>
 
-      <section id="process" className="bg-black w-full h-screen overflow-hidden relative">
+      <section id="process" className="bg-black w-full 2xl:h-screen xl:h-screen lg:h-[80vh] md:h-[70vh] h-[60vh] overflow-hidden relative">
         {/* Parallax Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div 
+          <div
             className="absolute inset-0 bg-cover bg-center opacity-20"
             style={{
               backgroundImage: 'url("/parra.jpg")',
@@ -454,80 +504,81 @@ const OlyvioLanding = () => {
         }
       `}</style>
 
-        <div 
-          className="flex flex-row w-full items-center justify-center gap-8 h-full max-w-7xl mx-auto px-4 relative z-10 parallax-bg"
+        <div
+          className="flex flex-col lg:flex-row w-full items-center justify-center 2xl:gap-8 xl:gap-8 lg:gap-6 md:gap-6 gap-6 h-full max-w-7xl mx-auto 2xl:px-4 xl:px-4 lg:px-3 md:px-3 px-3 relative z-10 parallax-bg"
           data-parallax
         >
           {/* Parallax Overlay Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {/* Floating elements for depth */}
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full filter blur-3xl opacity-30 float-animation"></div>
-            <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full filter blur-3xl opacity-20 float-animation delay-1"></div>
-            <div className="absolute top-2/3 right-1/3 w-80 h-80 bg-teal-500/10 rounded-full filter blur-3xl opacity-20 float-slow delay-2"></div>
-            <div className="absolute top-1/5 right-1/5 w-40 h-40 bg-pink-500/10 rounded-full filter blur-3xl opacity-15 float-animation delay-3"></div>
+            <div className="absolute top-1/4 left-1/4 2xl:w-64 xl:w-64 lg:w-48 md:w-40 w-32 2xl:h-64 xl:h-64 lg:h-48 md:h-40 h-32 bg-blue-500/10 rounded-full filter blur-3xl opacity-30 float-animation"></div>
+            <div className="absolute bottom-1/3 right-1/4 2xl:w-96 xl:w-96 lg:w-72 md:w-60 w-48 2xl:h-96 xl:h-96 lg:h-72 md:h-60 h-48 bg-purple-500/10 rounded-full filter blur-3xl opacity-20 float-animation delay-1"></div>
+            <div className="absolute top-2/3 right-1/3 2xl:w-80 xl:w-80 lg:w-60 md:w-48 w-40 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-teal-500/10 rounded-full filter blur-3xl opacity-20 float-slow delay-2"></div>
+            <div className="absolute top-1/5 right-1/5 2xl:w-40 xl:w-40 lg:w-32 md:w-24 w-20 2xl:h-40 xl:h-40 lg:h-32 md:h-24 h-20 bg-pink-500/10 rounded-full filter blur-3xl opacity-15 float-animation delay-3"></div>
           </div>
+
           {/* Content Section */}
-          <div className="w-1/2">
-            <div className="max-w-lg flex flex-col gap-6">
-              <h1 className="text-5xl font-bold text-white">Streamline Your Assignment Submission Process Today</h1>
-              <h1 className="text-sm text-white">SwiftAssign simplifies the way students submit assignments, offering customizable options and expert assistance. Experience a seamless workflow from submission to completion.</h1>
-              <div className="flex flex-row items-center gap-4">
-                <button className="text-black bg-white rounded-md px-8 py-2.5 text-sm hover:bg-gray-100 transition-colors">Login</button>
-                <button className="text-white border border-white rounded-md px-8 py-2.5 text-sm hover:bg-white hover:text-black transition-colors">Sign Up</button>
+          <div className="w-full lg:w-1/2 pt-10 md:pt-0">
+            <div className="2xl:max-w-lg xl:max-w-lg lg:max-w-md md:max-w-sm max-w-xs flex flex-col 2xl:gap-6 xl:gap-6 lg:gap-4 md:gap-4 gap-4 mx-auto md:mx-0 text-center md:text-start">
+              <h1 className="2xl:text-5xl xl:text-5xl lg:text-4xl md:text-3xl text-2xl font-bold text-white">Streamline Your Assignment Submission Process Today</h1>
+              <h1 className="2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs text-white">SwiftAssign simplifies the way students submit assignments, offering customizable options and expert assistance. Experience a seamless workflow from submission to completion.</h1>
+              <div className="flex flex-row items-center 2xl:gap-4 xl:gap-4 lg:gap-3 md:gap-3 gap-3 w-full justify-center md:justify-start">
+                <button onClick={handleButtonClick} className="text-black bg-white rounded-md 2xl:px-8 xl:px-8 lg:px-6 md:px-6 px-6 2xl:py-2.5 xl:py-2.5 lg:py-2 md:py-2 py-2 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs hover:bg-gray-100 transition-colors">Login</button>
+                <button onClick={handleButtonClick} className="text-white border border-white rounded-md 2xl:px-8 xl:px-8 lg:px-6 md:px-6 px-6 2xl:py-2.5 xl:py-2.5 lg:py-2 md:py-2 py-2 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs hover:bg-white hover:text-black transition-colors">Sign Up</button>
               </div>
             </div>
           </div>
 
           {/* Scrolling Images Section */}
-          <div className="w-1/2 h-full grid grid-cols-2 gap-4 overflow-hidden">
+          <div className="w-full lg:w-1/2 h-full grid grid-cols-2 2xl:gap-4 xl:gap-4 lg:gap-3 md:gap-3 gap-3 overflow-hidden">
             {/* Left Column - Scrolling Up */}
             <div className="h-full overflow-hidden relative">
-              <div className="scroll-up flex flex-col gap-4">
+              <div className="scroll-up flex flex-col 2xl:gap-4 xl:gap-4 lg:gap-3 md:gap-3 gap-3">
                 {/* First set */}
-                <div className="w-full h-80 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <Upload className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot5.png" alt="Screenshot 5" className="w-full h-full object-cover" />
                 </div>
-                <div className="w-full h-80 bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <BookOpen className="text-white size-16" />
-                </div>
-                <div className="w-full h-80 bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <CheckCircle className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot7.png" alt="Screenshot 7" className="w-full h-full object-cover" />
                 </div>
                 {/* Duplicate set for seamless loop */}
-                <div className="w-full h-80 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <Upload className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot1.png" alt="Screenshot 1" className="w-full h-full object-cover" />
                 </div>
-                <div className="w-full h-80 bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <BookOpen className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot3.png" alt="Screenshot 3" className="w-full h-full object-cover" />
                 </div>
-                <div className="w-full h-80 bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <CheckCircle className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot5.png" alt="Screenshot 5" className="w-full h-full object-cover" />
+                </div>
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot7.png" alt="Screenshot 7" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
 
             {/* Right Column - Scrolling Down */}
             <div className="h-full overflow-hidden relative">
-              <div className="scroll-down flex flex-col gap-4">
+              <div className="scroll-down flex flex-col 2xl:gap-4 xl:gap-4 lg:gap-3 md:gap-3 gap-3">
                 {/* First set */}
-                <div className="w-full h-80 bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <Users className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot2.png" alt="Screenshot 2" className="w-full h-full object-cover" />
                 </div>
-                <div className="w-full h-80 bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <Clock className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot4.png" alt="Screenshot 4" className="w-full h-full object-cover" />
                 </div>
-                <div className="w-full h-80 bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <Award className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot6.png" alt="Screenshot 6" className="w-full h-full object-cover" />
                 </div>
                 {/* Duplicate set for seamless loop */}
-                <div className="w-full h-80 bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <Users className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot2.png" alt="Screenshot 2" className="w-full h-full object-cover" />
                 </div>
-                <div className="w-full h-80 bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <Clock className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot4.png" alt="Screenshot 4" className="w-full h-full object-cover" />
                 </div>
-                <div className="w-full h-80 bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center rounded-2xl shadow-lg">
-                  <Award className="text-white size-16" />
+                <div className="w-full 2xl:h-80 xl:h-80 lg:h-60 md:h-48 h-40 bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center 2xl:rounded-xl xl:rounded-xl lg:rounded-xl md:rounded-xl rounded-xl shadow-lg overflow-hidden border border-[#333333]">
+                  <Image width={800} height={1600} src="/screenshot6.png" alt="Screenshot 6" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -535,7 +586,7 @@ const OlyvioLanding = () => {
         </div>
       </section>
 
-      <section className='relative w-full py-20 bg-black'>
+      <section className='relative w-full 2xl:py-20 xl:py-20 lg:py-16 md:py-16 py-16 bg-black'>
         <style jsx>{`
         @keyframes scrollUp {
           0% {
@@ -657,17 +708,18 @@ const OlyvioLanding = () => {
           <div className="absolute top-2/3 right-10 w-10 h-0.5 bg-white opacity-20 float-animation delay-4"></div>
         </div>
 
-        <div className='w-full h-full flex flex-col items-center justify-center max-w-7xl mx-auto'>
-          <h1 className='text-3xl text-white font-bold text-center mb-16'>Discover how SwiftAssign simplifies your <br></br> assignment submission process <br></br> effortlessly.</h1>
-          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+        <div className='w-full h-full flex flex-col items-center justify-center max-w-7xl mx-auto 2xl:px-4 xl:px-4 lg:px-3 md:px-3 px-3 py-20 md:py-0'>
+          <h1 className='2xl:text-3xl xl:text-3xl lg:text-2xl md:text-xl text-lg text-white font-bold text-center 2xl:mb-16 xl:mb-16 lg:mb-12 md:mb-12 mb-12 hidden md:block'>Discover how SwiftAssign simplifies your <br></br> assignment submission process <br></br> effortlessly.</h1>
+          <h1 className='2xl:text-3xl xl:text-3xl lg:text-2xl md:text-xl text-2xl text-white font-bold text-center 2xl:mb-16 xl:mb-16 lg:mb-12 md:mb-12 mb-12 md:hidden block'>Discover how<br/> SwiftAssign simplifies<br/> your assignment <br/> submission process <br></br> effortlessly.</h1>
+          <div className='grid grid-cols-1 lg:grid-cols-3 2xl:gap-8 xl:gap-8 lg:gap-6 md:gap-6 gap-6'>
             {submissionProcess.map((process, index) => {
               const Icon = process.icon;
               return (
-                <div key={index} className='w-full flex flex-col gap-6 text-center items-center'>
-                  <Icon className='text-white size-9' />
-                  <h1 className='text-white font-semibold text-xl'>{process.header}</h1>
-                  <h1 className='text-white text-sm mb-1'>{process.content}</h1>
-                  <button className='text-white text-sm flex flex-row items-center justify-center gap-2'>{process.linkName} <LucideChevronRight className='size-4' /></button>
+                <div key={index} className='w-full flex flex-col 2xl:gap-6 xl:gap-6 lg:gap-4 md:gap-4 gap-4 text-center items-center px-4'>
+                  <Icon className='text-white 2xl:size-9 xl:size-9 lg:size-8 md:size-7 size-7' />
+                  <h1 className='text-white font-semibold 2xl:text-xl xl:text-xl lg:text-lg md:text-base text-xl'>{process.header}</h1>
+                  <h1 className='text-white 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs 2xl:mb-1 xl:mb-1 lg:mb-1 md:mb-1 mb-1 px-4'>{process.content}</h1>
+                  <button onClick={handleButtonClick} className='text-white 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs flex flex-row items-center justify-center 2xl:gap-2 xl:gap-2 lg:gap-1 md:gap-1 gap-1'>{process.linkName} <LucideChevronRight className='2xl:size-4 xl:size-4 lg:size-3 md:size-3 size-3' /></button>
                 </div>
               )
             })}
@@ -675,88 +727,86 @@ const OlyvioLanding = () => {
         </div>
       </section>
 
-      <section className='w-full py-20 bg-black'>
-        <div className='w-full h-full flex flex-col items-start justify-center max-w-7xl mx-auto'>
-          <h1 className='text-sm text-white font-semibold text-start'>Olyvio</h1>
-          <h1 className='text-3xl text-white font-bold text-start my-4 max-w-xl'>Explore Our Key Features and <br /> Benefits</h1>
-          <h1 className='text-sm text-white font-normal text-start mb-16 max-w-xl'>SwiftAssign offers a suite of features designed to enhance your assignment submission experience. From quick delivery options to expert assistance, we have you covered.</h1>
-          <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+      <section className='w-full 2xl:py-20 xl:py-20 lg:py-16 md:py-16 py-16 bg-black'>
+        <div className='w-full h-full flex flex-col items-start justify-center max-w-7xl mx-auto 2xl:px-4 xl:px-4 lg:px-3 md:px-3 px-3'>
+          <h1 className='2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs text-white font-semibold text-start'>Olyvio</h1>
+          <h1 className='2xl:text-3xl xl:text-3xl lg:text-2xl md:text-xl text-lg text-white font-bold text-start 2xl:my-4 xl:my-4 lg:my-3 md:my-3 my-3 2xl:max-w-xl xl:max-w-xl lg:max-w-lg md:max-w-md max-w-sm'>Explore Our Key Features and <br /> Benefits</h1>
+          <h1 className='2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs text-white font-normal text-start 2xl:mb-16 xl:mb-16 lg:mb-12 md:mb-12 mb-12 2xl:max-w-xl xl:max-w-xl lg:max-w-lg md:max-w-md max-w-sm'>SwiftAssign offers a suite of features designed to enhance your assignment submission experience. From quick delivery options to expert assistance, we have you covered.</h1>
+          <div className='grid grid-cols-1 lg:grid-cols-3 2xl:gap-8 xl:gap-8 lg:gap-6 md:gap-6 gap-6 w-full'>
             {featuresSection.map((features, index) => {
               const Icon = features.icon;
               return (
-                <div key={index} className='w-full flex flex-col gap-6 text-start items-start'>
-                  <Icon className='text-white size-9' />
-                  <h1 className='text-white font-bold text-2xl max-w-sm'>{features.header}</h1>
-                  <h1 className='text-white text-sm mb-1'>{features.content}</h1>
+                <div key={index} className='w-full flex flex-col 2xl:gap-6 xl:gap-6 lg:gap-4 md:gap-4 gap-4 text-start items-start'>
+                  <Icon className='text-white 2xl:size-9 xl:size-9 lg:size-8 md:size-7 size-7' />
+                  <h1 className='text-white font-bold 2xl:text-2xl xl:text-2xl lg:text-xl md:text-lg text-base 2xl:max-w-sm xl:max-w-sm lg:max-w-xs md:max-w-xs max-w-xs'>{features.header}</h1>
+                  <h1 className='text-white 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs 2xl:mb-1 xl:mb-1 lg:mb-1 md:mb-1 mb-1'>{features.content}</h1>
                 </div>
               )
             })}
-            <div className='flex flex-row items-center gap-0'>
-              <button className='text-black border border-black rounded-md px-8 py-2.5 text-sm'>Learn More</button>
-              <button className='text-black px-8 py-2.5 text-sm flex gap-2 items-center justify-center'>Sign Up <LucideChevronRight className='text-black size-4' /></button>
-            </div>
+          </div>
+          <div className='flex flex-row items-center gap-0 2xl:mt-8 xl:mt-8 lg:mt-6 md:mt-6 mt-6'>
+            <button onClick={handleButtonClick} className='text-white border border-white rounded-md 2xl:px-8 xl:px-8 lg:px-6 md:px-6 px-6 2xl:py-2.5 xl:py-2.5 lg:py-2 md:py-2 py-2 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs'>Learn More</button>
+            <button onClick={handleButtonClick} className='text-white 2xl:px-8 xl:px-8 lg:px-6 md:px-6 px-6 2xl:py-2.5 xl:py-2.5 lg:py-2 md:py-2 py-2 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs flex 2xl:gap-2 xl:gap-2 lg:gap-1 md:gap-1 gap-1 items-center justify-center'>Sign Up <LucideChevronRight className='text-white 2xl:size-4 xl:size-4 lg:size-3 md:size-3 size-3' /></button>
           </div>
         </div>
       </section>
 
-      <section className='w-full py-20 bg-black'>
-        <div className='w-full h-full flex flex-row items-start justify-between max-w-7xl mx-auto'>
-          <div className='flex flex-col gap-4'>
-            <h1 className='text-3xl text-white font-bold text-start'>Quick and Easy Sign Up</h1>
-            <h1 className='text-sm text-white font-normal text-start'>Join SwiftAssign for seamless assignment submissions.</h1>
+      <section className='w-full 2xl:py-20 xl:py-20 lg:py-16 md:py-16 py-16 bg-black'>
+        <div className='w-full h-full flex flex-col lg:flex-row items-start justify-between max-w-7xl mx-auto 2xl:px-4 xl:px-4 lg:px-3 md:px-3 px-3 2xl:gap-8 xl:gap-8 lg:gap-6 md:gap-6 gap-6'>
+          <div className='flex flex-col 2xl:gap-4 xl:gap-4 lg:gap-3 md:gap-3 gap-3'>
+            <h1 className='2xl:text-3xl xl:text-3xl lg:text-2xl md:text-xl text-lg text-white font-bold text-start'>Quick and Easy Sign Up</h1>
+            <h1 className='2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs text-white font-normal text-start'>Join SwiftAssign for seamless assignment submissions.</h1>
           </div>
-          <div className='flex flex-col gap-1'>
+          <div className='flex flex-col 2xl:gap-1 xl:gap-1 lg:gap-1 md:gap-1 gap-1'>
             <div className='flex flex-row items-center'>
-              <input className='border border-[#22222290] placeholder-[#777] text-white text-sm bg-[#111111] rounded-md px-4 py-2.5 w-96' placeholder='Enter your email' />
-              <button className='text-white rounded-md px-8 py-2.5 text-sm'>Sign Up</button>
+              <input className='border border-[#22222290] placeholder-[#777] text-white 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs bg-[#111111] rounded-md 2xl:px-4 xl:px-4 lg:px-3 md:px-3 px-3 2xl:py-2.5 xl:py-2.5 lg:py-2 md:py-2 py-2 2xl:w-96 xl:w-96 lg:w-80 md:w-72 w-64' placeholder='Enter your email' />
+              <button onClick={handleButtonClick} className='text-white rounded-md 2xl:px-8 xl:px-8 lg:px-6 md:px-6 px-6 2xl:py-2.5 xl:py-2.5 lg:py-2 md:py-2 py-2 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs'>Sign Up</button>
             </div>
-            <h1 className='text-xs text-black font-normal text-start'>By clicking Sign Up, you agree to our Terms and Conditions.</h1>
+            <h1 className='2xl:text-xs xl:text-xs lg:text-xs md:text-xs text-xs text-gray-500 font-normal text-start'>By clicking Sign Up, you agree to our Terms and Conditions.</h1>
           </div>
-
-
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-[#11111170]">
+      <footer className="2xl:py-12 xl:py-12 lg:py-10 md:py-10 py-10 2xl:px-8 xl:px-6 lg:px-4 md:px-4 px-4 bg-[#11111170]">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-4 2xl:gap-8 xl:gap-8 lg:gap-6 md:gap-6 gap-6">
             <div className="col-span-2">
-              <div className="h-6 2xl:h-8 max-w-fit mb-1">
-                <Image src="/logo-white.png" alt="" width={100} height={50} className="h-full w-full" />
+              <div className="2xl:h-6 xl:h-6 lg:h-5 md:h-5 h-5 max-w-fit 2xl:mb-1 xl:mb-1 lg:mb-1 md:mb-1 mb-1">
+                <img src="/logo-white.png" alt="" className="h-full w-auto" />
               </div>
-              <p className="text-white mb-4">
+              <p className="text-white 2xl:mb-4 xl:mb-4 lg:mb-3 md:mb-3 mb-3 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">
                 Empowering students with professional academic support and quality assignments delivered on time.
               </p>
-              <div className="flex gap-4">
-                <a href="#" className="text-[#fafafa] transition-colors">LinkedIn</a>
-                <a href="#" className="text-[#fafafa] transition-colors">Twitter</a>
-                <a href="#" className="text-[#fafafa] transition-colors">Instagram</a>
+              <div className="flex 2xl:gap-4 xl:gap-4 lg:gap-3 md:gap-3 gap-3">
+                <a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">LinkedIn</a>
+                <a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">Twitter</a>
+                <a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">Instagram</a>
               </div>
             </div>
 
             <div>
-              <h4 className="font-semibold text-white mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-[#fafafa] transition-colors">Home</a></li>
-                <li><a href="#" className="text-[#fafafa] transition-colors">About</a></li>
-                <li><a href="#" className="text-[#fafafa] transition-colors">Contact</a></li>
-                <li><a href="#" className="text-[#fafafa] transition-colors">FAQs</a></li>
+              <h4 className="font-semibold text-white 2xl:mb-4 xl:mb-4 lg:mb-3 md:mb-3 mb-3 2xl:text-base xl:text-base lg:text-sm md:text-sm text-sm">Quick Links</h4>
+              <ul className="2xl:space-y-2 xl:space-y-2 lg:space-y-1 md:space-y-1 space-y-1">
+                <li><a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">Home</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">About</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">Contact</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">FAQs</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold text-white mb-4">Legal</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-[#fafafa] transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="text-[#fafafa] transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-[#fafafa] transition-colors">Cookie Policy</a></li>
+              <h4 className="font-semibold text-white 2xl:mb-4 xl:mb-4 lg:mb-3 md:mb-3 mb-3 2xl:text-base xl:text-base lg:text-sm md:text-sm text-sm">Legal</h4>
+              <ul className="2xl:space-y-2 xl:space-y-2 lg:space-y-1 md:space-y-1 space-y-1">
+                <li><a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">Terms of Service</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">Privacy Policy</a></li>
+                <li><a href="#" className="text-[#fafafa] transition-colors 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">Cookie Policy</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-[#333333] mt-8 pt-8 text-center">
-            <p className="text-white">© 2025 Olyvio. All rights reserved.</p>
+          <div className="border-t border-[#333333] 2xl:mt-8 xl:mt-8 lg:mt-6 md:mt-6 mt-6 2xl:pt-8 xl:pt-8 lg:pt-6 md:pt-6 pt-6 text-center">
+            <p className="text-white 2xl:text-sm xl:text-sm lg:text-xs md:text-xs text-xs">© 2025 Olyvio. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -764,4 +814,4 @@ const OlyvioLanding = () => {
   );
 };
 
-export default OlyvioLanding;
+export default OlyvioLanding; 

@@ -6,6 +6,7 @@ import { Select } from "@/app/components/ui/Select";
 import { Switch } from "@/app/components/ui/Switch";
 import { Label } from "@/app/components/ui/Label";
 import { LucideGlobe, LucideMail, LucideClock } from "lucide-react";
+import { useState } from "react";
 
 export function GeneralSettings() {
   // Mock data - in a real app, this would come from an API
@@ -66,7 +67,7 @@ export function GeneralSettings() {
               value={formData.siteName}
               onChange={handleChange}
               placeholder="Your site name"
-              leftIcon={<LucideGlobe className="h-4 w-4 text-gray-400" />}
+              // leftIcon={<LucideGlobe className="h-4 w-4 text-gray-400" />}
             />
           </div>
           

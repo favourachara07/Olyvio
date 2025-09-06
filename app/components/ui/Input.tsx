@@ -43,4 +43,4 @@ const Input = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProp
 
 Input.displayName = 'Input';
 
-export default Input;
+export { Input };
