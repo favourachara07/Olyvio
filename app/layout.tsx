@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Quicksand } from "next/font/google";
+import { Questrial } from "next/font/google";
 import "./globals.css";
 
-// Configure the Quicksand font
-const quicksand = Quicksand({
+// Configure the Questrial font
+const questrial = Questrial({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-quicksand",
+  weight: "400",
+  variable: "--font-questrial",
 });
 
 export const metadata: Metadata = {
@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={quicksand.variable}>
-      <body className={`${quicksand.className} antialiased`}>
+    <html lang="en" className={questrial.variable}>
+      <body className={`${questrial.className} antialiased`}>
         {children}
       </body>
     </html>

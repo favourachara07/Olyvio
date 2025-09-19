@@ -3,11 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --font-primary: var(--font-quicksand);
-  }
-  
   body {
-    font-family: 'Quicksand', sans-serif;
+    font-family: var(--font-questrial), sans-serif;
   }
 }
