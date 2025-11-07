@@ -4,7 +4,30 @@ import { Input } from '../../ui/Input';
 
 type PaymentMethod = 'card' | 'transfer';
 
-export default function FourthStep() {
+type Feature = {
+    name: string;
+    price: number;
+    selected: boolean;
+};
+
+type FourthStepProps = {
+    assigner: {
+        name: string;
+        department: string;
+        deliveryTime: string;
+        price: number;
+    };
+    features: Feature[];
+    totalPrice: number;
+    onPaymentSubmit: () => void;
+};
+
+export default function FourthStep({ 
+    assigner, 
+    features, 
+    totalPrice, 
+    onPaymentSubmit 
+}: FourthStepProps) {
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
     const [cardNumber, setCardNumber] = useState<string>('');
     const [cvv, setCvv] = useState<string>('');
@@ -137,31 +160,64 @@ export default function FourthStep() {
                         )}
 
                         {/* Pay Button */}
-                        <button className="w-full bg-black text-white py-3 mt-6 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">
-                            Pay
+                        <button 
+                            onClick={onPaymentSubmit}
+                            className="w-full bg-black text-white py-3 mt-6 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Pay ₦{totalPrice?.toLocaleString()}
                         </button>
                     </div>
 
                     {/* Right Panel - Receipt/Summary */}
-                    <div className="bg-gray-50 rounded-md p-6">
+                    <div className="bg-gray-50 rounded-md p-6 h-fit sticky top-6">
                         <h3 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h3>
-                        <div className="space-y-2 text-sm text-gray-700">
+                        <div className="space-y-3 text-sm text-gray-700">
                             <div className="flex justify-between">
                                 <span>Task Assigner</span>
-                                <span>Fabunmi George</span>
+                                <span className="font-medium text-gray-900">{assigner?.name || 'Not selected'}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span>Service</span>
-                                <span>Computer Science Project</span>
+                                <span>Department</span>
+                                <span className="text-gray-900">{assigner?.department || 'Not specified'}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span>Delivery</span>
-                                <span>2 days</span>
+                                <span>Delivery Time</span>
+                                <span className="text-gray-900">{assigner?.deliveryTime || 'Not specified'}</span>
                             </div>
-                            <hr className="my-2" />
-                            <div className="flex justify-between font-semibold text-black">
-                                <span>Total</span>
-                                <span>N 2000</span>
+                            
+                            {/* Features/Add-ons */}
+                            <div className="mt-4 pt-3 border-t border-gray-200">
+                                <h4 className="font-medium text-gray-900 mb-2">Features</h4>
+                                <div className="space-y-2">
+                                    {features.map((feature, index) => (
+                                        feature.selected && (
+                                            <div key={index} className="flex justify-between">
+                                                <span className="text-gray-600">{feature.name}</span>
+                                                <span className="text-gray-900">₦{feature.price.toLocaleString()}</span>
+                                            </div>
+                                        )
+                                    ))}
+                                    {!features.some(f => f.selected) && (
+                                        <p className="text-gray-500 text-sm">No additional features selected</p>
+                                    )}
+                                </div>
+                            </div>
+                            
+                            {/* Base Price */}
+                            <div className="pt-3 border-t border-gray-200">
+                                <div className="flex justify-between">
+                                    <span>Base Price</span>
+                                    <span className="font-medium">₦{assigner?.price?.toLocaleString() || '0'}</span>
+                                </div>
+                            </div>
+                            
+                            {/* Total */}
+                            <div className="pt-3 border-t border-gray-200">
+                                <div className="flex justify-between font-semibold text-base text-gray-900">
+                                    <span>Total</span>
+                                    <span>₦{totalPrice?.toLocaleString() || '0'}</span>
+                                </div>
+                                <p className="text-xs text-gray-500 mt-1">Inclusive of all charges</p>
                             </div>
                         </div>
                     </div>

@@ -58,10 +58,10 @@ const AssignmentTable = () => {
 
     const StatusBadge = ({ status }: { status: Assignment['status'] }) => {
         const statusStyles: Record<Assignment['status'], string> = {
-            'pending': 'bg-yellow-50 text-yellow-800 border-yellow-200',
-            'in-progress': 'bg-blue-50 text-blue-800 border-blue-200',
-            'completed': 'bg-green-50 text-green-800 border-green-200',
-            'overdue': 'bg-red-50 text-red-800 border-red-200'
+            'pending': 'bg-gray-100 text-gray-800 border-gray-200',
+            'in-progress': 'bg-gray-200 text-gray-900 border-gray-300',
+            'completed': 'bg-gray-100 text-gray-800 border-gray-200',
+            'overdue': 'bg-gray-300 text-gray-900 border-gray-400'
         };
 
         return (
@@ -73,9 +73,9 @@ const AssignmentTable = () => {
 
     const PaymentStatusBadge = ({ paymentStatus }: { paymentStatus: Assignment['paymentStatus'] }) => {
         const paymentStyles: Record<Assignment['paymentStatus'], string> = {
-            'paid': 'bg-green-50 text-green-800 border-green-200',
-            'pending': 'bg-yellow-50 text-yellow-800 border-yellow-200',
-            'unpaid': 'bg-red-50 text-red-800 border-red-200'
+            'paid': 'bg-gray-100 text-gray-800 border-gray-200',
+            'pending': 'bg-gray-200 text-gray-900 border-gray-300',
+            'unpaid': 'bg-gray-300 text-gray-900 border-gray-400'
         };
 
         return (
@@ -119,26 +119,26 @@ const AssignmentTable = () => {
         {
             title: "Total Assignments",
             value: filteredAssignments.length,
-            icon: <FileText className="size-4 xl:size-6 2xl:size-8 text-black" />,
-            color: "text-gray-900",
+            icon: <FileText className="size-4 xl:size-6 2xl:size-8 text-gray-800" />,
+            color: "text-gray-800",
         },
         {
             title: "Completed",
             value: filteredAssignments.filter(a => a.status === "completed").length,
-            icon: <CheckCircle className="size-4 xl:size-6 2xl:size-8 text-green-600" />,
-            color: "text-green-600",
+            icon: <CheckCircle className="size-4 xl:size-6 2xl:size-8 text-gray-700" />,
+            color: "text-gray-700",
         },
         {
             title: "In Progress",
             value: filteredAssignments.filter(a => a.status === "in-progress").length,
-            icon: <Clock className="size-4 xl:size-6 2xl:size-8 text-blue-600" />,
-            color: "text-blue-600",
+            icon: <Clock className="size-4 xl:size-6 2xl:size-8 text-gray-800" />,
+            color: "text-gray-800",
         },
         {
             title: "Overdue",
             value: filteredAssignments.filter(a => a.status === "overdue").length,
-            icon: <AlertCircle className="size-4 xl:size-6 2xl:size-8 text-red-600" />,
-            color: "text-red-600",
+            icon: <AlertCircle className="size-4 xl:size-6 2xl:size-8 text-gray-900" />,
+            color: "text-gray-900",
         },
     ];
 
@@ -148,8 +148,8 @@ const AssignmentTable = () => {
                 <div className="w-full">
                     <div className="flex items-center justify-between pb-6">
                         <div>
-                            <h1 className="text-sm xl:text-lg 2xl:text-2xl font-bold text-gray-900">Assignment Hub</h1>
-                            <p className="text-xs xl:text-sm text-gray-600 2xl:mt-1">Manage your academic assignments and track progress</p>
+                            <h1 className="text-sm xl:text-lg 2xl:text-2xl font-bold text-gray-800">Assignment Hub</h1>
+                            <p className="text-xs xl:text-sm text-gray-500 2xl:mt-1">Manage your academic assignments and track progress</p>
                         </div>
                         <button className="bg-black text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-colors text-xs sm:text-sm">
                             <span className="hidden lg:block sm:inline">New Assignment</span>

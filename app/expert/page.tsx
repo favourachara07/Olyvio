@@ -1,14 +1,61 @@
-import { Button } from "@/app/components/ui/Button";
+import OrderHistoryTable from '@/app/components/dashboard/OrderHistoryTable';
+import QuickActions from '@/app/components/dashboard/QuickActions';
+import RecentTab from '@/app/components/dashboard/AssignmentForm';
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/Card";
-import { Progress } from "@/app/components/ui/Progress";
-import { Calendar, Clock, DollarSign, Star, TrendingUp, Users, LucideIcon } from "lucide-react";
-import Link from "next/link";
+import { Button } from "@/app/components/ui/Button";
+import { BookOpen, Clock, MessageSquare, DollarSign, Star, type LucideIcon } from 'lucide-react';
+
+// Add CardDescription interface since it's not exported from the Card component
+interface CardDescriptionProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+const CardDescription = ({ className, children }: CardDescriptionProps) => (
+  <p className={`text-sm text-gray-500 ${className || ''}`}>{children}</p>
+);
+
+// Reusing the same components as the main dashboard for consistency
+export default function ExpertDashboardPage() {
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Expert Dashboard</h2>
+          <p className="text-gray-500 text-sm">Manage your assignments and track your progress</p>
+        </div>
+        <Button className="bg-gray-900 hover:bg-gray-800 text-white">
+          <BookOpen className="mr-2 h-4 w-4" />
+          View Guidelines
+        </Button>
+      </div>
+      
+      {/* Quick Actions - Reusing the same component as main dashboard */}
+      <QuickActions />
+      
+      {/* Recent Assignments - Using the same AssignmentForm component as main dashboard */}
+      <Card className="border border-gray-200">
+        <CardHeader className="border-b border-gray-100">
+          <CardTitle className="text-lg font-semibold">Your Assignments</CardTitle>
+          <CardDescription>Track and manage your current assignments</CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <RecentTab />
+        </CardContent>
+      </Card>
+      
+      {/* Order History - Reusing the same component as main dashboard */}
+      <OrderHistoryTable />
+    </div>
+  );
+}
 
 // Types
 type QuickAction = {
   title: string;
   icon: LucideIcon;
   href: string;
+  description: string;
 };
 
 type UpcomingSession = {
@@ -16,6 +63,8 @@ type UpcomingSession = {
   title: string;
   time: string;
   student: string;
+  subject: string;
+  duration: string;
 };
 
 type Stats = {
@@ -24,164 +73,81 @@ type Stats = {
   totalEarnings: number;
   pendingTasks: number;
   profileCompletion: number;
-  upcomingSessions: UpcomingSession[];
-  quickActions: QuickAction[];
+  responseRate: number;
+  upcomingSessions: Array<{
+    id: number;
+    title: string;
+    student: string;
+    subject: string;
+    time: string;
+    duration: string;
+  }>;
+  quickActions: Array<{
+    title: string;
+    description: string;
+    href: string;
+    icon: LucideIcon;
+  }>;
 };
 
 // Mock data - replace with actual data from your API
 const stats: Stats = {
-  completedSessions: 128,
-  averageRating: 4.8,
-  totalEarnings: 3250,
+  completedSessions: 24,
+  averageRating: 4.7,
+  totalEarnings: 1850,
   pendingTasks: 3,
-  profileCompletion: 85,
+  profileCompletion: 92,
+  responseRate: 95,
   upcomingSessions: [
-    { id: 1, title: 'Math Tutoring', time: 'Today, 2:00 PM', student: 'Alex Johnson' },
-    { id: 2, title: 'Physics Help', time: 'Tomorrow, 10:00 AM', student: 'Sam Wilson' },
+    { 
+      id: 1, 
+      title: 'Advanced Calculus', 
+      student: 'John D.', 
+      subject: 'Mathematics',
+      time: 'Tomorrow, 2:00 PM',
+      duration: '1 hour'
+    },
+    { 
+      id: 2, 
+      title: 'Quantum Physics', 
+      student: 'Sarah M.', 
+      subject: 'Physics',
+      time: 'Nov 10, 10:00 AM',
+      duration: '45 mins'
+    },
   ],
   quickActions: [
-    { title: 'Update Availability', icon: Calendar, href: '/dashboard/expert/calendar' },
-    { title: 'View Messages', icon: Users, href: '/dashboard/expert/messages' },
-    { title: 'Track Earnings', icon: DollarSign, href: '/dashboard/expert/earnings' },
+    {
+      title: 'Set Availability',
+      description: 'Update your available hours',
+      href: '/expert/availability',
+      icon: Clock
+    },
+    {
+      title: 'View Messages',
+      description: 'Check your inbox',
+      href: '/expert/messages',
+      icon: MessageSquare
+    },
+    {
+      title: 'Earnings',
+      description: 'View your payment history',
+      href: '/expert/earnings',
+      icon: DollarSign
+    }
   ]
 };
-
-export default function ExpertDashboardPage() {
-  return (
-    <div className="space-y-6">
-      {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-[#333333]">Welcome back, Dr. Smith</h2>
-          <p className="text-[#666666] text-sm">Here's what's happening with your account today</p>
-        </div>
-        <Button className="bg-[#0096FF] hover:bg-[#0080E5] text-white">
-          New Session
-        </Button>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard 
-          title="Completed Sessions" 
-          value={stats.completedSessions} 
-          icon={Clock}
-          trend="+12% from last month"
-        />
-        <StatCard 
-          title="Average Rating" 
-          value={stats.averageRating} 
-          icon={Star}
-          trend="4.8/5.0"
-          isRating
-        />
-        <StatCard 
-          title="Total Earnings" 
-          value={`$${stats.totalEarnings.toLocaleString()}`} 
-          icon={DollarSign}
-          trend="+$450 from last month"
-        />
-        <StatCard 
-          title="Pending Tasks" 
-          value={stats.pendingTasks} 
-          icon={TrendingUp}
-          trend="2 due today"
-          warning={stats.pendingTasks > 0}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Profile Completion */}
-        <Card className="lg:col-span-1">
-          <CardHeader>
-            <CardTitle className="text-lg font-medium">Profile Completion</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-[#666666]">Profile Strength</span>
-                  <span className="font-medium">{stats.profileCompletion}%</span>
-                </div>
-                <Progress value={stats.profileCompletion} className="h-2" />
-              </div>
-              <p className="text-sm text-[#666666]">
-                Complete your profile to get more students and increase your earnings potential.
-              </p>
-              <Button variant="outline" className="w-full border-[#0096FF] text-[#0096FF] hover:bg-[#0096FF10]">
-                Complete Profile
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Upcoming Sessions */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-lg font-medium">Upcoming Sessions</CardTitle>
-            <Link href="/dashboard/expert/calendar" className="text-sm text-[#0096FF] hover:underline">
-              View All
-            </Link>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {stats.upcomingSessions.length > 0 ? (
-                <div className="space-y-4">
-                  {stats.upcomingSessions.map((session) => (
-                    <div key={session.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors">
-                      <div>
-                        <h4 className="font-medium">{session.title}</h4>
-                        <p className="text-sm text-[#666666]">{session.student}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-medium">{session.time}</p>
-                        <Button variant="outline" size="sm" className="mt-2 border-[#0096FF] text-[#0096FF] hover:bg-[#0096FF10]">
-                          Join Session
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-[#666666]">
-                  <p>No upcoming sessions scheduled</p>
-                  <Button variant="link" className="text-[#0096FF] p-0 h-auto">
-                    View Available Time Slots
-                  </Button>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {stats.quickActions.map((action, index) => (
-          <Link key={index} href={action.href}>
-            <Card className="h-full transition-all hover:shadow-md cursor-pointer">
-              <CardContent className="p-4 flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-[#0096FF10] text-[#0096FF]">
-                  <action.icon className="h-5 w-5" />
-                </div>
-                <span className="font-medium">{action.title}</span>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 // Reusable Stat Card Component
 interface StatCardProps {
   title: string;
   value: string | number;
   icon: LucideIcon;
-  trend?: string;
+  trend?: { value: string; positive: boolean };
   isRating?: boolean;
   warning?: boolean;
+  iconBg?: string;
+  iconColor?: string;
 }
 
 function StatCard({ 
@@ -190,25 +156,45 @@ function StatCard({
   icon: Icon, 
   trend, 
   isRating = false, 
-  warning = false 
+  warning = false,
+  iconBg = 'bg-gray-100',
+  iconColor = 'text-gray-600'
 }: StatCardProps) {
   return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
+    <Card className="overflow-hidden">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm text-[#666666]">{title}</p>
-            <p className={`text-2xl font-bold mt-1 ${warning ? 'text-amber-500' : 'text-[#333333]'}`}>
-              {value}{isRating && <span className="text-base font-normal">/5.0</span>}
+            <p className="text-sm font-medium text-gray-500">{title}</p>
+            <p className={`mt-1 text-2xl font-semibold ${warning ? 'text-red-600' : 'text-gray-900'}`}>
+              {isRating ? (
+                <span className="flex items-center">
+                  {value}
+                  <Star className="ml-1 h-4 w-4 fill-amber-400 text-amber-400" />
+                </span>
+              ) : (
+                value
+              )}
             </p>
             {trend && (
-              <p className={`text-xs mt-1 ${trend.startsWith('+') ? 'text-green-500' : 'text-[#666666]'}`}>
-                {trend}
+              <p className={`mt-1 flex items-center text-xs ${trend.positive ? 'text-green-600' : 'text-red-600'}`}>
+                {trend.positive ? (
+                  <svg className="mr-1 h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M12 7a1 1 0 01-1.707-.707L10 5.586 8.707 6.293a1 1 0 11-1.414-1.414l2-2a1 1 0 011.414 0l2 2A1 1 0 0112 7z" clipRule="evenodd" />
+                    <path fillRule="evenodd" d="M12 7v8a1 1 0 11-2 0V7a1 1 0 012 0z" clipRule="evenodd" />
+                  </svg>
+                ) : (
+                  <svg className="mr-1 h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M12 13a1 1 0 100-2H8a1 1 0 100 2h4z" clipRule="evenodd" />
+                    <path fillRule="evenodd" d="M12 13a1 1 0 001-1V7a1 1 0 00-1.707-.707L9 8.586 7.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2A1 1 0 0012 7v5a1 1 0 001 1z" clipRule="evenodd" />
+                  </svg>
+                )}
+                {trend.value}
               </p>
             )}
           </div>
-          <div className={`p-3 rounded-lg ${warning ? 'bg-amber-50 text-amber-500' : 'bg-[#0096FF10] text-[#0096FF]'}`}>
-            <Icon className="h-5 w-5" />
+          <div className={`p-2.5 rounded-lg ${iconBg}`}>
+            <Icon className={`h-5 w-5 ${iconColor}`} />
           </div>
         </div>
       </CardContent>

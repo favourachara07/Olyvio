@@ -1,4 +1,4 @@
-import { Upload, ChevronDown } from "lucide-react";
+import { Upload, ChevronDown, File as LucideFile } from "lucide-react";
 import { ChangeEvent, DragEvent } from "react";
 import { Input } from "@/app/components/ui/Input";
 import { Select } from "../../ui/Select";
@@ -89,33 +89,76 @@ export default function FirstStep<T extends FormDataBase>({
                             <label className="block text-xs font-semibold text-black mb-2">
                                 File Upload
                             </label>
-                            <div
-                                className={`relative border-2 border-dashed rounded-md p-8 text-center transition-colors ${dragActive
-                                    ? 'border-black bg-gray-50'
-                                    : 'border-[#D9D9D9] hover:border-gray-400'
-                                    }`}
-                                onDragEnter={onDrag}
-                                onDragOver={onDrag}
-                                onDragLeave={onDrag}
-                                onDrop={onDrop}
-                            >
-                                <div className="flex flex-col items-center justify-center space-y-2">
-                                    <Upload className="h-8 w-8 text-gray-400" />
-                                    <p className="text-sm text-gray-600">
-                                        <span className="font-medium text-black">Click to upload</span> or drag and drop
-                                    </p>
-                                    <p className="text-xs text-gray-500">
-                                        PDF, DOCX, or TXT (max. 10MB)
-                                    </p>
+                            {!formData.file ? (
+                                <div
+                                    className={`relative border-2 border-dashed rounded-md p-8 text-center transition-colors ${dragActive
+                                        ? 'border-black bg-gray-50'
+                                        : 'border-[#D9D9D9] hover:border-gray-400'
+                                        }`}
+                                    onDragEnter={onDrag}
+                                    onDragOver={onDrag}
+                                    onDragLeave={onDrag}
+                                    onDrop={onDrop}
+                                >
+                                    <div className="flex flex-col items-center justify-center space-y-2">
+                                        <Upload className="h-8 w-8 text-gray-400" />
+                                        <p className="text-sm text-gray-600">
+                                            <span className="font-medium text-black">Click to upload</span> or drag and drop
+                                        </p>
+                                        <p className="text-xs text-gray-500">
+                                            PDF, DOCX, or TXT (max. 10MB)
+                                        </p>
+                                    </div>
+                                    <input
+                                        type="file"
+                                        id="file-upload"
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                        onChange={handleFileChange}
+                                        accept=".pdf,.doc,.docx,.txt"
+                                    />
                                 </div>
-                                <input
-                                    type="file"
-                                    id="file-upload"
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                    onChange={onFileUpload}
-                                    accept=".pdf,.doc,.docx,.txt"
-                                />
-                            </div>
+                            ) : (
+                                <div className="border border-gray-200 rounded-md p-4 bg-gray-50">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-3">
+                                            <div className="p-2 bg-gray-100 rounded-md">
+                                                <LucideFile className="h-5 w-5 text-gray-600" />
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-900 truncate max-w-xs">
+                                                    {formData.file.name}
+                                                </p>
+                                                <p className="text-xs text-gray-500">
+                                                    {(formData.file.size / 1024 / 1024).toFixed(2)} MB • {formData.file.name.split('.').pop()?.toUpperCase()}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="text-gray-400 hover:text-gray-600"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                onInputChange('file', null);
+                                            }}
+                                        >
+                                            <span className="sr-only">Remove file</span>
+                                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div className="mt-3 w-full bg-gray-200 rounded-full h-1.5">
+                                        <div 
+                                            className="h-1.5 rounded-full bg-gray-900" 
+                                            style={{ width: '100%' }}
+                                        />
+                                    </div>
+                                    <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
+                                        <span>Uploaded</span>
+                                        <span>100%</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
 

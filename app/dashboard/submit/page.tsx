@@ -24,6 +24,14 @@ type FormData = {
     deliveryUrgency: string;
     additionalInstructions: string;
 
+    // Features
+    plagiarismCheck: boolean;
+    proofreading: boolean;
+    plagiarism: boolean;
+    executiveSummary: boolean;
+    presentationSlides: boolean;
+    coverPageStyle: string;
+
     // Research specific fields
     researchType?: string;
     methodology?: string;
@@ -50,6 +58,16 @@ type FormData = {
     cvv: string;
 };
 
+type TaskAssigner = {
+    id: string;
+    name: string;
+    department: string;
+    price: number;
+    deliveryTime: string;
+    rating: number;
+    image: string;
+};
+
 type Step = {
     number: number;
     title: string;
@@ -72,6 +90,12 @@ export default function SubmissionForm() {
         pageCount: '',
         deliveryUrgency: '',
         additionalInstructions: '',
+        plagiarismCheck: false,
+        plagiarism: false, // Added missing field
+        proofreading: false,
+        executiveSummary: false,
+        presentationSlides: false,
+        coverPageStyle: '',
         researchType: '',
         methodology: '',
         sourcesRequired: 5,
@@ -85,6 +109,8 @@ export default function SubmissionForm() {
         expiryDate: '',
         cvv: ''
     });
+
+    const [selectedAssigner, setSelectedAssigner] = useState<TaskAssigner | null>(null);
     
     const [isLoading, setIsLoading] = useState(false);
     const [aiCheckComplete, setAiCheckComplete] = useState(false);
@@ -94,6 +120,69 @@ export default function SubmissionForm() {
     const [currentStep, setCurrentStep] = useState(1);
     const [dragActive, setDragActive] = useState(false);
     const [price, setPrice] = useState<string>('0');
+    
+    // Feature prices in Naira
+    const featurePrices = {
+        plagiarismCheck: 5000,    // N5,000
+        proofreading: 3000,      // N3,000
+        executiveSummary: 4000,  // N4,000
+        presentationSlides: 6000, // N6,000
+        coverPage: 2000,         // N2,000
+        basePrice: 10000,        // N10,000 base price
+        pagePrice: 1000,         // N1,000 per page
+        urgentDelivery: 1.5,     // 50% premium
+        standardDelivery: 1.2,   // 20% premium
+    };
+
+    // Calculate price based on form data in Naira
+    const calculatePrice = (formData: FormData): { basePrice: number; totalPrice: number; features: Array<{name: string; price: number; selected: boolean}> } => {
+        // Start with base price
+        let basePrice = featurePrices.basePrice;
+        
+        // Add price based on page count if available
+        if (formData.pageCount) {
+            const pages = parseInt(formData.pageCount) || 1;
+            basePrice += (pages - 1) * featurePrices.pagePrice; // First page included in base price
+        }
+        
+        // Apply delivery urgency multiplier
+        if (formData.deliveryUrgency === '24h') {
+            basePrice *= featurePrices.urgentDelivery;
+        } else if (formData.deliveryUrgency === '3d') {
+            basePrice *= featurePrices.standardDelivery;
+        }
+        
+        // Calculate feature prices
+        const features = [
+            { name: 'Plagiarism Check', price: featurePrices.plagiarismCheck, selected: formData.plagiarismCheck },
+            { name: 'Professional Proofreading', price: featurePrices.proofreading, selected: formData.proofreading },
+            { name: 'Executive Summary', price: featurePrices.executiveSummary, selected: formData.executiveSummary },
+            { name: 'Presentation Slides', price: featurePrices.presentationSlides, selected: formData.presentationSlides },
+            { name: 'Premium Cover Page', price: featurePrices.coverPage, selected: !!formData.coverPageStyle },
+        ];
+        
+        // Calculate total price including selected features
+        const selectedFeaturesTotal = features
+            .filter(feature => feature.selected)
+            .reduce((sum, feature) => sum + feature.price, 0);
+            
+        const totalPrice = Math.round(basePrice + selectedFeaturesTotal);
+        
+        return { basePrice: Math.round(basePrice), totalPrice, features };
+    };
+    
+    // Get current price breakdown
+    const { basePrice, totalPrice, features } = calculatePrice(formData);
+    
+    // Format price as Naira
+    const formatPrice = (amount: number) => {
+        return new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: 'NGN',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(amount);
+    };
 
     const getSteps = (): Step[] => {
         const baseSteps: Step[] = [];
@@ -186,9 +275,9 @@ export default function SubmissionForm() {
         const newErrors: Record<string, string> = {};
 
         if (step === 1) {
-            if (formData.title.trim()) newErrors.title = 'Title is required';
-            if (formData.description.trim()) newErrors.description = 'Description is required';
-            if (formData.department) newErrors.department = 'Department is required';
+            if (!formData.title.trim()) newErrors.title = 'Title is required';
+            if (!formData.description.trim()) newErrors.description = 'Description is required';
+            if (!formData.department) newErrors.department = 'Department is required';
         }
 
         setErrors(newErrors);
@@ -253,18 +342,39 @@ export default function SubmissionForm() {
         }
     };
 
-    const renderStepContent = () => {
-        // Common props for all steps
-        const commonProps = {
-            formData,
-            onInputChange,
-            onFileUpload: handleFileUpload,
-            onDrag: handleDrag,
-            onDrop: handleDrop,
-            dragActive,
-            errors
-        };
+    // Form input change handler with proper typing
+    const handleInputChange = <K extends keyof FormData>(field: K, value: FormData[K]) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
 
+    // Common props for all steps
+    const commonProps = {
+        formData: {
+            ...formData,
+            // Ensure all required fields are present
+            plagiarism: formData.plagiarism || false,
+            proofreading: formData.proofreading || false,
+            executiveSummary: formData.executiveSummary || false,
+            presentationSlides: formData.presentationSlides || false,
+        },
+        onInputChange: <K extends keyof FormData>(field: K, value: FormData[K]) => {
+            // Convert string 'yes'/'no' to boolean for boolean fields
+            if (['plagiarism', 'proofreading', 'executiveSummary', 'presentationSlides'].includes(field)) {
+                value = (value === 'yes' || value === true) as FormData[K];
+            }
+            handleInputChange(field, value);
+        },
+        onFileUpload: handleFileUpload,
+        onDrag: handleDrag,
+        onDrop: handleDrop,
+        dragActive,
+        errors: {}
+    };
+
+    const renderStepContent = () => {
         // Research Flow
         if (actionType === 'research') {
             switch (currentStep) {
@@ -439,17 +549,45 @@ export default function SubmissionForm() {
             }
         }
         
-        // Map of step components for cleaner rendering
-        const stepComponents = [
-            null, // 0-indexed, so we start from index 1
-            FirstStep,
-            SecondStep,
-            ThirdStep,
-            FourthStep
-        ];
-
-        const StepComponent = stepComponents[currentStep];
-        return StepComponent ? <StepComponent {...commonProps} /> : null;
+        // Render the appropriate step component with required props
+        switch (currentStep) {
+            case 1:
+                return <FirstStep {...commonProps} />;
+            case 2:
+                return <SecondStep {...commonProps} />;
+            case 3:
+                return (
+                    <ThirdStep 
+                        onSelectAssigner={setSelectedAssigner} 
+                        selectedAssignerId={selectedAssigner?.id || null} 
+                    />
+                );
+            case 4:
+                return (
+                    <FourthStep 
+                        assigner={selectedAssigner ? {
+                            name: selectedAssigner.name,
+                            department: selectedAssigner.department,
+                            deliveryTime: selectedAssigner.deliveryTime,
+                            price: selectedAssigner.price
+                        } : {
+                            name: 'Not selected',
+                            department: 'N/A',
+                            deliveryTime: 'N/A',
+                            price: 0
+                        }}
+                        features={features}
+                        totalPrice={totalPrice}
+                        onPaymentSubmit={() => {
+                            // Handle payment submission
+                            alert(`Payment of ${formatPrice(totalPrice)} initiated`);
+                            // Proceed to next step or show success message
+                        }}
+                    />
+                );
+            default:
+                return null;
+        }
     };
 
     return (
@@ -465,7 +603,7 @@ export default function SubmissionForm() {
                     </p>
                 </div>
                 <div className="text-right">
-                    <span className="text-sm font-medium text-gray-900">₦{price}</span>
+                    <span className="text-sm font-medium text-gray-900">{formatPrice(totalPrice)}</span>
                 </div>
             </div>
 

@@ -125,12 +125,12 @@ export default function AssignmentHistory() {
     };
 
     const gradeColors = {
-        "A+": "bg-green-100 text-green-800 border-green-200",
-        "A": "bg-green-100 text-green-700 border-green-200",
-        "A-": "bg-green-50 text-green-700 border-green-200",
-        "B+": "bg-blue-100 text-blue-800 border-blue-200",
-        "B": "bg-blue-50 text-blue-700 border-blue-200",
-        "B-": "bg-yellow-100 text-yellow-700 border-yellow-200"
+        "A+": "bg-gray-100 text-gray-800 border-gray-200",
+        "A": "bg-gray-100 text-gray-800 border-gray-200",
+        "A-": "bg-gray-100 text-gray-800 border-gray-200",
+        "B+": "bg-gray-200 text-gray-900 border-gray-300",
+        "B": "bg-gray-200 text-gray-900 border-gray-300",
+        "B-": "bg-gray-300 text-gray-900 border-gray-400"
     };
 
     const subjects = [...new Set(assignments.map(a => a.subject))];
@@ -190,14 +190,14 @@ export default function AssignmentHistory() {
 
     const PaymentMethodBadge = ({ method, amount }: { method: HistoryAssignment['paymentMethod'], amount: number }) => {
         const methodStyles = {
-            card: 'bg-blue-50 text-blue-800 border-blue-200',
-            transfer: 'bg-purple-50 text-purple-800 border-purple-200',
-            paypal: 'bg-yellow-50 text-yellow-800 border-yellow-200'
+            card: 'bg-gray-100 text-gray-800 border-gray-200',
+            transfer: 'bg-gray-100 text-gray-800 border-gray-200',
+            paypal: 'bg-gray-200 text-gray-900 border-gray-300'
         };
 
         return (
             <div className="text-center">
-                <div className="text-sm xl:text-base 2xl:text-lg font-bold text-green-600 mb-1">${amount}</div>
+                <div className="text-sm xl:text-base 2xl:text-lg font-bold text-gray-800 mb-1">${amount}</div>
                 <span className={`inline-flex items-center px-1.5 2xl:px-2.5 py-0.5 2xl:py-1 rounded-xl 2xl:rounded-full text-[8px] 2xl:text-xs font-medium border ${methodStyles[method]}`}>
                     {method.charAt(0).toUpperCase() + method.slice(1)}
                 </span>
@@ -208,8 +208,10 @@ export default function AssignmentHistory() {
     const RatingDisplay = ({ rating, feedback }: { rating: number, feedback: string }) => {
         return (
             <div className="text-center">
-                <div className="text-lg text-yellow-400 2xl:text-xl mb-1">{renderStars(rating)}</div>
-                <div className="text-[8px] 2xl:text-xs text-gray-600">({rating}/5)</div>
+                <div className="text-lg text-gray-700 2xl:text-xl mb-1">
+                    {renderStars(rating).replace(/★/g, '★').replace(/☆/g, '☆')}
+                </div>
+                <div className="text-[8px] 2xl:text-xs text-gray-500">({rating}/5)</div>
                 {feedback && (
                     <div className="mt-2 text-[8px] 2xl:text-xs text-gray-500 italic max-w-32 2xl:max-w-40 mx-auto">
                         "{feedback.length > 50 ? feedback.substring(0, 50) + '...' : feedback}"
@@ -223,37 +225,37 @@ export default function AssignmentHistory() {
         {
             title: "Total Completed",
             value: assignments.length,
-            icon: <CheckCircle className="size-4 xl:size-6 2xl:size-8 text-green-600" />,
-            color: "text-gray-900",
+            icon: <CheckCircle className="size-4 xl:size-6 2xl:size-8 text-gray-700" />,
+            color: "text-gray-800",
             change: "+12% this month",
-            changeIcon: <TrendingUp className="w-3 h-3" />,
-            changeColor: "text-green-600"
+            changeIcon: <TrendingUp className="w-3 h-3 text-gray-700" />,
+            changeColor: "text-gray-700"
         },
         {
             title: "Total Earnings",
             value: `$${totalEarnings.toLocaleString()}`,
-            icon: <DollarSign className="size-4 xl:size-6 2xl:size-8 text-green-600" />,
-            color: "text-gray-900",
+            icon: <DollarSign className="size-4 xl:size-6 2xl:size-8 text-gray-700" />,
+            color: "text-gray-800",
             change: "+8% this month",
-            changeIcon: <ArrowUpRight className="w-3 h-3" />,
-            changeColor: "text-green-600"
+            changeIcon: <ArrowUpRight className="w-3 h-3 text-gray-700" />,
+            changeColor: "text-gray-700"
         },
         {
             title: "Average Rating",
             value: averageRating.toFixed(1),
-            icon: <FaStar className="size-4 xl:size-6 2xl:size-8 text-yellow-400"/>,
-            color: "text-gray-900",
-            change: renderStars(Math.round(averageRating)),
-            changeColor: "text-yellow-400"
+            icon: <FaStar className="size-4 xl:size-6 2xl:size-8 text-gray-700"/>,
+            color: "text-gray-800",
+            change: renderStars(Math.round(averageRating)).replace(/★/g, '★').replace(/☆/g, '☆'),
+            changeColor: "text-gray-700"
         },
         {
             title: "Avg. Completion",
             value: `${averageCompletionTime.toFixed(1)} days`,
-            icon: <Clock className="size-4 xl:size-6 2xl:size-8 text-blue-600" />,
-            color: "text-gray-900",
+            icon: <Clock className="size-4 xl:size-6 2xl:size-8 text-gray-700" />,
+            color: "text-gray-800",
             change: "-2 days vs last month",
-            changeIcon: <Clock className="w-3 h-3" />,
-            changeColor: "text-blue-600"
+            changeIcon: <Clock className="w-3 h-3 text-gray-700" />,
+            changeColor: "text-gray-700"
         },
     ];
 
@@ -264,8 +266,8 @@ export default function AssignmentHistory() {
                 <div className="w-full">
                     <div className="flex items-center justify-between pb-6">
                         <div>
-                            <h1 className="text-sm xl:text-lg 2xl:text-2xl font-bold text-gray-900">Assignment History</h1>
-                            <p className="text-xs xl:text-sm text-gray-600 2xl:mt-1">Track your completed assignments and performance metrics</p>
+                            <h1 className="text-sm xl:text-lg 2xl:text-2xl font-bold text-gray-800">Assignment History</h1>
+                            <p className="text-xs xl:text-sm text-gray-500 2xl:mt-1">Track your completed assignments and performance metrics</p>
                         </div>
                         <button className="bg-black text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-colors text-xs sm:text-sm">
                             <span className="hidden lg:block sm:inline">Export Report</span>

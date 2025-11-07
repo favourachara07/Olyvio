@@ -1,41 +1,44 @@
 import { Upload, ChevronDown } from "lucide-react";
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent, DragEvent } from "react";
 import { Select } from "../../ui/Select";
 
-type FormData = {
+// Define the form data type for the second step
+type SecondStepFormData = {
     title: string;
     description: string;
     file: File | null;
     department: string;
-    proofreading: string;
-    plagiarism: string;
-    executiveSummary: string;
-    presentationSlides: string;
+    proofreading: boolean;
+    plagiarism: boolean;
+    executiveSummary: boolean;
+    presentationSlides: boolean;
     courseSubject: string;
     writingStyle: string;
     pageCount: string;
     deliveryUrgency: string;
     coverPageStyle: string;
+    [key: string]: any; // For any additional fields
 };
 
-export default function SecondStep() {
-    const [formData, setFormData] = useState<FormData>({
-        title: '',
-        description: '',
-        file: null,
-        proofreading: '',
-        executiveSummary: '',
-        department: '',
-        plagiarism: '',
-        courseSubject: '',
-        writingStyle: '',
-        presentationSlides:'',
-        pageCount: '',
-        deliveryUrgency: '',
-        coverPageStyle: ''
-    });
+type SecondStepProps = {
+    formData: SecondStepFormData;
+    onInputChange: <K extends keyof SecondStepFormData>(field: K, value: SecondStepFormData[K]) => void;
+    onFileUpload: (e: ChangeEvent<HTMLInputElement>) => void;
+    onDrag: (e: DragEvent<HTMLDivElement>) => void;
+    onDrop: (e: DragEvent<HTMLDivElement>) => void;
+    dragActive: boolean;
+    errors: Record<string, string>;
+};
 
-    const [dragActive, setDragActive] = useState(false);
+export default function SecondStep({
+    formData,
+    onInputChange,
+    onFileUpload,
+    onDrag,
+    onDrop,
+    dragActive,
+    errors
+}: SecondStepProps) {
 
     // Cover page options with placeholder images
     const coverPageOptions = [
@@ -47,31 +50,37 @@ export default function SecondStep() {
         { id: 'scientific', name: 'Scientific', image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=600&fit=crop&crop=center' }
     ];
 
-    const handleInputChange = (field: keyof FormData, value: string | File | null) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+    const handleInputChange = <K extends keyof SecondStepFormData>(field: K, value: SecondStepFormData[K]) => {
+        onInputChange(field, value);
     };
 
-    const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleCheckboxChange = (field: string, checked: boolean) => {
+        onInputChange(field, checked);
+    };
+
+    // Helper function to safely handle checkbox values
+    const getCheckboxValue = (value: any): boolean => {
+        return value === true || value === 'true' || value === 'yes';
+    };
+
+    const handleDrag = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
         if (e.type === "dragenter" || e.type === "dragover") {
-            setDragActive(true);
+            onDrag(e);
         } else if (e.type === "dragleave") {
-            setDragActive(false);
+            // No need to set dragActive here as it's managed by the parent
         }
     };
 
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDrop = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        setDragActive(false);
-
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            handleInputChange('file', e.dataTransfer.files[0]);
-        }
+        onDrop(e);
     };
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        onFileUpload(e);
         if (e.target.files && e.target.files[0]) {
             handleInputChange('file', e.target.files[0]);
         }
@@ -84,8 +93,8 @@ export default function SecondStep() {
                     <Select
                         id="plagiarism"
                         label="Plagiarism Report"
-                        value=""
-                        onChange={(value) => handleInputChange('plagiarism', value)}
+                        value={formData.plagiarism ? 'yes' : 'no'}
+                        onChange={(value) => handleInputChange('plagiarism', value === 'yes')}
                         options={[
                             { label: "Yes", value: "yes" },
                             { label: "No", value: "no" },
@@ -95,8 +104,8 @@ export default function SecondStep() {
                     <Select
                         id="proofreading"
                         label="Proofreading"
-                        value=""
-                        onChange={(value) => handleInputChange('proofreading', value)}
+                        value={formData.proofreading ? 'yes' : 'no'}
+                        onChange={(value) => handleCheckboxChange('proofreading', value === 'yes')}
                         options={[
                             { label: "Yes", value: "yes" },
                             { label: "No", value: "no" },
@@ -106,8 +115,8 @@ export default function SecondStep() {
                     <Select
                         id="executive-summary"
                         label="Executive Summary"
-                        value=""
-                        onChange={(value) => handleInputChange('executiveSummary', value)}
+                        value={formData.executiveSummary ? 'yes' : 'no'}
+                        onChange={(value) => handleInputChange('executiveSummary', value === 'yes')}
                         options={[
                             { label: "Yes", value: "yes" },
                             { label: "No", value: "no" },
@@ -117,13 +126,13 @@ export default function SecondStep() {
                     <Select
                         id="slides"
                         label="Presentation Slides"
-                        value=""
-                        onChange={(value) => handleInputChange('presentationSlides', value)}
+                        value={formData.presentationSlides ? 'yes' : 'no'}
+                        onChange={(value) => handleInputChange('presentationSlides', value === 'yes')}
                         options={[
                             { label: "Yes", value: "yes" },
                             { label: "No", value: "no" },
                         ]}
-                        placeholder="Do you want an executive summary of your work"
+                        placeholder="Do you want presentation slides for your work"
                     />
 
                     {/* Cover Page Options */}
